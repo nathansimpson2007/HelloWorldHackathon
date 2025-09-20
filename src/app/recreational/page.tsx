@@ -28,7 +28,7 @@ export default function RecreationalPage() {
         {recreationalBuildings.map((building) => {
           const image = PlaceHolderImages.find((img) => img.id === building.imageSeed);
           return (
-            <Link key={building.id} href={`/buildings/${building.slug}`} className="block">
+            <Link key={building.id} href={`/locations/${building.slug}`} className="block">
               <Card className="h-full overflow-hidden group hover:shadow-lg transition-shadow">
                 <div className="aspect-video overflow-hidden">
                   {image && (

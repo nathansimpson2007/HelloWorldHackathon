@@ -93,7 +93,7 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
       buildings.forEach(building => {
         L.marker(building.coords)
           .addTo(mapInstance.current!)
-          .bindPopup(`<b>${building.name}</b><br><a href="/buildings/${building.slug}">View Details</a>`);
+          .bindPopup(`<b>${building.name}</b><br><a href="/locations/${building.slug}">View Details</a>`);
       });
 
       // Add click handler to map

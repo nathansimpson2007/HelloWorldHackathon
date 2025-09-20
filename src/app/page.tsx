@@ -8,6 +8,7 @@ import {
   BookOpen,
   Map,
   Waypoints,
+  BarChart,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -36,14 +37,14 @@ export default function Home() {
                     Interactive Map
                   </CardTitle>
                   <CardDescription>
-                    View buildings and live campus alerts.
+                    View locations and live campus alerts.
                   </CardDescription>
                 </div>
               </div>
             </CardHeader>
           </Card>
         </Link>
-        <Link href="/buildings">
+        <Link href="/locations">
           <Card className="h-full hover:border-primary transition-colors">
             <CardHeader>
               <div className="flex items-center gap-4">
@@ -52,7 +53,7 @@ export default function Home() {
                 </div>
                 <div>
                   <CardTitle className="font-headline">
-                    Explore Buildings
+                    Explore Locations
                   </CardTitle>
                   <CardDescription>
                     Find maps, hours, and resources.
@@ -67,14 +68,14 @@ export default function Home() {
             <CardHeader>
               <div className="flex items-center gap-4">
                 <div className="bg-secondary p-3 rounded-lg">
-                  <BookOpen className="h-6 w-6 text-secondary-foreground" />
+                  <BarChart className="h-6 w-6 text-secondary-foreground" />
                 </div>
                 <div>
                   <CardTitle className="font-headline">
-                    Report Activity
+                    Location Activity
                   </CardTitle>
                   <CardDescription>
-                    Report real-time activity levels.
+                    Report and view real-time activity levels.
                   </CardDescription>
                 </div>
               </div>

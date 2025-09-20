@@ -52,7 +52,7 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
             <Search className="mr-2 h-4 w-4 shrink-0" />
             {value
               ? buildings.find((b) => b.name === value)?.name
-              : 'Search for a building...'}
+              : 'Search for a location...'}
           </div>
         </Button>
       </PopoverTrigger>
@@ -63,9 +63,9 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
             return 0;
           }}
         >
-          <CommandInput placeholder="Search building..." />
+          <CommandInput placeholder="Search location..." />
           <CommandList>
-            <CommandEmpty>No building found.</CommandEmpty>
+            <CommandEmpty>No location found.</CommandEmpty>
             <CommandGroup>
               {buildings.map((building) => (
                 <CommandItem

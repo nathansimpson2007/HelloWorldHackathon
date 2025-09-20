@@ -29,7 +29,7 @@ export default function DiningPage() {
         {diningHalls.map((diningHall) => {
           const image = PlaceHolderImages.find((img) => img.id === diningHall.imageSeed);
           return (
-            <Link key={diningHall.id} href={`/buildings/${diningHall.slug}`} className="block">
+            <Link key={diningHall.id} href={`/locations/${diningHall.slug}`} className="block">
               <Card className="h-full overflow-hidden group hover:shadow-lg transition-shadow">
                 <div className="aspect-video overflow-hidden">
                   {image && (

@@ -1,4 +1,4 @@
-
+import { ActivityDisplay } from '@/components/activity-display';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -35,7 +35,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Link from 'next/link';
-import { ActivityDisplay } from '@/components/activity-display';
 
 export default async function BuildingDetailPage({
   params,
@@ -118,7 +117,7 @@ export default async function BuildingDetailPage({
         <TabsContent value="info">
           <Card>
             <CardHeader>
-              <CardTitle className="font-headline">Building Details</CardTitle>
+              <CardTitle className="font-headline">Location Details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>

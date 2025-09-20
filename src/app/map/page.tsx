@@ -36,7 +36,7 @@ export default function MapPage() {
           Interactive Campus Map
         </h1>
         <p className="text-muted-foreground">
-          Search for a building or click on the map to report an alert.
+          Search for a location or click on the map to report an alert.
         </p>
       </div>
 

@@ -343,7 +343,17 @@ export const buildings: Building[] = [
     coords: [40.42865834705861, -86.91379024545822],
     resources: [],
     studyAreas: [],
+  },
+  {
+    id: 17,
+    name: 'Purdue Bell Tower',
+    slug: 'purdue-bell-tower',
+    history: 'A 160-foot tall bell tower located in the heart of Purdue University\'s campus in West Lafayette, Indiana. It was a gift from the class of 1948 and is one of the most recognizable landmarks of the university.',
+    hours: '24/7',
+    imageSeed: 'purdue-bell-tower',
+    type: 'landmarks',
+    coords: [40.42728623668679, -86.91406851181529],
+    resources: [],
+    studyAreas: [],
   }
 ];
-
-    

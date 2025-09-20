@@ -17,10 +17,10 @@ export default function AdministrativePage() {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-3xl font-bold font-headline tracking-tight">
-          Administrative Buildings
+          Administrative Locations
         </h1>
         <p className="text-muted-foreground">
-          Find maps, hours, and resources for administrative buildings across campus.
+          Find maps, hours, and resources for administrative locations across campus.
         </p>
       </div>
 
@@ -28,7 +28,7 @@ export default function AdministrativePage() {
         {administrativeBuildings.map((building) => {
           const image = PlaceHolderImages.find((img) => img.id === building.imageSeed);
           return (
-            <Link key={building.id} href={`/buildings/${building.slug}`} className="block">
+            <Link key={building.id} href={`/locations/${building.slug}`} className="block">
               <Card className="h-full overflow-hidden group hover:shadow-lg transition-shadow">
                 <div className="aspect-video overflow-hidden">
                   {image && (

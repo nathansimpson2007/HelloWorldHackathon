@@ -108,6 +108,12 @@
       "description": "Engineering Fountain",
       "imageUrl": "/buildings/cover-images/engineering-fountain.jpg",
       "imageHint": "fountain landmark"
+    },
+    {
+      "id": "purdue-bell-tower",
+      "description": "Purdue Bell Tower",
+      "imageUrl": "/buildings/cover-images/purdue-bell-tower.png",
+      "imageHint": "bell tower"
     }
   ]
 }

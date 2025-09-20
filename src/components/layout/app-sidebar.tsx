@@ -21,6 +21,7 @@ import {
   Landmark,
   HeartPulse,
   Banknote,
+  BarChart,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -35,10 +36,11 @@ import {
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/map', label: 'Interactive Map', icon: Waypoints },
+  { href: '/activity-tool', label: 'Location Activity', icon: BarChart },
 ];
 
 const buildingMenuItems = [
-  { href: '/buildings', label: 'All Buildings', icon: Building2 },
+  { href: '/locations', label: 'All Locations', icon: Building2 },
   { href: '/academic', label: 'Academic', icon: GraduationCap },
   { href: '/residential', label: 'Residential', icon: Building },
   { href: '/dining', label: 'Dining', icon: Utensils },
@@ -101,7 +103,7 @@ export function AppSidebar() {
                 >
                    <div className="flex items-center gap-2">
                     <Building2 />
-                    <span className="group-data-[collapsible=icon]:hidden">Buildings</span>
+                    <span className="group-data-[collapsible=icon]:hidden">Locations</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 group-data-[collapsible=icon]:hidden">

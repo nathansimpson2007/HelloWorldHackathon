@@ -33,7 +33,7 @@ export function ActivityEstimator() {
         toast({
             variant: 'destructive',
             title: 'Error',
-            description: 'Please select a building.',
+            description: 'Please select a location.',
         });
         return;
     }
@@ -70,16 +70,16 @@ export function ActivityEstimator() {
         <CardHeader>
           <CardTitle className="font-headline">Contribute Data</CardTitle>
           <CardDescription>
-            Submit an activity report for a building.
+            Submit an activity report for a location.
           </CardDescription>
         </CardHeader>
         <CardContent>
             <form action={handleFormSubmit} ref={formRef} className="space-y-6">
                  <div className="space-y-2">
-                    <Label htmlFor="building">Building</Label>
+                    <Label htmlFor="building">Location</Label>
                     <Select onValueChange={setSelectedBuildingId} name="buildingId">
                     <SelectTrigger id="building">
-                        <SelectValue placeholder="Select a building" />
+                        <SelectValue placeholder="Select a location" />
                     </SelectTrigger>
                     <SelectContent>
                         {buildings.map((building) => (
@@ -129,11 +129,11 @@ export function ActivityEstimator() {
           <CardHeader>
             <CardTitle className="font-headline">Activity Estimate</CardTitle>
             <CardDescription>
-              Select a building to see its activity level.
+              Select a location to see its activity level.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">No building selected.</p>
+            <p className="text-muted-foreground">No location selected.</p>
           </CardContent>
         </Card>
       )}
