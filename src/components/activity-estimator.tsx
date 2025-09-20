@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition, useRef } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import {
   Select,
@@ -12,69 +12,23 @@ import {
 import { buildings } from '@/lib/data';
 import { ActivityDisplay } from './activity-display';
 import { Label } from './ui/label';
-import { Slider } from './ui/slider';
-import { Textarea } from './ui/textarea';
-import { Button } from './ui/button';
-import { addActivityReport } from '@/app/actions';
-import { useToast } from '@/hooks/use-toast';
 
 export function ActivityEstimator() {
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
-  const [activityLevel, setActivityLevel] = useState([3]);
-  const [details, setDetails] = useState('');
-  const [isPending, startTransition] = useTransition();
-  const { toast } = useToast();
-  const formRef = useRef<HTMLFormElement>(null);
-
+  
   const selectedBuilding = buildings.find(b => b.id.toString() === selectedBuildingId);
-
-  const handleFormSubmit = async (formData: FormData) => {
-    if (!selectedBuildingId) {
-        toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: 'Please select a location.',
-        });
-        return;
-    }
-
-    formData.set('buildingId', selectedBuildingId);
-    formData.set('activityLevel', activityLevel[0].toString());
-    formData.set('details', details);
-    
-    startTransition(async () => {
-        try {
-            await addActivityReport(formData);
-            toast({
-                title: 'Success',
-                description: 'Activity report submitted successfully.',
-            });
-            // Reset form fields
-            // setSelectedBuildingId(null); // This would clear the display, maybe not ideal
-            setActivityLevel([3]);
-            setDetails('');
-            formRef.current?.reset();
-        } catch (error) {
-            toast({
-                variant: 'destructive',
-                title: 'Error',
-                description: 'Failed to submit activity report.',
-            });
-        }
-    });
-  };
 
   return (
     <div className="grid md:grid-cols-2 gap-8 items-start">
       <Card>
         <CardHeader>
-          <CardTitle className="font-headline">Contribute Data</CardTitle>
+          <CardTitle className="font-headline">View Activity</CardTitle>
           <CardDescription>
-            Submit an activity report for a location.
+            Select a location to see its current activity level.
           </CardDescription>
         </CardHeader>
         <CardContent>
-            <form action={handleFormSubmit} ref={formRef} className="space-y-6">
+            <div className="space-y-6">
                  <div className="space-y-2">
                     <Label htmlFor="building">Location</Label>
                     <Select onValueChange={setSelectedBuildingId} name="buildingId">
@@ -90,35 +44,7 @@ export function ActivityEstimator() {
                     </SelectContent>
                     </Select>
                  </div>
-
-                <div className="space-y-2">
-                    <Label htmlFor="activity-level">Activity Level: {activityLevel[0]}</Label>
-                    <Slider
-                        id="activity-level"
-                        min={1}
-                        max={5}
-                        step={1}
-                        value={activityLevel}
-                        onValueChange={setActivityLevel}
-                        name="activityLevel"
-                    />
-                </div>
-
-                <div className="space-y-2">
-                    <Label htmlFor="details">Additional Details (Optional)</Label>
-                    <Textarea
-                        id="details"
-                        placeholder="e.g., 'The basement is completely full.'"
-                        value={details}
-                        onChange={(e) => setDetails(e.target.value)}
-                        name="details"
-                    />
-                </div>
-                
-                <Button type="submit" disabled={isPending || !selectedBuildingId}>
-                    {isPending ? 'Submitting...' : 'Submit Report'}
-                </Button>
-            </form>
+            </div>
         </CardContent>
       </Card>
       
@@ -131,7 +57,7 @@ export function ActivityEstimator() {
             <CardDescription>
               Select a location to see its activity level.
             </CardDescription>
-          </CardHeader>
+          </Header>
           <CardContent>
             <p className="text-muted-foreground">No location selected.</p>
           </CardContent>
