@@ -1,5 +1,7 @@
+
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -45,6 +47,15 @@ export default function DiningPage() {
                   <CardTitle className="font-headline">{diningHall.name}</CardTitle>
                   <CardDescription className="line-clamp-2">{diningHall.history}</CardDescription>
                 </CardHeader>
+                <CardContent>
+                  <h3 className="font-semibold font-headline mb-2">Today's Menu</h3>
+                  <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                    <li>Boilermaker Chili</li>
+                    <li>Grilled Chicken Sandwich</li>
+                    <li>Assorted Pizzas</li>
+                    <li>Salad Bar</li>
+                  </ul>
+                </CardContent>
               </Card>
             </Link>
           );
