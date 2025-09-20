@@ -15,7 +15,7 @@ import {
 import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 import { Progress } from './ui/progress';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Select,
@@ -61,6 +61,8 @@ export function ActivityEstimator() {
   );
   const [reports, setReports] = useState<any[]>([]);
   const [averageActivity, setAverageActivity] = useState(0);
+  const [formKey, resetForm] = useReducer((prev) => prev + 1, 0);
+
 
   useEffect(() => {
     if (state.error) {
@@ -76,6 +78,7 @@ export function ActivityEstimator() {
         description: 'Your activity report has been submitted.',
       });
       setSelectedBuildingId(state.lastSubmittedBuilding);
+      resetForm();
     }
   }, [state, toast]);
 
@@ -118,7 +121,7 @@ export function ActivityEstimator() {
   return (
     <div className="grid md:grid-cols-2 gap-8 items-start">
       <Card>
-        <form action={formAction}>
+        <form key={formKey} action={formAction}>
           <CardHeader>
             <CardTitle className="font-headline">Contribute Data</CardTitle>
             <CardDescription>
