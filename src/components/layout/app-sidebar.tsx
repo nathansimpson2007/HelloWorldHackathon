@@ -20,19 +20,30 @@ import {
   Building,
   GraduationCap,
   Dumbbell,
+  Building2,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../ui/accordion';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/map', label: 'Interactive Map', icon: Waypoints },
+  { href: '/activity-tool', label: 'Report Activity', icon: BookOpen },
+];
+
+const buildingMenuItems = [
+  { href: '/buildings', label: 'All Buildings', icon: Building2 },
   { href: '/academic', label: 'Academic', icon: GraduationCap },
   { href: '/residential', label: 'Residential', icon: Building },
   { href: '/dining', label: 'Dining', icon: Utensils },
   { href: '/recreational', label: 'Recreational', icon: Dumbbell },
-  { href: '/activity-tool', label: 'Report Activity', icon: BookOpen },
 ];
 
 export function AppSidebar() {
@@ -74,6 +85,42 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenuItem>
             ))}
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="buildings" className="border-none">
+                <AccordionTrigger
+                  className={cn(
+                    'flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-[width,height,padding] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50',
+                    'group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+                    'hover:no-underline',
+                    buildingMenuItems.some((item) => pathname.startsWith(item.href)) &&
+                      'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
+                  )}
+                >
+                   <div className="flex items-center gap-2">
+                    <Building2 />
+                    <span className="group-data-[collapsible=icon]:hidden">Buildings</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 group-data-[collapsible=icon]:hidden">
+                  <SidebarMenu className="pl-7">
+                    {buildingMenuItems.map((item) => (
+                      <SidebarMenuItem key={item.href}>
+                        <Link href={item.href} className="flex items-center gap-2 w-full">
+                           <SidebarMenuButton
+                            tooltip={item.label}
+                            isActive={pathname === item.href}
+                            className="!p-1 !h-auto !justify-start"
+                          >
+                            <item.icon className="h-3.5 w-3.5" />
+                            <span className="text-xs">{item.label}</span>
+                          </SidebarMenuButton>
+                        </Link>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
