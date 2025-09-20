@@ -80,18 +80,6 @@
       "imageHint": "architectural drawing"
     },
     {
-      "id": "triangle-fraternity",
-      "description": "Triangle Fraternity building",
-      "imageUrl": "https://picsum.photos/seed/triangle-frat/600/400",
-      "imageHint": "fraternity house"
-    },
-    {
-      "id": "kappa-alpha-theta",
-      "description": "Kappa Alpha Theta Sorority building",
-      "imageUrl": "https://picsum.photos/seed/kat/600/400",
-      "imageHint": "sorority house"
-    },
-    {
       "id": "target-store",
       "description": "Target retail store near campus",
       "imageUrl": "https://picsum.photos/seed/target/600/400",

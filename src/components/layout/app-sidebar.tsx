@@ -34,7 +34,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '../ui/accordion';
+} from '@/components/ui/accordion';
 
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -48,7 +48,6 @@ const buildingMenuItems = [
   { href: '/residential', label: 'Residential', icon: Building },
   { href: '/dining', label: 'Dining', icon: Utensils },
   { href: '/recreational', label: 'Recreational', icon: Dumbbell },
-  { href: '/greek', label: 'Greek', icon: Users },
   { href: '/commercial', label: 'Commercial', icon: Store },
   { href: '/administrative', label: 'Administrative', icon: Landmark },
   { href: '/health', label: 'Health', icon: HeartPulse },

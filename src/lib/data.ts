@@ -21,7 +21,7 @@ export type Building = {
   history: string;
   hours: string;
   imageSeed: string;
-  type: 'academic' | 'residential' | 'recreational' | 'dining' | 'other' | 'greek' | 'commercial' | 'administrative' | 'health';
+  type: 'academic' | 'residential' | 'recreational' | 'dining' | 'other' | 'commercial' | 'administrative' | 'health';
   coords: [number, number];
   resources: Resource[];
   studyAreas: StudyArea[];
@@ -277,30 +277,6 @@ export const buildings: Building[] = [
       { id: 'lawson-atrium', name: 'Lawson Atrium' },
       { id: 'lawson-commons', name: 'Lawson Commons' },
     ],
-  },
-  {
-    id: 12,
-    name: 'Triangle Fraternity',
-    slug: 'triangle-fraternity',
-    history: 'A chapter of the Triangle fraternity, providing a residential and social hub for its members.',
-    hours: 'Private Residence',
-    imageSeed: 'triangle-fraternity',
-    type: 'greek',
-    coords: [40.4290, -86.9120],
-    resources: [],
-    studyAreas: [],
-  },
-  {
-    id: 13,
-    name: 'Kappa Alpha Theta Sorority',
-    slug: 'kappa-alpha-theta',
-    history: 'A chapter of the Kappa Alpha Theta sorority, offering a living and community space for its members.',
-    hours: 'Private Residence',
-    imageSeed: 'kappa-alpha-theta',
-    type: 'greek',
-    coords: [40.4255, -86.9195],
-    resources: [],
-    studyAreas: [],
   },
   {
     id: 14,
