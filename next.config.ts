@@ -1,6 +1,5 @@
 
 import type {NextConfig} from 'next';
-import { dev-cors-middleware } from "next/dist/server/lib/dev-cors-middleware";
 
 const nextConfig: NextConfig = {
   /* config options here */
