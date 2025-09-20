@@ -1,6 +1,8 @@
+
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
+import { useActionState, useEffect, useState } from 'react';
 import { estimateBusynessAction, type BusynessState } from '@/app/actions';
 import { Button } from './ui/button';
 import {
@@ -14,7 +16,6 @@ import {
 import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 import { Progress } from './ui/progress';
-import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Select,
@@ -49,7 +50,7 @@ function SubmitButton() {
 }
 
 export function BusynessEstimator() {
-  const [state, formAction] = useFormState(
+  const [state, formAction] = useActionState(
     estimateBusynessAction,
     initialState
   );
