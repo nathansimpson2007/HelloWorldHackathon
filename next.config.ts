@@ -60,7 +60,11 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
       {
-        protocol: 'https|http',
+        protocol: 'https',
+        hostname: '*.googleusercontent.com',
+      },
+      {
+        protocol: 'http',
         hostname: '*.googleusercontent.com',
       },
       {
@@ -75,11 +79,14 @@ const nextConfig: NextConfig = {
     buildActivity: false
   },
   experimental: {
-    allowedDevOrigins: [
-      "https://*.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
-      "http://localhost:3000"
-    ],
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
+  allowedDevOrigins: [
+    "https://*.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
+    "http://localhost:3000"
+  ],
 };
 
 export default nextConfig;
