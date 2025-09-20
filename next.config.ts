@@ -1,5 +1,6 @@
 
 import type {NextConfig} from 'next';
+import { dev-cors-middleware } from "next/dist/server/lib/dev-cors-middleware";
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -60,11 +61,24 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
       {
+        protocol: 'https|http',
+        hostname: '*.googleusercontent.com',
+      },
+      {
         protocol: 'https',
         hostname: 'bloximages.newyork1.vip.townnews.com',
         port: '',
         pathname: '/**',
       },
+    ],
+  },
+  devIndicators: {
+    buildActivity: false
+  },
+  experimental: {
+    allowedDevOrigins: [
+      "https://*.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
+      "http://localhost:3000"
     ],
   },
 };
