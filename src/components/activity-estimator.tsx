@@ -74,8 +74,8 @@ export function ActivityEstimator() {
       toast({
         title: 'Success!',
         description: 'Your activity report has been submitted.',
-      })
-      // Reset form or give other feedback if needed
+      });
+      setSelectedBuildingId(state.lastSubmittedBuilding);
     }
   }, [state, toast]);
 
