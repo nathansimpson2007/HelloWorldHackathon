@@ -57,34 +57,25 @@ export async function estimateBusynessAction(
     return { ...prevState, error: 'Invalid building selected.' };
   }
 
-  const newReport: BusynessReport = { report, busyness };
+  try {
+    await addDoc(collection(db, 'busynessReports'), {
+      buildingId,
+      report,
+      busyness,
+      timestamp: serverTimestamp(),
+    });
+  } catch (error) {
+    console.error('Error adding document: ', error);
+    return {
+      ...prevState,
+      error: 'Could not save report to the database.',
+    };
+  }
 
-  const currentBuildingReports = prevState.reportsByBuilding?.[buildingId]?.reports || [];
-
-  // Prepend new report and keep the list at max size
-  const newReports = [newReport, ...currentBuildingReports].slice(
-    0,
-    MAX_REPORTS_PER_AREA
-  );
-
-  const totalBusyness = newReports.reduce(
-    (acc, cur) => acc + cur.busyness,
-    0
-  );
-  const averageBusyness =
-    newReports.length > 0 ? Math.round(totalBusyness / newReports.length) : 0;
-  
-  const updatedReportsByBuilding = {
-    ...prevState.reportsByBuilding,
-    [buildingId]: {
-      name: buildingInfo.name,
-      reports: newReports,
-      average: averageBusyness,
-    },
-  };
-
+  // The client will now fetch data directly from Firestore,
+  // so we just need to signal which building was updated.
   return {
-    reportsByBuilding: updatedReportsByBuilding,
+    ...prevState,
     lastSubmittedBuilding: buildingId,
     error: undefined,
   };

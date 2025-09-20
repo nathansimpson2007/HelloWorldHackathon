@@ -24,7 +24,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { buildings } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Clock, Map, Navigation } from 'lucide-react';
+import { Clock, Map, Navigation, Wifi } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
@@ -36,8 +36,32 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Link from 'next/link';
+import { db } from '@/lib/firebase';
+import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+import { Progress } from '@/components/ui/progress';
 
-export default function BuildingDetailPage({
+async function getBusynessData(buildingId: string) {
+  const q = query(
+    collection(db, 'busynessReports'),
+    where('buildingId', '==', buildingId),
+    orderBy('timestamp', 'desc'),
+    limit(10)
+  );
+
+  const querySnapshot = await getDocs(q);
+  const reports = querySnapshot.docs.map(doc => doc.data());
+  
+  if (reports.length === 0) {
+    return { average: 0, reports: [] };
+  }
+
+  const totalBusyness = reports.reduce((acc, cur) => acc + cur.busyness, 0);
+  const average = Math.round(totalBusyness / reports.length);
+
+  return { average, reports };
+}
+
+export default async function BuildingDetailPage({
   params,
 }: {
   params: { id: string };
@@ -46,6 +70,9 @@ export default function BuildingDetailPage({
   if (!building) {
     notFound();
   }
+
+  const busynessData = await getBusynessData(building.id.toString());
+  const busynessPercentage = (busynessData.average / 5) * 100;
 
   const buildingImage = PlaceHolderImages.find(
     (img) => img.id === building.imageSeed
@@ -130,6 +157,24 @@ export default function BuildingDetailPage({
                   <Clock className="h-4 w-4" />
                   <span>{building.hours}</span>
                 </div>
+              </div>
+               <div>
+                <h3 className="font-semibold mb-2 font-headline">Busyness</h3>
+                 <div className="flex justify-between mb-1 text-sm">
+                   <span className="font-medium text-muted-foreground">
+                     Level: {busynessData.average}/5
+                   </span>
+                   <span className="font-medium text-muted-foreground">
+                     {busynessData.average === 0
+                       ? 'No Data'
+                       : busynessData.average <= 2
+                       ? 'Not Busy'
+                       : busynessData.average <= 4
+                       ? 'Moderately Busy'
+                       : 'Very Busy'}
+                   </span>
+                 </div>
+                 <Progress value={busynessPercentage} />
               </div>
             </CardContent>
           </Card>

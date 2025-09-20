@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFormState, useFormStatus } from 'react-dom';
@@ -25,6 +26,15 @@ import {
 } from './ui/select';
 import { buildings } from '@/lib/data';
 import { Slider } from './ui/slider';
+import { db } from '@/lib/firebase';
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  orderBy,
+  limit,
+} from 'firebase/firestore';
 
 const initialState: BusynessState = {
   reportsByBuilding: {},
@@ -46,7 +56,11 @@ export function BusynessEstimator() {
   );
   const { toast } = useToast();
   const [busyness, setBusyness] = useState([3]);
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
+    null
+  );
+  const [reports, setReports] = useState<any[]>([]);
+  const [averageBusyness, setAverageBusyness] = useState(0);
 
   useEffect(() => {
     if (state.error) {
@@ -56,22 +70,46 @@ export function BusynessEstimator() {
         description: state.error,
       });
     }
-  }, [state.error, toast]);
-  
-  useEffect(() => {
     if (state.lastSubmittedBuilding) {
       setSelectedBuildingId(state.lastSubmittedBuilding);
     }
-  }, [state.lastSubmittedBuilding]);
+  }, [state, toast]);
 
-  const displayBuildingId = selectedBuildingId || state.lastSubmittedBuilding;
-  const displayData = displayBuildingId ? state.reportsByBuilding[displayBuildingId] : null;
+  useEffect(() => {
+    if (!selectedBuildingId) {
+      setReports([]);
+      setAverageBusyness(0);
+      return;
+    }
 
-  const busynessLevel = displayData?.average ?? 0;
-  const busynessPercentage = (busynessLevel / 5) * 100;
-  const buildingName = displayData?.name ?? 'N/A';
-  const recentReports = displayData?.reports ?? [];
+    const q = query(
+      collection(db, 'busynessReports'),
+      where('buildingId', '==', selectedBuildingId),
+      orderBy('timestamp', 'desc'),
+      limit(10)
+    );
 
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const fetchedReports = querySnapshot.docs.map((doc) => doc.data());
+      setReports(fetchedReports);
+
+      if (fetchedReports.length > 0) {
+        const totalBusyness = fetchedReports.reduce(
+          (acc, cur) => acc + cur.busyness,
+          0
+        );
+        setAverageBusyness(Math.round(totalBusyness / fetchedReports.length));
+      } else {
+        setAverageBusyness(0);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [selectedBuildingId]);
+
+  const buildingName =
+    buildings.find((b) => b.id.toString() === selectedBuildingId)?.name ?? 'N/A';
+  const busynessPercentage = (averageBusyness / 5) * 100;
 
   return (
     <div className="grid md:grid-cols-2 gap-8 items-start">
@@ -141,14 +179,14 @@ export function BusynessEstimator() {
           <div>
             <div className="flex justify-between mb-1 text-sm">
               <span className="font-medium text-muted-foreground">
-                Level: {busynessLevel}/5
+                Level: {averageBusyness}/5
               </span>
               <span className="font-medium text-muted-foreground">
-                {busynessLevel === 0
+                {averageBusyness === 0
                   ? 'No Data'
-                  : busynessLevel <= 2
+                  : averageBusyness <= 2
                   ? 'Not Busy'
-                  : busynessLevel <= 4
+                  : averageBusyness <= 4
                   ? 'Moderately Busy'
                   : 'Very Busy'}
               </span>
@@ -159,8 +197,8 @@ export function BusynessEstimator() {
           <div>
             <h4 className="font-semibold mb-2">Recent Reports:</h4>
             <div className="space-y-2 text-sm text-muted-foreground">
-              {recentReports.length > 0 ? (
-                recentReports.map((r, index) => (
+              {reports.length > 0 ? (
+                reports.map((r, index) => (
                   <p key={index} className="border-l-2 pl-3">
                     Level {r.busyness}/5
                     {r.report && `: "${r.report}"`}
