@@ -73,7 +73,7 @@ export function ActivityEstimator() {
             <CardDescription>
               Select a location to see its activity level.
             </CardDescription>
-          </Header>
+          </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">No location selected.</p>
           </CardContent>
