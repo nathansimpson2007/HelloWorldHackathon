@@ -50,6 +50,12 @@
       "imageHint": "food court"
     },
     {
+      "id": "earhart-hall",
+      "description": "Earhart Residential Hall",
+      "imageUrl": "/buildings/cover-images/earhart-hall.jpg",
+      "imageHint": "dormitory building"
+    },
+    {
       "id": "indoor-map-1",
       "description": "Indoor map placeholder",
       "imageUrl": "https://picsum.photos/seed/10/800/600",

@@ -212,7 +212,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Sun: 7:00 AM - 9:00 PM',
     imageSeed: 'earhart-dining',
     type: 'dining',
-    coords: [40.42581085378372, -86.9249794573144],
+    coords: [40.425636828666576, -86.925147418208],
     resources: [
       { name: 'Main Dining Area', type: 'Dining' },
       { name: 'Lower Level Restrooms', type: 'Restroom' },
@@ -226,5 +226,23 @@ export const buildings: Building[] = [
       { station: 'Pizzeria', name: 'Pepperoni Pizza' },
       { station: 'Desserts', name: 'Ice Cream & Cookies' },
     ]
+  },
+  {
+    id: 9,
+    name: 'Earhart Residential Hall',
+    slug: 'earhart-hall',
+    history: 'A modern residential hall on the west side of campus, offering comfortable living spaces and a vibrant community for students.',
+    hours: 'Open 24/7 for residents',
+    imageSeed: 'earhart-hall',
+    type: 'residential',
+    coords: [40.425743223857324, -86.92482259878814],
+    resources: [
+      { name: 'Student Lounges', type: 'Study Area' },
+      { name: 'Laundry Rooms', type: 'Restroom' },
+    ],
+    studyAreas: [
+      { id: 'earhart-hall-lounge', name: 'Main Lounge' },
+      { id: 'earhart-hall-study-rooms', name: 'Floor Study Rooms' },
+    ],
   }
 ];
