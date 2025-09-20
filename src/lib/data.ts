@@ -112,7 +112,7 @@ export const buildings: Building[] = [
       'A historic landmark, the Purdue Memorial Union serves as the community center of the university. It offers dining, recreation, study spaces, and hosts numerous events. The ground floor was recently renovated into a modern food court.',
     hours: 'Mon-Sun: 6:00 AM - 12:00 AM',
     imageSeed: 'pmc',
-    type: 'other',
+    type: 'recreational',
     coords: [40.4247221974453, -86.91066275491045],
     resources: [
       { name: 'Atlas Family Marketplace', type: 'Dining' },
