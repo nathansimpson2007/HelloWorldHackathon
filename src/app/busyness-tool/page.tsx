@@ -5,10 +5,10 @@ export default function BusynessToolPage() {
     <div className="flex flex-col gap-6">
        <div>
         <h1 className="text-3xl font-bold font-headline tracking-tight">
-          Report Busyness
+          Building Busyness
         </h1>
         <p className="text-muted-foreground">
-          Help others by reporting how busy a study area is right now.
+          Check how busy a study area is right now based on community reports.
         </p>
       </div>
       <BusynessEstimator />

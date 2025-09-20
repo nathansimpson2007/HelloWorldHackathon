@@ -32,38 +32,3 @@ export async function addAlert(data: unknown) {
     throw new Error('Could not save alert to the database.');
   }
 }
-
-// Schema for busyness report
-const busynessReportSchema = z.object({
-  buildingId: z.string().min(1, 'Building is required.'),
-  busyness: z.coerce.number().min(1).max(5),
-  report: z.string().optional(),
-});
-
-// Action to add a busyness report to Firestore
-export async function addBusynessReport(formData: FormData) {
-  const validatedFields = busynessReportSchema.safeParse({
-    buildingId: formData.get('buildingId'),
-    busyness: formData.get('busyness'),
-    report: formData.get('report'),
-  });
-
-  if (!validatedFields.success) {
-    throw new Error(validatedFields.error.flatten().fieldErrors.toString());
-  }
-
-  try {
-    const docRef = await addDoc(collection(db, 'busynessReports'), {
-      ...validatedFields.data,
-      timestamp: serverTimestamp(),
-    });
-
-    revalidatePath('/busyness-tool');
-    revalidatePath(`/buildings/${validatedFields.data.buildingId}`);
-
-    return { success: true, buildingId: validatedFields.data.buildingId };
-  } catch (error) {
-    console.error('Error adding busyness report: ', error);
-    throw new Error('Could not save report to the database.');
-  }
-}
