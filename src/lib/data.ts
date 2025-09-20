@@ -21,7 +21,7 @@ export type Building = {
   history: string;
   hours: string;
   imageSeed: string;
-  type: 'academic' | 'residential' | 'other' | 'recreational' | 'dining';
+  type: 'academic' | 'residential' | 'recreational' | 'dining' | 'other' | 'greek' | 'commercial' | 'administrative' | 'health';
   coords: [number, number];
   resources: Resource[];
   studyAreas: StudyArea[];
@@ -274,5 +274,79 @@ export const buildings: Building[] = [
       { id: 'lawson-atrium', name: 'Lawson Atrium' },
       { id: 'lawson-commons', name: 'Lawson Commons' },
     ],
+  },
+  {
+    id: 12,
+    name: 'Sigma Chi Fraternity',
+    slug: 'sigma-chi',
+    history: 'A chapter of the Sigma Chi fraternity, providing a residential and social hub for its members.',
+    hours: 'Private Residence',
+    imageSeed: 'sigma-chi',
+    type: 'greek',
+    coords: [40.4290, -86.9120],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 13,
+    name: 'Kappa Alpha Theta Sorority',
+    slug: 'kappa-alpha-theta',
+    history: 'A chapter of the Kappa Alpha Theta sorority, offering a living and community space for its members.',
+    hours: 'Private Residence',
+    imageSeed: 'kappa-alpha-theta',
+    type: 'greek',
+    coords: [40.4255, -86.9195],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 14,
+    name: 'Target',
+    slug: 'target',
+    history: 'A retail store located near campus, offering a wide range of products including groceries, electronics, and home goods.',
+    hours: 'Mon-Sun: 8:00 AM - 10:00 PM',
+    imageSeed: 'target-store',
+    type: 'commercial',
+    coords: [40.4240, -86.9060],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 15,
+    name: 'University Bookstore',
+    slug: 'university-bookstore',
+    history: 'The official bookstore for Purdue University, providing textbooks, apparel, and other university merchandise.',
+    hours: 'Mon-Fri: 9:00 AM - 6:00 PM, Sat: 10:00 AM - 5:00 PM',
+    imageSeed: 'bookstore',
+    type: 'commercial',
+    coords: [40.4245, -86.9090],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 16,
+    name: 'Hovde Hall of Administration',
+    slug: 'hovde-hall',
+    history: 'The central administrative building of Purdue University, housing the offices of the President, Provost, and other key administrators.',
+    hours: 'Mon-Fri: 8:00 AM - 5:00 PM',
+    imageSeed: 'hovde-hall',
+    type: 'administrative',
+    coords: [40.4260, -86.9130],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 17,
+    name: 'Purdue University Student Health Center (PUSH)',
+    slug: 'push',
+    history: 'Provides medical services, wellness programs, and health education to Purdue students.',
+    hours: 'Mon-Fri: 8:00 AM - 5:00 PM',
+    imageSeed: 'push-building',
+    type: 'health',
+    coords: [40.4280, -86.9190],
+    resources: [],
+    studyAreas: [],
   }
 ];
+
+    

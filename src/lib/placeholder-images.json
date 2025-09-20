@@ -78,6 +78,44 @@
       "description": "Indoor map placeholder",
       "imageUrl": "https://picsum.photos/seed/11/800/600",
       "imageHint": "architectural drawing"
+    },
+    {
+      "id": "sigma-chi",
+      "description": "Sigma Chi Fraternity building",
+      "imageUrl": "https://picsum.photos/seed/sigma-chi/600/400",
+      "imageHint": "fraternity house"
+    },
+    {
+      "id": "kappa-alpha-theta",
+      "description": "Kappa Alpha Theta Sorority building",
+      "imageUrl": "https://picsum.photos/seed/kat/600/400",
+      "imageHint": "sorority house"
+    },
+    {
+      "id": "target-store",
+      "description": "Target retail store near campus",
+      "imageUrl": "https://picsum.photos/seed/target/600/400",
+      "imageHint": "retail store"
+    },
+    {
+      "id": "bookstore",
+      "description": "Purdue University Bookstore",
+      "imageUrl": "https://picsum.photos/seed/bookstore/600/400",
+      "imageHint": "bookstore interior"
+    },
+    {
+      "id": "hovde-hall",
+      "description": "Hovde Hall of Administration",
+      "imageUrl": "https://picsum.photos/seed/hovde/600/400",
+      "imageHint": "administrative building"
+    },
+    {
+      "id": "push-building",
+      "description": "Purdue University Student Health Center (PUSH)",
+      "imageUrl": "https://picsum.photos/seed/push/600/400",
+      "imageHint": "health center"
     }
   ]
 }
+
+    
