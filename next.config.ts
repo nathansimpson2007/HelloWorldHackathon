@@ -79,14 +79,11 @@ const nextConfig: NextConfig = {
     buildActivity: false
   },
   experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
+    allowedDevOrigins: [
+      "https://*.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
+      "http://localhost:3000"
+    ],
   },
-  allowedDevOrigins: [
-    "https://*.cluster-j6d3cbsvdbe5uxnhqrfzzeyj7i.cloudworkstations.dev",
-    "http://localhost:3000"
-  ],
 };
 
 export default nextConfig;
