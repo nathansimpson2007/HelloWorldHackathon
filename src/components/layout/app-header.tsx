@@ -28,7 +28,7 @@ export function AppHeader() {
                 src="https://pbs.twimg.com/media/F2Kk9g5XgAA5EvU.jpg"
                 alt="User Avatar"
               />
-              <AvatarFallback>PP</AvatarFallback>
+              <AvatarFallback>PU</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
