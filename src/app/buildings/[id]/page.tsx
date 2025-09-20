@@ -35,6 +35,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import Link from 'next/link';
 
 export default function BuildingDetailPage({
   params,
@@ -63,6 +64,8 @@ export default function BuildingDetailPage({
     'Third Floor': building.resources.filter(r => r.name.match(/WALC 3\d{3}/)),
     'Other': building.resources.filter(r => !r.name.match(/WALC [B123]\d{2,3}/) && r.type !== 'Study Area')
   };
+  
+  const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${building.coords[0]},${building.coords[1]}`;
 
   return (
     <div className="flex flex-col gap-8">
@@ -86,10 +89,12 @@ export default function BuildingDetailPage({
           <p className="text-lg text-muted-foreground mt-2">
             A central hub for students and faculty.
           </p>
-          <Button size="lg" className="mt-6">
-            <Navigation className="mr-2" />
-            Get Directions
-          </Button>
+          <Link href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
+            <Button size="lg" className="mt-6">
+              <Navigation className="mr-2" />
+              Get Directions
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -231,5 +236,3 @@ export default function BuildingDetailPage({
     </div>
   );
 }
-
-    
