@@ -1,0 +1,91 @@
+
+'use client';
+
+import * as React from 'react';
+import { Check, Search } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { buildings, type Building } from '@/lib/data';
+
+interface BuildingSearchProps {
+  onSelectBuilding: (building: Building) => void;
+}
+
+export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState('');
+
+  const handleSelect = (currentValue: string) => {
+    const building = buildings.find(
+      (b) => b.name.toLowerCase() === currentValue.toLowerCase()
+    );
+    if (building) {
+      setValue(building.name);
+      onSelectBuilding(building);
+      setOpen(false);
+    }
+  };
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-full justify-between bg-background/80 backdrop-blur-sm"
+        >
+          <div className="flex items-center">
+            <Search className="mr-2 h-4 w-4 shrink-0" />
+            {value
+              ? buildings.find((b) => b.name === value)?.name
+              : 'Search for a building...'}
+          </div>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+        <Command
+          filter={(value, search) => {
+            if (value.toLowerCase().includes(search.toLowerCase())) return 1;
+            return 0;
+          }}
+        >
+          <CommandInput placeholder="Search building..." />
+          <CommandList>
+            <CommandEmpty>No building found.</CommandEmpty>
+            <CommandGroup>
+              {buildings.map((building) => (
+                <CommandItem
+                  key={building.id}
+                  value={building.name}
+                  onSelect={handleSelect}
+                >
+                  <Check
+                    className={cn(
+                      'mr-2 h-4 w-4',
+                      value === building.name ? 'opacity-100' : 'opacity-0'
+                    )}
+                  />
+                  {building.name}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}

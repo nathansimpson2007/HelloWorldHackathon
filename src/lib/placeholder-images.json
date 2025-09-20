@@ -1,0 +1,58 @@
+{
+  "placeholderImages": [
+    {
+      "id": "neil-armstrong-hall",
+      "description": "Neil Armstrong Hall of Engineering",
+      "imageUrl": "/buildings/cover-images/neil-armstrong-hall.jpeg",
+      "imageHint": "modern architecture"
+    },
+    {
+      "id": "walc",
+      "description": "Wilmeth Active Learning Center (WALC)",
+      "imageUrl": "/buildings/cover-images/walc.jpg",
+      "imageHint": "library study"
+    },
+    {
+      "id": "pmc",
+      "description": "Purdue Memorial Union",
+      "imageUrl": "/buildings/cover-images/pmc.jpg",
+      "imageHint": "university campus"
+    },
+    {
+      "id": "stewart-center",
+      "description": "Stewart Center",
+      "imageUrl": "/buildings/cover-images/stewart-center.jpg",
+      "imageHint": "campus building"
+    },
+    {
+      "id": "windsor-dining",
+      "description": "Windsor Dining Court",
+      "imageUrl": "/buildings/cover-images/windsor-dining.jpg",
+      "imageHint": "dining hall"
+    },
+    {
+      "id": "corec",
+      "description": "Cordova Recreational Sports Center",
+      "imageUrl": "/buildings/cover-images/corec.png",
+      "imageHint": "gym fitness"
+    },
+    {
+      "id": "windsor-hall",
+      "description": "Windsor Residence Hall",
+      "imageUrl": "/buildings/cover-images/windsor-hall.jpeg",
+      "imageHint": "dormitory building"
+    },
+    {
+      "id": "indoor-map-1",
+      "description": "Indoor map placeholder",
+      "imageUrl": "https://picsum.photos/seed/10/800/600",
+      "imageHint": "floor plan"
+    },
+    {
+      "id": "indoor-map-2",
+      "description": "Indoor map placeholder",
+      "imageUrl": "https://picsum.photos/seed/11/800/600",
+      "imageHint": "architectural drawing"
+    }
+  ]
+}
