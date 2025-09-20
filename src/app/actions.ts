@@ -68,7 +68,7 @@ export async function estimateBusynessAction(
   }
 
   try {
-    await addDoc(collection(db, 'busynessReports'), {
+    const docRef = await addDoc(collection(db, 'busynessReports'), {
       ...validatedFields.data,
       timestamp: serverTimestamp(),
     });
