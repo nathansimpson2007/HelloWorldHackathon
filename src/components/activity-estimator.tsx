@@ -71,7 +71,11 @@ export function ActivityEstimator() {
       });
     }
     if (state.lastSubmittedBuilding) {
-      setSelectedBuildingId(state.lastSubmittedBuilding);
+      toast({
+        title: 'Success!',
+        description: 'Your activity report has been submitted.',
+      })
+      // Reset form or give other feedback if needed
     }
   }, [state, toast]);
 
