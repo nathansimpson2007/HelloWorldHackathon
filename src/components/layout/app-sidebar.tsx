@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -62,9 +63,8 @@ export function AppSidebar() {
           <SidebarMenu>
             {menuItems.map((item) => (
               <SidebarMenuItem key={item.href}>
-                <Link href={item.href} legacyBehavior passHref>
+                <Link href={item.href}>
                   <SidebarMenuButton
-                    as="a"
                     tooltip={item.label}
                     isActive={pathname === item.href}
                   >
