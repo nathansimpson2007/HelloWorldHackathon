@@ -67,6 +67,15 @@ export default function BuildingDetailPage({
   
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${building.coords[0]},${building.coords[1]}`;
 
+  const menuByStation = building.menu?.reduce((acc, item) => {
+    if (!acc[item.station]) {
+      acc[item.station] = [];
+    }
+    acc[item.station].push(item);
+    return acc;
+  }, {} as Record<string, typeof building.menu>);
+
+
   return (
     <div className="flex flex-col gap-8">
       <div className="grid md:grid-cols-5 gap-8">
@@ -101,6 +110,7 @@ export default function BuildingDetailPage({
       <Tabs defaultValue="info">
         <TabsList>
           <TabsTrigger value="info">Info</TabsTrigger>
+          {building.type === 'dining' && <TabsTrigger value="menu">Menu</TabsTrigger>}
           <TabsTrigger value="map">Indoor Map</TabsTrigger>
           <TabsTrigger value="resources">Resources</TabsTrigger>
         </TabsList>
@@ -124,6 +134,30 @@ export default function BuildingDetailPage({
             </CardContent>
           </Card>
         </TabsContent>
+         {building.type === 'dining' && menuByStation && (
+          <TabsContent value="menu">
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline">Today's Menu</CardTitle>
+                <CardDescription>Menu items are subject to change.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Accordion type="multiple" defaultValue={Object.keys(menuByStation)} className="w-full">
+                  {Object.entries(menuByStation).map(([station, items]) => (
+                    <AccordionItem key={station} value={station}>
+                      <AccordionTrigger className="text-lg font-headline">{station}</AccordionTrigger>
+                      <AccordionContent>
+                        <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                          {items.map(item => <li key={item.name}>{item.name}</li>)}
+                        </ul>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
         <TabsContent value="map">
           <Card>
             <CardHeader>

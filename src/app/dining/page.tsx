@@ -11,7 +11,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const diningHalls = buildings.filter((building) => building.studyAreas.some(sa => sa.id.includes('dining')));
+const diningHalls = buildings.filter((building) => building.type === 'dining');
 
 export default function DiningPage() {
   return (
@@ -47,15 +47,6 @@ export default function DiningPage() {
                   <CardTitle className="font-headline">{diningHall.name}</CardTitle>
                   <CardDescription className="line-clamp-2">{diningHall.history}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <h3 className="font-semibold font-headline mb-2">Today's Menu</h3>
-                  <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                    <li>Boilermaker Chili</li>
-                    <li>Grilled Chicken Sandwich</li>
-                    <li>Assorted Pizzas</li>
-                    <li>Salad Bar</li>
-                  </ul>
-                </CardContent>
               </Card>
             </Link>
           );

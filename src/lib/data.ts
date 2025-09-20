@@ -9,6 +9,11 @@ export type StudyArea = {
   name:string;
 };
 
+export type MenuItem = {
+  name: string;
+  station: string;
+};
+
 export type Building = {
   id: number;
   name: string;
@@ -16,11 +21,12 @@ export type Building = {
   history: string;
   hours: string;
   imageSeed: string;
-  type: 'academic' | 'residential' | 'other' | 'recreational';
+  type: 'academic' | 'residential' | 'other' | 'recreational' | 'dining';
   coords: [number, number];
   resources: Resource[];
   studyAreas: StudyArea[];
   floorPlanImages?: string[];
+  menu?: MenuItem[];
 };
 
 export const buildings: Building[] = [
@@ -101,7 +107,7 @@ export const buildings: Building[] = [
   {
     id: 3,
     name: 'Purdue Memorial Union',
-    slug: 'pmc',
+    slug: 'pmu',
     history:
       'A historic landmark, the Purdue Memorial Union serves as the community center of the university. It offers dining, recreation, study spaces, and hosts numerous events. The ground floor was recently renovated into a modern food court.',
     hours: 'Mon-Sun: 6:00 AM - 12:00 AM',
@@ -114,9 +120,9 @@ export const buildings: Building[] = [
       { name: 'Main Information Desk', type: 'Printer' },
     ],
     studyAreas: [
-      { id: 'pmc-great-hall', name: 'Great Hall' },
-      { id: 'pmc-fireplace-lounges', name: 'Fireplace Lounges' },
-      { id: 'pmc-south-tower', name: 'South Tower Reading Rooms' },
+      { id: 'pmu-great-hall', name: 'Great Hall' },
+      { id: 'pmu-fireplace-lounges', name: 'Fireplace Lounges' },
+      { id: 'pmu-south-tower', name: 'South Tower Reading Rooms' },
     ],
   },
   {
@@ -146,7 +152,7 @@ export const buildings: Building[] = [
     history: 'One of the many popular dining courts on campus, offering a wide variety of food choices in a buffet style.',
     hours: 'Mon-Sun: 7:00 AM - 9:00 PM',
     imageSeed: 'windsor-dining',
-    type: 'other',
+    type: 'dining',
     coords: [40.42692126717524, -86.92104543237775],
     resources: [
       { name: 'Main Dining Area', type: 'Dining' },
@@ -155,6 +161,12 @@ export const buildings: Building[] = [
     studyAreas: [
        { id: 'windsor-dining-tables', name: 'Dining Tables' },
     ],
+    menu: [
+      { station: 'Homestyle', name: 'Boilermaker Chili' },
+      { station: 'Grill', name: 'Grilled Chicken Sandwich' },
+      { station: 'Pizzeria', name: 'Assorted Pizzas' },
+      { station: 'Salad Bar', name: 'Fresh Salad Bar' },
+    ]
   },
   {
     id: 6,
