@@ -40,9 +40,9 @@ import { db } from '@/lib/firebase';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { Progress } from '@/components/ui/progress';
 
-async function getBusynessData(buildingId: string) {
+async function getActivityData(buildingId: string) {
   const q = query(
-    collection(db, 'busynessReports'),
+    collection(db, 'activityReports'),
     where('buildingId', '==', buildingId),
     orderBy('timestamp', 'desc'),
     limit(10)
@@ -55,8 +55,8 @@ async function getBusynessData(buildingId: string) {
     return { average: 0, reports: [] };
   }
 
-  const totalBusyness = reports.reduce((acc, cur) => acc + cur.busyness, 0);
-  const average = Math.round(totalBusyness / reports.length);
+  const totalActivity = reports.reduce((acc, cur) => acc + cur.activity, 0);
+  const average = Math.round(totalActivity / reports.length);
 
   return { average, reports };
 }
@@ -71,8 +71,8 @@ export default async function BuildingDetailPage({
     notFound();
   }
 
-  const busynessData = await getBusynessData(building.id.toString());
-  const busynessPercentage = (busynessData.average / 5) * 100;
+  const activityData = await getActivityData(building.id.toString());
+  const activityPercentage = (activityData.average / 5) * 100;
 
   const buildingImage = PlaceHolderImages.find(
     (img) => img.id === building.imageSeed
@@ -159,22 +159,22 @@ export default async function BuildingDetailPage({
                 </div>
               </div>
                <div>
-                <h3 className="font-semibold mb-2 font-headline">Busyness</h3>
+                <h3 className="font-semibold mb-2 font-headline">Activity</h3>
                  <div className="flex justify-between mb-1 text-sm">
                    <span className="font-medium text-muted-foreground">
-                     Level: {busynessData.average}/5
+                     Level: {activityData.average}/5
                    </span>
                    <span className="font-medium text-muted-foreground">
-                     {busynessData.average === 0
+                     {activityData.average === 0
                        ? 'No Data'
-                       : busynessData.average <= 2
-                       ? 'Not Busy'
-                       : busynessData.average <= 4
-                       ? 'Moderately Busy'
-                       : 'Very Busy'}
+                       : activityData.average <= 2
+                       ? 'Not Active'
+                       : activityData.average <= 4
+                       ? 'Moderately Active'
+                       : 'Very Active'}
                    </span>
                  </div>
-                 <Progress value={busynessPercentage} />
+                 <Progress value={activityPercentage} />
               </div>
             </CardContent>
           </Card>

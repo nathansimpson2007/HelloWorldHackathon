@@ -1,6 +1,6 @@
-import { BusynessEstimator } from '@/components/busyness-estimator';
+import { ActivityEstimator } from '@/components/activity-estimator';
 
-export default function BusynessToolPage() {
+export default function ActivityToolPage() {
   return (
     <div className="flex flex-col gap-6">
        <div>
@@ -8,10 +8,10 @@ export default function BusynessToolPage() {
           Report Activity
         </h1>
         <p className="text-muted-foreground">
-          Help others by reporting how busy a building is right now.
+          Help others by reporting how active a building is right now.
         </p>
       </div>
-      <BusynessEstimator />
+      <ActivityEstimator />
     </div>
   );
 }

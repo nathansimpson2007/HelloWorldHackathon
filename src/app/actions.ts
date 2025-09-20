@@ -8,19 +8,19 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const MAX_REPORTS_PER_AREA = 10;
 
-export interface BusynessReport {
+export interface ActivityReport {
   report: string;
-  busyness: number;
+  activity: number;
 }
 
-export interface BusynessData {
-  reports: BusynessReport[];
+export interface ActivityData {
+  reports: ActivityReport[];
   average: number;
   name: string;
 }
 
-export interface BusynessState {
-  reportsByBuilding: Record<string, BusynessData>;
+export interface ActivityState {
+  reportsByBuilding: Record<string, ActivityData>;
   lastSubmittedBuilding?: string;
   error?: string;
 }
@@ -28,17 +28,17 @@ export interface BusynessState {
 const formSchema = z.object({
   report: z.string(),
   buildingId: z.string().min(1, 'Please select a building.'),
-  busyness: z.string(),
+  activity: z.string(),
 });
 
-export async function estimateBusynessAction(
-  prevState: BusynessState,
+export async function estimateActivityAction(
+  prevState: ActivityState,
   formData: FormData
-): Promise<BusynessState> {
+): Promise<ActivityState> {
   const validatedFields = formSchema.safeParse({
     report: formData.get('report'),
     buildingId: formData.get('buildingId'),
-    busyness: formData.get('busyness'),
+    activity: formData.get('activity'),
   });
 
   if (!validatedFields.success) {
@@ -48,8 +48,8 @@ export async function estimateBusynessAction(
     };
   }
 
-  const { report, buildingId, busyness: busynessString } = validatedFields.data;
-  const busyness = parseInt(busynessString, 10);
+  const { report, buildingId, activity: activityString } = validatedFields.data;
+  const activity = parseInt(activityString, 10);
 
   const buildingInfo = buildings.find((b) => b.id.toString() === buildingId);
 
@@ -58,10 +58,10 @@ export async function estimateBusynessAction(
   }
 
   try {
-    await addDoc(collection(db, 'busynessReports'), {
+    await addDoc(collection(db, 'activityReports'), {
       buildingId,
       report,
-      busyness,
+      activity,
       timestamp: serverTimestamp(),
     });
   } catch (error) {
