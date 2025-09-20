@@ -46,6 +46,7 @@ export function BusynessEstimator() {
   );
   const { toast } = useToast();
   const [busyness, setBusyness] = useState([3]);
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (state.error) {
@@ -56,14 +57,20 @@ export function BusynessEstimator() {
       });
     }
   }, [state.error, toast]);
+  
+  useEffect(() => {
+    if (state.lastSubmittedBuilding) {
+      setSelectedBuildingId(state.lastSubmittedBuilding);
+    }
+  }, [state.lastSubmittedBuilding]);
 
-  const lastSubmittedBuildingId = state.lastSubmittedBuilding;
-  const lastSubmittedData = lastSubmittedBuildingId ? state.reportsByBuilding[lastSubmittedBuildingId] : null;
+  const displayBuildingId = selectedBuildingId || state.lastSubmittedBuilding;
+  const displayData = displayBuildingId ? state.reportsByBuilding[displayBuildingId] : null;
 
-  const busynessLevel = lastSubmittedData?.average ?? 0;
+  const busynessLevel = displayData?.average ?? 0;
   const busynessPercentage = (busynessLevel / 5) * 100;
-  const buildingName = lastSubmittedData?.name ?? 'N/A';
-  const recentReports = lastSubmittedData?.reports ?? [];
+  const buildingName = displayData?.name ?? 'N/A';
+  const recentReports = displayData?.reports ?? [];
 
 
   return (
@@ -79,7 +86,7 @@ export function BusynessEstimator() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="building">Building</Label>
-              <Select name="buildingId" required>
+              <Select name="buildingId" required onValueChange={setSelectedBuildingId}>
                 <SelectTrigger id="building">
                   <SelectValue placeholder="Select a building" />
                 </SelectTrigger>
@@ -125,7 +132,9 @@ export function BusynessEstimator() {
             Busyness Estimate: {buildingName}
           </CardTitle>
           <CardDescription>
-            Based on the latest community reports.
+            {buildingName === 'N/A'
+              ? 'Select a building to see its busyness level.'
+              : 'Based on the latest community reports.'}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -158,7 +167,7 @@ export function BusynessEstimator() {
                   </p>
                 ))
               ) : (
-                <p>No reports submitted yet. Be the first!</p>
+                <p>No reports submitted yet for this building. Be the first!</p>
               )}
             </div>
           </div>
