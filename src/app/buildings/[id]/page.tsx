@@ -35,42 +35,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Link from 'next/link';
-import { db } from '@/lib/firebase';
-import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
-import { Progress } from '@/components/ui/progress';
-
-type ActivityReport = {
-  activity: number;
-  report?: string;
-  buildingId: string;
-};
-
-async function getActivityData(buildingId: string) {
-  const q = query(
-    collection(db, 'activityReports'),
-    where('buildingId', '==', buildingId),
-    orderBy('timestamp', 'desc'),
-    limit(10) // Use last 10 reports for the average
-  );
-
-  try {
-    const querySnapshot = await getDocs(q);
-    const reports = querySnapshot.docs.map(doc => doc.data() as ActivityReport);
-
-    if (reports.length === 0) {
-      return { average: 0, reportCount: 0 };
-    }
-
-    const totalActivity = reports.reduce((acc, cur) => acc + cur.activity, 0);
-    const average = Math.round(totalActivity / reports.length);
-
-    return { average, reportCount: reports.length };
-  } catch (error) {
-    console.error("Error fetching activity data: ", error);
-    // Return a default state if Firestore fetch fails
-    return { average: 0, reportCount: 0 };
-  }
-}
 
 export default async function BuildingDetailPage({
   params,
@@ -81,9 +45,6 @@ export default async function BuildingDetailPage({
   if (!building) {
     notFound();
   }
-
-  const activityData = await getActivityData(building.id.toString());
-  const activityPercentage = (activityData.average / 5) * 100;
 
   const buildingImage = PlaceHolderImages.find(
     (img) => img.id === building.imageSeed
@@ -168,25 +129,6 @@ export default async function BuildingDetailPage({
                   <Clock className="h-4 w-4" />
                   <span>{building.hours}</span>
                 </div>
-              </div>
-               <div>
-                <h3 className="font-semibold mb-2 font-headline">Live Activity</h3>
-                 <div className="flex justify-between mb-1 text-sm">
-                   <span className="font-medium text-muted-foreground">
-                     Level: {activityData.average}/5
-                   </span>
-                   <span className="font-medium text-muted-foreground">
-                     {activityData.average === 0
-                       ? 'No Data'
-                       : activityData.average <= 2
-                       ? 'Not Active'
-                       : activityData.average <= 4
-                       ? 'Moderately Active'
-                       : 'Very Active'}
-                   </span>
-                 </div>
-                 <Progress value={activityPercentage} />
-                 <p className="text-xs text-muted-foreground mt-2">Based on {activityData.reportCount} recent community report(s).</p>
               </div>
             </CardContent>
           </Card>
