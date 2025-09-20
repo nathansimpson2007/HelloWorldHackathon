@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useFormState, useFormStatus } from 'react-dom';
@@ -70,7 +69,11 @@ export function BusynessEstimator() {
         description: state.error,
       });
     }
-    if (state.lastSubmittedBuilding) {
+    if (state.success && state.lastSubmittedBuilding) {
+      toast({
+        title: 'Success!',
+        description: 'Your report has been submitted.',
+      });
       setSelectedBuildingId(state.lastSubmittedBuilding);
     }
   }, [state, toast]);

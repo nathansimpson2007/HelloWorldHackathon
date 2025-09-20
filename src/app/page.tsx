@@ -62,7 +62,7 @@ export default function Home() {
             </CardHeader>
           </Card>
         </Link>
-        <Link href="/activity-tool">
+        <Link href="/busyness-tool">
           <Card className="h-full hover:border-primary transition-colors">
             <CardHeader>
               <div className="flex items-center gap-4">
@@ -71,10 +71,10 @@ export default function Home() {
                 </div>
                 <div>
                   <CardTitle className="font-headline">
-                    Report Activity
+                    Report Busyness
                   </CardTitle>
                   <CardDescription>
-                    Report real-time activity levels.
+                    Report real-time busyness levels.
                   </CardDescription>
                 </div>
               </div>
