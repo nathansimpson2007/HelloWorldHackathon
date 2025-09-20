@@ -1,8 +1,8 @@
 
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
-import { estimateActivityAction, type ActivityState } from '@/app/actions';
+import { useState, useEffect, useReducer } from 'react';
+import { submitActivityReport } from '@/app/actions';
 import { Button } from './ui/button';
 import {
   Card,
@@ -15,7 +15,6 @@ import {
 import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 import { Progress } from './ui/progress';
-import { useEffect, useState, useReducer } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Select,
@@ -35,53 +34,29 @@ import {
   orderBy,
   limit,
 } from 'firebase/firestore';
+import { Loader2 } from 'lucide-react';
 
-const initialState: ActivityState = {
-  reportsByBuilding: {},
+
+type ActivityReport = {
+  activity: number;
+  report?: string;
 };
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending}>
-      {pending ? 'Submitting...' : 'Submit Report'}
-    </Button>
-  );
-}
-
 export function ActivityEstimator() {
-  const [state, formAction] = useFormState(
-    estimateActivityAction,
-    initialState
-  );
   const { toast } = useToast();
-  const [activity, setActivity] = useState([3]);
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
-    null
-  );
-  const [reports, setReports] = useState<any[]>([]);
-  const [averageActivity, setAverageActivity] = useState(0);
   const [formKey, resetForm] = useReducer((prev) => prev + 1, 0);
+  const [isPending, setPending] = useState(false);
 
+  // Form state
+  const [activity, setActivity] = useState([3]);
+  const [details, setDetails] = useState('');
+  const [selectedBuildingId, setSelectedBuildingId] = useState<string>('');
 
-  useEffect(() => {
-    if (state.error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: state.error,
-      });
-    }
-    if (state.lastSubmittedBuilding) {
-      toast({
-        title: 'Success!',
-        description: 'Your activity report has been submitted.',
-      });
-      setSelectedBuildingId(state.lastSubmittedBuilding);
-      resetForm();
-    }
-  }, [state, toast]);
+  // Data display state
+  const [reports, setReports] = useState<ActivityReport[]>([]);
+  const [averageActivity, setAverageActivity] = useState(0);
 
+  // Listen for real-time updates from Firestore when a building is selected
   useEffect(() => {
     if (!selectedBuildingId) {
       setReports([]);
@@ -93,11 +68,13 @@ export function ActivityEstimator() {
       collection(db, 'activityReports'),
       where('buildingId', '==', selectedBuildingId),
       orderBy('timestamp', 'desc'),
-      limit(10)
+      limit(10) // Get the 10 most recent reports
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const fetchedReports = querySnapshot.docs.map((doc) => doc.data());
+      const fetchedReports = querySnapshot.docs.map((doc) =>
+        doc.data() as ActivityReport
+      );
       setReports(fetchedReports);
 
       if (fetchedReports.length > 0) {
@@ -111,8 +88,51 @@ export function ActivityEstimator() {
       }
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup listener on component unmount or building change
   }, [selectedBuildingId]);
+
+  // Handle form submission
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!selectedBuildingId) {
+       toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Please select a building before submitting.',
+      });
+      return;
+    }
+    setPending(true);
+
+    const formData = {
+      buildingId: selectedBuildingId,
+      activity: activity[0],
+      report: details,
+    };
+
+    const result = await submitActivityReport(formData);
+
+    if (result.success) {
+      toast({
+        title: 'Success!',
+        description: `Your report for ${result.buildingName} has been submitted.`,
+      });
+      // Reset form fields
+      setDetails('');
+      setActivity([3]);
+      // Force form to re-render by changing the key
+      resetForm();
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Submission Failed',
+        description: result.error || 'An unknown error occurred.',
+      });
+    }
+
+    setPending(false);
+  };
+
 
   const buildingName =
     buildings.find((b) => b.id.toString() === selectedBuildingId)?.name ?? 'N/A';
@@ -121,7 +141,7 @@ export function ActivityEstimator() {
   return (
     <div className="grid md:grid-cols-2 gap-8 items-start">
       <Card>
-        <form key={formKey} action={formAction}>
+        <form key={formKey} onSubmit={handleSubmit}>
           <CardHeader>
             <CardTitle className="font-headline">Contribute Data</CardTitle>
             <CardDescription>
@@ -131,7 +151,7 @@ export function ActivityEstimator() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="building">Building</Label>
-              <Select name="buildingId" required onValueChange={setSelectedBuildingId}>
+              <Select name="buildingId" required onValueChange={setSelectedBuildingId} value={selectedBuildingId}>
                 <SelectTrigger id="building">
                   <SelectValue placeholder="Select a building" />
                 </SelectTrigger>
@@ -154,8 +174,8 @@ export function ActivityEstimator() {
                 step={1}
                 value={activity}
                 onValueChange={setActivity}
+                disabled={isPending}
               />
-              <input type="hidden" name="activity" value={activity[0]} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="report">Additional details (optional)</Label>
@@ -163,11 +183,16 @@ export function ActivityEstimator() {
                 id="report"
                 name="report"
                 placeholder="e.g., 'It's packed, no seats left.'"
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                disabled={isPending}
               />
             </div>
           </CardContent>
           <CardFooter>
-            <SubmitButton />
+             <Button type="submit" disabled={isPending || !selectedBuildingId}>
+              {isPending ? <> <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting... </> : 'Submit Report'}
+            </Button>
           </CardFooter>
         </form>
       </Card>

@@ -24,10 +24,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { buildings } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Clock, Map, Navigation, Wifi } from 'lucide-react';
+import { Clock, Navigation } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
 import {
   Carousel,
   CarouselContent,
@@ -40,25 +39,37 @@ import { db } from '@/lib/firebase';
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { Progress } from '@/components/ui/progress';
 
+type ActivityReport = {
+  activity: number;
+  report?: string;
+  buildingId: string;
+};
+
 async function getActivityData(buildingId: string) {
   const q = query(
     collection(db, 'activityReports'),
     where('buildingId', '==', buildingId),
     orderBy('timestamp', 'desc'),
-    limit(10)
+    limit(10) // Use last 10 reports for the average
   );
 
-  const querySnapshot = await getDocs(q);
-  const reports = querySnapshot.docs.map(doc => doc.data());
-  
-  if (reports.length === 0) {
-    return { average: 0, reports: [] };
+  try {
+    const querySnapshot = await getDocs(q);
+    const reports = querySnapshot.docs.map(doc => doc.data() as ActivityReport);
+
+    if (reports.length === 0) {
+      return { average: 0, reportCount: 0 };
+    }
+
+    const totalActivity = reports.reduce((acc, cur) => acc + cur.activity, 0);
+    const average = Math.round(totalActivity / reports.length);
+
+    return { average, reportCount: reports.length };
+  } catch (error) {
+    console.error("Error fetching activity data: ", error);
+    // Return a default state if Firestore fetch fails
+    return { average: 0, reportCount: 0 };
   }
-
-  const totalActivity = reports.reduce((acc, cur) => acc + cur.activity, 0);
-  const average = Math.round(totalActivity / reports.length);
-
-  return { average, reports };
 }
 
 export default async function BuildingDetailPage({
@@ -159,7 +170,7 @@ export default async function BuildingDetailPage({
                 </div>
               </div>
                <div>
-                <h3 className="font-semibold mb-2 font-headline">Activity</h3>
+                <h3 className="font-semibold mb-2 font-headline">Live Activity</h3>
                  <div className="flex justify-between mb-1 text-sm">
                    <span className="font-medium text-muted-foreground">
                      Level: {activityData.average}/5
@@ -175,6 +186,7 @@ export default async function BuildingDetailPage({
                    </span>
                  </div>
                  <Progress value={activityPercentage} />
+                 <p className="text-xs text-muted-foreground mt-2">Based on {activityData.reportCount} recent community report(s).</p>
               </div>
             </CardContent>
           </Card>
