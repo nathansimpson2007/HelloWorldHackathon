@@ -1,3 +1,4 @@
+
 {
   "placeholderImages": [
     {
@@ -41,6 +42,12 @@
       "description": "Windsor Residence Hall",
       "imageUrl": "/buildings/cover-images/windsor-hall.jpeg",
       "imageHint": "dormitory building"
+    },
+    {
+      "id": "earhart-dining",
+      "description": "Earhart Dining Court",
+      "imageUrl": "/buildings/cover-images/earhart-dining.jpg",
+      "imageHint": "food court"
     },
     {
       "id": "indoor-map-1",

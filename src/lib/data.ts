@@ -1,7 +1,7 @@
 
 export type Resource = {
   name: string;
-  type: 'Lecture Hall' | 'Lab' | 'Study Area' | 'Restroom' | 'Dining' | 'Printer';
+  type: 'Lecture Hall' | 'Lab' | 'Study Area' | 'Restroom' | 'Dining' | 'Printer' | 'Recreation';
 };
 
 export type StudyArea = {
@@ -178,9 +178,9 @@ export const buildings: Building[] = [
     type: 'recreational',
     coords: [40.428311119387104, -86.92235023558634],
     resources: [
-      { name: 'Main Gym', type: 'Study Area' },
-      { name: 'Aquatics Center', type: 'Restroom' },
-      { name: 'Climbing Wall', type: 'Study Area' },
+      { name: 'Main Gym', type: 'Recreation' },
+      { name: 'Aquatics Center', type: 'Recreation' },
+      { name: 'Climbing Wall', type: 'Recreation' },
     ],
     studyAreas: [
       { id: 'corec-lounge', name: 'Entrance Lounge' },
@@ -204,4 +204,27 @@ export const buildings: Building[] = [
       { id: 'windsor-hall-study-rooms', name: 'Floor Study Rooms' },
     ],
   },
+  {
+    id: 8,
+    name: 'Earhart Dining Court',
+    slug: 'earhart-dining',
+    history: 'A popular dining court on the west side of campus, known for its diverse menu and spacious seating areas. It serves thousands of students daily.',
+    hours: 'Mon-Sun: 7:00 AM - 9:00 PM',
+    imageSeed: 'earhart-dining',
+    type: 'dining',
+    coords: [40.42581085378372, -86.9249794573144],
+    resources: [
+      { name: 'Main Dining Area', type: 'Dining' },
+      { name: 'Lower Level Restrooms', type: 'Restroom' },
+    ],
+    studyAreas: [
+       { id: 'earhart-dining-tables', name: 'Dining Tables' },
+    ],
+    menu: [
+      { station: 'Wok', name: 'General Tso\'s Chicken' },
+      { station: 'Deli', name: 'Custom Sandwiches' },
+      { station: 'Pizzeria', name: 'Pepperoni Pizza' },
+      { station: 'Desserts', name: 'Ice Cream & Cookies' },
+    ]
+  }
 ];
