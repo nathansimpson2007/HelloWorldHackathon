@@ -35,7 +35,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import Link from 'next/link';
-import { BusynessDisplay } from '@/components/busyness-display';
+import { ActivityDisplay } from '@/components/activity-display';
 
 export default async function BuildingDetailPage({
   params,
@@ -110,7 +110,7 @@ export default async function BuildingDetailPage({
       <Tabs defaultValue="info">
         <TabsList>
           <TabsTrigger value="info">Info</TabsTrigger>
-          <TabsTrigger value="busyness">Busyness</TabsTrigger>
+          <TabsTrigger value="activity">Activity</TabsTrigger>
           {building.type === 'dining' && <TabsTrigger value="menu">Menu</TabsTrigger>}
           <TabsTrigger value="map">Indoor Map</TabsTrigger>
           <TabsTrigger value="resources">Resources</TabsTrigger>
@@ -135,8 +135,8 @@ export default async function BuildingDetailPage({
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="busyness">
-            <BusynessDisplay buildingId={building.id.toString()} buildingName={building.name} />
+        <TabsContent value="activity">
+            <ActivityDisplay buildingId={building.id.toString()} buildingName={building.name} />
         </TabsContent>
          {building.type === 'dining' && menuByStation && (
           <TabsContent value="menu">
