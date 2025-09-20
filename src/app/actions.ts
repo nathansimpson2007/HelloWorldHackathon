@@ -40,20 +40,8 @@ const busynessReportSchema = z.object({
   report: z.string().optional(),
 });
 
-export type BusynessState = {
-  error?: string;
-  success?: boolean;
-  lastSubmittedBuilding?: string;
-  reportsByBuilding: {
-    [buildingId: string]: any[];
-  };
-};
-
 // Action to add a busyness report to Firestore
-export async function estimateBusynessAction(
-  prevState: BusynessState,
-  formData: FormData
-): Promise<BusynessState> {
+export async function addBusynessReport(formData: FormData) {
   const validatedFields = busynessReportSchema.safeParse({
     buildingId: formData.get('buildingId'),
     busyness: formData.get('busyness'),
@@ -61,10 +49,7 @@ export async function estimateBusynessAction(
   });
 
   if (!validatedFields.success) {
-    return {
-      ...prevState,
-      error: validatedFields.error.flatten().fieldErrors.toString(),
-    };
+    throw new Error(validatedFields.error.flatten().fieldErrors.toString());
   }
 
   try {
@@ -76,17 +61,9 @@ export async function estimateBusynessAction(
     revalidatePath('/busyness-tool');
     revalidatePath(`/buildings/${validatedFields.data.buildingId}`);
 
-    return {
-      ...prevState,
-      success: true,
-      error: undefined,
-      lastSubmittedBuilding: validatedFields.data.buildingId,
-    };
+    return { success: true, buildingId: validatedFields.data.buildingId };
   } catch (error) {
     console.error('Error adding busyness report: ', error);
-    return {
-      ...prevState,
-      error: 'Could not save report to the database.',
-    };
+    throw new Error('Could not save report to the database.');
   }
 }

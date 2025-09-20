@@ -1,9 +1,8 @@
 
 'use client';
 
-import { useFormStatus } from 'react-dom';
-import { useActionState, useEffect, useState } from 'react';
-import { estimateBusynessAction, type BusynessState } from '@/app/actions';
+import { useEffect, useState, useRef } from 'react';
+import { addBusynessReport } from '@/app/actions';
 import { Button } from './ui/button';
 import {
   Card,
@@ -36,24 +35,7 @@ import {
   limit,
 } from 'firebase/firestore';
 
-const initialState: BusynessState = {
-  reportsByBuilding: {},
-};
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" disabled={pending}>
-      {pending ? 'Submitting...' : 'Submit Report'}
-    </Button>
-  );
-}
-
 export function BusynessEstimator() {
-  const [state, formAction] = useActionState(
-    estimateBusynessAction,
-    initialState
-  );
   const { toast } = useToast();
   const [busyness, setBusyness] = useState([3]);
   const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
@@ -61,23 +43,36 @@ export function BusynessEstimator() {
   );
   const [reports, setReports] = useState<any[]>([]);
   const [averageBusyness, setAverageBusyness] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    if (state.error) {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    const formData = new FormData(event.currentTarget);
+
+    try {
+      const result = await addBusynessReport(formData);
+      if (result.success) {
+        toast({
+          title: 'Success!',
+          description: 'Your report has been submitted.',
+        });
+        setSelectedBuildingId(result.buildingId);
+        formRef.current?.reset();
+        setBusyness([3]);
+      }
+    } catch (error) {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: state.error,
+        description:
+          error instanceof Error ? error.message : 'An unknown error occurred.',
       });
+    } finally {
+      setIsSubmitting(false);
     }
-    if (state.success && state.lastSubmittedBuilding) {
-      toast({
-        title: 'Success!',
-        description: 'Your report has been submitted.',
-      });
-      setSelectedBuildingId(state.lastSubmittedBuilding);
-    }
-  }, [state, toast]);
+  };
 
   useEffect(() => {
     if (!selectedBuildingId) {
@@ -118,7 +113,7 @@ export function BusynessEstimator() {
   return (
     <div className="grid md:grid-cols-2 gap-8 items-start">
       <Card>
-        <form action={formAction}>
+        <form ref={formRef} onSubmit={handleFormSubmit}>
           <CardHeader>
             <CardTitle className="font-headline">Contribute Data</CardTitle>
             <CardDescription>
@@ -152,7 +147,7 @@ export function BusynessEstimator() {
                 value={busyness}
                 onValueChange={setBusyness}
               />
-              <input type="hidden" name="busyness" value={busyness[0]} />
+               <input type="hidden" name="busyness" value={busyness[0]} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="report">Additional details (optional)</Label>
@@ -164,7 +159,9 @@ export function BusynessEstimator() {
             </div>
           </CardContent>
           <CardFooter>
-            <SubmitButton />
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit Report'}
+            </Button>
           </CardFooter>
         </form>
       </Card>
