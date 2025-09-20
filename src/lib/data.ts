@@ -118,6 +118,8 @@ export const buildings: Building[] = [
       { name: 'Atlas Family Marketplace', type: 'Dining' },
       { name: 'Boilermaker Billiards', type: 'Recreation' },
       { name: 'Main Information Desk', type: 'Printer' },
+      { name: 'Gaming Room', type: 'Recreation' },
+      { name: 'Bowling Alley', type: 'Recreation' },
     ],
     studyAreas: [
       { id: 'pmu-great-hall', name: 'Great Hall' },
@@ -181,6 +183,7 @@ export const buildings: Building[] = [
       { name: 'Main Gym', type: 'Recreation' },
       { name: 'Aquatics Center', type: 'Recreation' },
       { name: 'Climbing Wall', type: 'Recreation' },
+      { name: 'Gaming Room', type: 'Recreation' },
     ],
     studyAreas: [
       { id: 'corec-lounge', name: 'Entrance Lounge' },
