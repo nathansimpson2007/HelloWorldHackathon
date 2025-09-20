@@ -8,7 +8,7 @@ export default function BusynessToolPage() {
           Report Activity
         </h1>
         <p className="text-muted-foreground">
-          Help others by reporting how busy a study area is right now.
+          Help others by reporting how busy a building is right now.
         </p>
       </div>
       <BusynessEstimator />

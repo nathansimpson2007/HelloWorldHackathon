@@ -27,7 +27,7 @@ import { buildings } from '@/lib/data';
 import { Slider } from './ui/slider';
 
 const initialState: BusynessState = {
-  reportsByArea: {},
+  reportsByBuilding: {},
 };
 
 function SubmitButton() {
@@ -46,8 +46,6 @@ export function BusynessEstimator() {
   );
   const { toast } = useToast();
   const [busyness, setBusyness] = useState([3]);
-  const [selectedBuilding, setSelectedBuilding] = useState('');
-  const [selectedStudyArea, setSelectedStudyArea] = useState('');
 
   useEffect(() => {
     if (state.error) {
@@ -59,20 +57,12 @@ export function BusynessEstimator() {
     }
   }, [state.error, toast]);
 
-  const handleBuildingChange = (buildingId: string) => {
-    setSelectedBuilding(buildingId);
-    setSelectedStudyArea('');
-  };
-
-  const studyAreasInBuilding =
-    buildings.find((b) => b.id.toString() === selectedBuilding)?.studyAreas || [];
-
-  const lastSubmittedAreaId = state.lastSubmittedArea;
-  const lastSubmittedData = lastSubmittedAreaId ? state.reportsByArea[lastSubmittedAreaId] : null;
+  const lastSubmittedBuildingId = state.lastSubmittedBuilding;
+  const lastSubmittedData = lastSubmittedBuildingId ? state.reportsByBuilding[lastSubmittedBuildingId] : null;
 
   const busynessLevel = lastSubmittedData?.average ?? 0;
   const busynessPercentage = (busynessLevel / 5) * 100;
-  const studyAreaName = lastSubmittedData?.name ?? 'N/A';
+  const buildingName = lastSubmittedData?.name ?? 'N/A';
   const recentReports = lastSubmittedData?.reports ?? [];
 
 
@@ -83,39 +73,22 @@ export function BusynessEstimator() {
           <CardHeader>
             <CardTitle className="font-headline">Contribute Data</CardTitle>
             <CardDescription>
-              Help others by sharing how busy a study area is right now.
+              Help others by sharing how busy a building is right now.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="building">Building</Label>
-              <Select onValueChange={handleBuildingChange} required>
+              <Select name="buildingId" required>
                 <SelectTrigger id="building">
                   <SelectValue placeholder="Select a building" />
                 </SelectTrigger>
                 <SelectContent>
-                  {buildings
-                    .filter((b) => b.studyAreas.length > 0)
-                    .map((building) => (
+                  {buildings.map((building) => (
                       <SelectItem key={building.id} value={building.id.toString()}>
                         {building.name}
                       </SelectItem>
                     ))}
-                </SelectContent>
-              </Select>
-            </div>
-             <div className="space-y-2">
-              <Label htmlFor="studyArea">Area</Label>
-              <Select name="studyArea" value={selectedStudyArea} onValueChange={setSelectedStudyArea} required disabled={!selectedBuilding}>
-                <SelectTrigger id="studyArea">
-                  <SelectValue placeholder="Select an area" />
-                </SelectTrigger>
-                <SelectContent>
-                  {studyAreasInBuilding.map((area) => (
-                    <SelectItem key={area.id} value={area.id}>
-                      {area.name}
-                    </SelectItem>
-                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -149,7 +122,7 @@ export function BusynessEstimator() {
       <Card>
         <CardHeader>
           <CardTitle className="font-headline">
-            Busyness Estimate: {studyAreaName}
+            Busyness Estimate: {buildingName}
           </CardTitle>
           <CardDescription>
             Based on the latest community reports.

@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -19,14 +20,14 @@ export interface BusynessData {
 }
 
 export interface BusynessState {
-  reportsByArea: Record<string, BusynessData>;
-  lastSubmittedArea?: string;
+  reportsByBuilding: Record<string, BusynessData>;
+  lastSubmittedBuilding?: string;
   error?: string;
 }
 
 const formSchema = z.object({
   report: z.string(),
-  studyArea: z.string().min(1, 'Please select an area.'),
+  buildingId: z.string().min(1, 'Please select a building.'),
   busyness: z.string(),
 });
 
@@ -36,7 +37,7 @@ export async function estimateBusynessAction(
 ): Promise<BusynessState> {
   const validatedFields = formSchema.safeParse({
     report: formData.get('report'),
-    studyArea: formData.get('studyArea'),
+    buildingId: formData.get('buildingId'),
     busyness: formData.get('busyness'),
   });
 
@@ -47,23 +48,21 @@ export async function estimateBusynessAction(
     };
   }
 
-  const { report, studyArea: studyAreaId, busyness: busynessString } = validatedFields.data;
+  const { report, buildingId, busyness: busynessString } = validatedFields.data;
   const busyness = parseInt(busynessString, 10);
 
-  const studyAreaInfo = buildings
-    .flatMap((b) => b.studyAreas)
-    .find((sa) => sa.id === studyAreaId);
+  const buildingInfo = buildings.find((b) => b.id.toString() === buildingId);
 
-  if (!studyAreaInfo) {
-    return { ...prevState, error: 'Invalid area selected.' };
+  if (!buildingInfo) {
+    return { ...prevState, error: 'Invalid building selected.' };
   }
 
   const newReport: BusynessReport = { report, busyness };
 
-  const currentAreaReports = prevState.reportsByArea?.[studyAreaId]?.reports || [];
+  const currentBuildingReports = prevState.reportsByBuilding?.[buildingId]?.reports || [];
 
   // Prepend new report and keep the list at max size
-  const newReports = [newReport, ...currentAreaReports].slice(
+  const newReports = [newReport, ...currentBuildingReports].slice(
     0,
     MAX_REPORTS_PER_AREA
   );
@@ -75,18 +74,18 @@ export async function estimateBusynessAction(
   const averageBusyness =
     newReports.length > 0 ? Math.round(totalBusyness / newReports.length) : 0;
   
-  const updatedReportsByArea = {
-    ...prevState.reportsByArea,
-    [studyAreaId]: {
-      name: studyAreaInfo.name,
+  const updatedReportsByBuilding = {
+    ...prevState.reportsByBuilding,
+    [buildingId]: {
+      name: buildingInfo.name,
       reports: newReports,
       average: averageBusyness,
     },
   };
 
   return {
-    reportsByArea: updatedReportsByArea,
-    lastSubmittedArea: studyAreaId,
+    reportsByBuilding: updatedReportsByBuilding,
+    lastSubmittedBuilding: buildingId,
     error: undefined,
   };
 }
