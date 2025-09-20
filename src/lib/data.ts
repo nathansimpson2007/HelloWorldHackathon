@@ -33,7 +33,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Fri: 7:00 AM - 10:00 PM',
     imageSeed: 'neil-armstrong-hall',
     type: 'academic',
-    coords: [40.43104, -86.91500],
+    coords: [40.43101264434171, -86.91488821940945],
     resources: [
       { name: 'ARMS 1010', type: 'Lecture Hall' },
       { name: 'ARMS B061', type: 'Lab' },
@@ -53,7 +53,7 @@ export const buildings: Building[] = [
     hours: 'Open 24/7',
     imageSeed: 'walc',
     type: 'academic',
-    coords: [40.4277, -86.9152],
+    coords: [40.427366571442725, -86.91318063203238],
     floorPlanImages: [
       '/buildings/floor-plans/WALC/WALC_1.jpg',
       '/buildings/floor-plans/WALC/WALC_2.jpg',
@@ -107,7 +107,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Sun: 6:00 AM - 12:00 AM',
     imageSeed: 'pmc',
     type: 'other',
-    coords: [40.42473, -86.91065],
+    coords: [40.4247221974453, -86.91066275491045],
     resources: [
       { name: 'Atlas Family Marketplace', type: 'Dining' },
       { name: 'Boilermaker Billiards', type: 'Restroom' },
@@ -128,7 +128,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Fri: 7:00 AM - 11:00 PM',
     imageSeed: 'stewart-center',
     type: 'academic',
-    coords: [40.42505, -86.91296],
+    coords: [40.425055070016015, -86.91293860304113],
     resources: [
       { name: 'STEW 183', type: 'Lecture Hall' },
       { name: 'ITaP Lab', type: 'Lab' },
@@ -147,7 +147,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Sun: 7:00 AM - 9:00 PM',
     imageSeed: 'windsor-dining',
     type: 'other',
-    coords: [40.4258, -86.9208],
+    coords: [40.42692126717524, -86.92104543237775],
     resources: [
       { name: 'Main Dining Area', type: 'Dining' },
       { name: 'First Floor Restrooms', type: 'Restroom' },
@@ -164,7 +164,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Fri: 5:30 AM - 11:00 PM, Sat-Sun: 8:00 AM - 10:00 PM',
     imageSeed: 'corec',
     type: 'recreational',
-    coords: [40.4248, -86.9224],
+    coords: [40.428311119387104, -86.92235023558634],
     resources: [
       { name: 'Main Gym', type: 'Study Area' },
       { name: 'Aquatics Center', type: 'Restroom' },
@@ -182,7 +182,7 @@ export const buildings: Building[] = [
     hours: 'Open 24/7 for residents',
     imageSeed: 'windsor-hall',
     type: 'residential',
-    coords: [40.4263, -86.9209],
+    coords: [40.42629740605619, -86.92097372795162],
     resources: [
       { name: 'Student Lounges', type: 'Study Area' },
       { name: 'Laundry Rooms', type: 'Restroom' },
@@ -193,5 +193,3 @@ export const buildings: Building[] = [
     ],
   },
 ];
-
-    
