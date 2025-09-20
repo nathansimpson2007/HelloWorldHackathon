@@ -1,7 +1,7 @@
 
 export type Resource = {
   name: string;
-  type: 'Lecture Hall' | 'Lab' | 'Study Area' | 'Restroom' | 'Dining' | 'Printer' | 'Recreation';
+  type: 'Lecture Hall' | 'Lab' | 'Study Area' | 'Restroom' | 'Dining' | 'Printer' | 'Recreation' | 'Utility';
 };
 
 export type StudyArea = {
@@ -116,7 +116,7 @@ export const buildings: Building[] = [
     coords: [40.4247221974453, -86.91066275491045],
     resources: [
       { name: 'Atlas Family Marketplace', type: 'Dining' },
-      { name: 'Boilermaker Billiards', type: 'Restroom' },
+      { name: 'Boilermaker Billiards', type: 'Recreation' },
       { name: 'Main Information Desk', type: 'Printer' },
     ],
     studyAreas: [
@@ -197,7 +197,7 @@ export const buildings: Building[] = [
     coords: [40.42629740605619, -86.92097372795162],
     resources: [
       { name: 'Student Lounges', type: 'Study Area' },
-      { name: 'Laundry Rooms', type: 'Restroom' },
+      { name: 'Laundry Rooms', type: 'Utility' },
     ],
     studyAreas: [
       { id: 'windsor-hall-lounge', name: 'Main Lounge' },
@@ -238,7 +238,7 @@ export const buildings: Building[] = [
     coords: [40.425743223857324, -86.92482259878814],
     resources: [
       { name: 'Student Lounges', type: 'Study Area' },
-      { name: 'Laundry Rooms', type: 'Restroom' },
+      { name: 'Laundry Rooms', type: 'Utility' },
     ],
     studyAreas: [
       { id: 'earhart-hall-lounge', name: 'Main Lounge' },
