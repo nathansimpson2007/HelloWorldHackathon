@@ -105,10 +105,10 @@ export function BusynessEstimator() {
               </Select>
             </div>
              <div className="space-y-2">
-              <Label htmlFor="studyArea">Study Area</Label>
+              <Label htmlFor="studyArea">Area</Label>
               <Select name="studyArea" value={selectedStudyArea} onValueChange={setSelectedStudyArea} required disabled={!selectedBuilding}>
                 <SelectTrigger id="studyArea">
-                  <SelectValue placeholder="Select a study area" />
+                  <SelectValue placeholder="Select an area" />
                 </SelectTrigger>
                 <SelectContent>
                   {studyAreasInBuilding.map((area) => (

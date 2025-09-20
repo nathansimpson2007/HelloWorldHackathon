@@ -26,7 +26,7 @@ export interface BusynessState {
 
 const formSchema = z.object({
   report: z.string(),
-  studyArea: z.string().min(1, 'Please select a study area.'),
+  studyArea: z.string().min(1, 'Please select an area.'),
   busyness: z.string(),
 });
 
@@ -55,7 +55,7 @@ export async function estimateBusynessAction(
     .find((sa) => sa.id === studyAreaId);
 
   if (!studyAreaInfo) {
-    return { ...prevState, error: 'Invalid study area selected.' };
+    return { ...prevState, error: 'Invalid area selected.' };
   }
 
   const newReport: BusynessReport = { report, busyness };
