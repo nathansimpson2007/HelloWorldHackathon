@@ -80,28 +80,34 @@
       "imageHint": "architectural drawing"
     },
     {
-      "id": "target-store",
+      "id": "target",
       "description": "Target retail store near campus",
-      "imageUrl": "https://picsum.photos/seed/target/600/400",
+      "imageUrl": "/buildings/cover-images/target.png",
       "imageHint": "retail store"
     },
     {
-      "id": "bookstore",
+      "id": "university-book-store",
       "description": "Purdue University Bookstore",
-      "imageUrl": "https://picsum.photos/seed/bookstore/600/400",
+      "imageUrl": "/buildings/cover-images/university-book-store.jpg",
       "imageHint": "bookstore interior"
     },
     {
       "id": "hovde-hall",
       "description": "Hovde Hall of Administration",
-      "imageUrl": "https://picsum.photos/seed/hovde/600/400",
+      "imageUrl": "/buildings/cover-images/hovde-hall.jpg",
       "imageHint": "administrative building"
     },
     {
-      "id": "push-building",
+      "id": "push",
       "description": "Purdue University Student Health Center (PUSH)",
-      "imageUrl": "https://picsum.photos/seed/push/600/400",
+      "imageUrl": "/buildings/cover-images/push.jpg",
       "imageHint": "health center"
+    },
+    {
+      "id": "engineering-fountain",
+      "description": "Engineering Fountain",
+      "imageUrl": "/buildings/cover-images/engineering-fountain.jpg",
+      "imageHint": "fountain landmark"
     }
   ]
 }
