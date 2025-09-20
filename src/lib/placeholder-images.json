@@ -56,6 +56,18 @@
       "imageHint": "dormitory building"
     },
     {
+      "id": "lawson-on-the-go",
+      "description": "Lawson On-the-GO!",
+      "imageUrl": "/buildings/cover-images/lawson-on-the-go.jpg",
+      "imageHint": "cafe interior"
+    },
+    {
+      "id": "lawson-cs-building",
+      "description": "Lawson Computer Science Building",
+      "imageUrl": "/buildings/cover-images/lawson-building.png",
+      "imageHint": "modern building"
+    },
+    {
       "id": "indoor-map-1",
       "description": "Indoor map placeholder",
       "imageUrl": "https://picsum.photos/seed/10/800/600",

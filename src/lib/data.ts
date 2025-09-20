@@ -244,5 +244,35 @@ export const buildings: Building[] = [
       { id: 'earhart-hall-lounge', name: 'Main Lounge' },
       { id: 'earhart-hall-study-rooms', name: 'Floor Study Rooms' },
     ],
+  },
+  {
+    id: 10,
+    name: 'Lawson On-the-GO!',
+    slug: 'lawson-on-the-go',
+    history: 'A quick-stop cafe located in the Lawson Computer Science Building, offering coffee, snacks, and grab-and-go meals.',
+    hours: 'Mon-Fri: 7:30 AM - 5:00 PM',
+    imageSeed: 'lawson-on-the-go',
+    type: 'dining',
+    coords: [40.4275263927613, -86.91698471484223],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 11,
+    name: 'Lawson Computer Science Building',
+    slug: 'lawson-cs-building',
+    history: 'Home to the Computer Science department, this building features state-of-the-art labs, classrooms, and collaborative spaces for students and faculty.',
+    hours: 'Mon-Fri: 7:00 AM - 10:30 PM',
+    imageSeed: 'lawson-cs-building',
+    type: 'academic',
+    coords: [40.42783210787582, -86.91697848833108],
+    resources: [
+      { name: 'LWSN B155', type: 'Lecture Hall' },
+      { name: 'LWSN B131', type: 'Lab' },
+    ],
+    studyAreas: [
+      { id: 'lawson-atrium', name: 'Lawson Atrium' },
+      { id: 'lawson-commons', name: 'Lawson Commons' },
+    ],
   }
 ];
