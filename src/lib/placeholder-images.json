@@ -80,9 +80,9 @@
       "imageHint": "architectural drawing"
     },
     {
-      "id": "sigma-chi",
-      "description": "Sigma Chi Fraternity building",
-      "imageUrl": "https://picsum.photos/seed/sigma-chi/600/400",
+      "id": "triangle-fraternity",
+      "description": "Triangle Fraternity building",
+      "imageUrl": "https://picsum.photos/seed/triangle-frat/600/400",
       "imageHint": "fraternity house"
     },
     {
@@ -117,5 +117,3 @@
     }
   ]
 }
-
-    
