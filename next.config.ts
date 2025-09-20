@@ -67,14 +67,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
-    // Exclude leaflet from server-side rendering
-    if (isServer) {
-      config.externals.push('leaflet');
-    }
-
-    return config;
-  },
 };
 
 export default nextConfig;
