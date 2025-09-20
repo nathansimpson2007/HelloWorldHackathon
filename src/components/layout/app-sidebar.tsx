@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -10,18 +9,14 @@ import {
   SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import {
-  BookOpen,
   Home,
-  Map,
-  MessageSquareWarning,
+  Building,
   Compass,
   Waypoints,
   Utensils,
-  Building,
+  Building2,
   GraduationCap,
   Dumbbell,
-  Building2,
-  Users,
   Store,
   Landmark,
   HeartPulse,
@@ -39,7 +34,6 @@ import {
 const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/map', label: 'Interactive Map', icon: Waypoints },
-  { href: '/activity-tool', label: 'Report Activity', icon: BookOpen },
 ];
 
 const buildingMenuItems = [
