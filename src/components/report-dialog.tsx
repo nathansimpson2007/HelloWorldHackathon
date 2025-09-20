@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -22,6 +23,7 @@ import { type LatLng } from 'leaflet';
 import { useState } from 'react';
 import { addAlert } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import { Input } from './ui/input';
 
 type ReportDialogProps = {
   open: boolean;
@@ -31,12 +33,14 @@ type ReportDialogProps = {
 
 export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) {
   const [category, setCategory] = useState('');
+  const [otherCategory, setOtherCategory] = useState('');
   const [details, setDetails] = useState('');
   const [isSubmitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async () => {
-    if (!category || !details || !coords) {
+    const finalCategory = category === 'Other' ? otherCategory : category;
+    if (!finalCategory || !details || !coords) {
       toast({
         variant: 'destructive',
         title: 'Missing Information',
@@ -47,7 +51,7 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
     setSubmitting(true);
     try {
       await addAlert({
-        category,
+        category: finalCategory,
         details,
         location: {
           latitude: coords.lat,
@@ -60,6 +64,7 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
       });
       onOpenChange(false);
       setCategory('');
+      setOtherCategory('');
       setDetails('');
     } catch (error) {
       console.error('Failed to submit alert:', error);
@@ -94,9 +99,21 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
                 <SelectItem value="Free Food">Free Food</SelectItem>
                 <SelectItem value="Crowded Area">Crowded Area</SelectItem>
                 <SelectItem value="Campus Event">Campus Event</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
+           {category === 'Other' && (
+            <div className="space-y-2">
+              <Label htmlFor="other-category">Custom Category</Label>
+              <Input
+                id="other-category"
+                placeholder="e.g., 'Long Line'"
+                value={otherCategory}
+                onChange={(e) => setOtherCategory(e.target.value)}
+              />
+            </div>
+          )}
           <div className="space-y-2">
             <Label htmlFor="details">Details</Label>
             <Textarea
@@ -119,3 +136,5 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
     </Dialog>
   );
 }
+
+    

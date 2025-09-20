@@ -8,7 +8,7 @@ import { buildings, type Building } from '@/lib/data';
 import { ReportDialog } from './report-dialog';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Utensils, Users, GraduationCap, PartyPopper } from 'lucide-react';
+import { Utensils, Users, GraduationCap, PartyPopper, AlertCircle } from 'lucide-react';
 import ReactDOMServer from 'react-dom/server';
 
 // Leaflet's default icons are not easily available in Next.js.
@@ -38,7 +38,7 @@ const getIcon = (category: string) => {
       icon = <PartyPopper />;
       break;
     default:
-      icon = <div className="w-2 h-2 bg-red-500 rounded-full"></div>;
+      icon = <AlertCircle />;
   }
   return L.divIcon({
     html: ReactDOMServer.renderToString(
@@ -66,9 +66,10 @@ const campusBounds = new LatLngBounds(
 
 interface InteractiveCampusMapProps {
   selectedBuilding: Building | null;
+  isFullscreen?: boolean;
 }
 
-const InteractiveCampusMap = ({ selectedBuilding }: InteractiveCampusMapProps) => {
+const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCampusMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -80,7 +81,7 @@ const InteractiveCampusMap = ({ selectedBuilding }: InteractiveCampusMapProps) =
     // Initialize the map
     if (mapRef.current && !mapInstance.current) {
       mapInstance.current = L.map(mapRef.current, {
-        minZoom: 15, // Prevent zooming out too far
+        minZoom: 14, // Prevent zooming out too far
         maxBounds: campusBounds, // Restrict panning to campus
       }).setView([40.427, -86.915], 16);
 
@@ -141,10 +142,13 @@ const InteractiveCampusMap = ({ selectedBuilding }: InteractiveCampusMapProps) =
   }, [alerts]);
 
   useEffect(() => {
-    if (selectedBuilding && mapInstance.current) {
-      mapInstance.current.flyTo(selectedBuilding.coords, 18);
+    if (mapInstance.current) {
+      // Delay helps ensure the container has resized before invalidating
+      setTimeout(() => {
+        mapInstance.current?.invalidateSize();
+      }, 100);
     }
-  }, [selectedBuilding]);
+  }, [selectedBuilding, isFullscreen]);
 
 
   return (
@@ -160,3 +164,5 @@ const InteractiveCampusMap = ({ selectedBuilding }: InteractiveCampusMapProps) =
 };
 
 export default InteractiveCampusMap;
+
+    

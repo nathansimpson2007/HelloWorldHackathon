@@ -63,9 +63,11 @@ export default function MapPage() {
 
       <div className="relative flex-1">
         <div className="h-full w-full border rounded-lg overflow-hidden">
-          <InteractiveCampusMap selectedBuilding={selectedBuilding} />
+          <InteractiveCampusMap selectedBuilding={selectedBuilding} isFullscreen={isFullscreen} />
         </div>
       </div>
     </div>
   );
 }
+
+    

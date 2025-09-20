@@ -15,6 +15,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { buildings } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -50,6 +56,13 @@ export default function BuildingDetailPage({
     ...building.studyAreas.map(sa => ({name: sa.name, type: 'Study Area' as const}))
   ].sort((a, b) => a.name.localeCompare(b.name));
 
+  const walcFloors = {
+    Basement: building.resources.filter(r => r.name.includes('B0')),
+    'First Floor': building.resources.filter(r => r.name.match(/WALC 1\d{3}/)),
+    'Second Floor': building.resources.filter(r => r.name.match(/WALC 2\d{3}/)),
+    'Third Floor': building.resources.filter(r => r.name.match(/WALC 3\d{3}/)),
+    'Other': building.resources.filter(r => !r.name.match(/WALC [B123]\d{2,3}/) && r.type !== 'Study Area')
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -163,24 +176,54 @@ export default function BuildingDetailPage({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Type</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {allResources.map((resource) => (
-                    <TableRow key={resource.name}>
-                      <TableCell className="font-medium">
-                        {resource.name}
-                      </TableCell>
-                      <TableCell>{resource.type}</TableCell>
+              {building.slug === 'walc' ? (
+                 <Accordion type="multiple" defaultValue={['Other', 'First Floor']} className="w-full">
+                  {Object.entries(walcFloors).map(([floor, resources]) => 
+                    resources.length > 0 && (
+                      <AccordionItem key={floor} value={floor}>
+                        <AccordionTrigger className="text-lg font-headline">{floor}</AccordionTrigger>
+                        <AccordionContent>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Type</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {resources.map((resource) => (
+                                <TableRow key={resource.name}>
+                                  <TableCell className="font-medium">{resource.name}</TableCell>
+                                  <TableCell>{resource.type}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </AccordionContent>
+                      </AccordionItem>
+                    )
+                  )}
+                </Accordion>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Type</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {allResources.map((resource) => (
+                      <TableRow key={resource.name}>
+                        <TableCell className="font-medium">
+                          {resource.name}
+                        </TableCell>
+                        <TableCell>{resource.type}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -188,3 +231,5 @@ export default function BuildingDetailPage({
     </div>
   );
 }
+
+    

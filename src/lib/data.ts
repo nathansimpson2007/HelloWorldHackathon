@@ -33,7 +33,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Fri: 7:00 AM - 10:00 PM',
     imageSeed: 'neil-armstrong-hall',
     type: 'academic',
-    coords: [40.4287, -86.9137],
+    coords: [40.43104, -86.91500],
     resources: [
       { name: 'ARMS 1010', type: 'Lecture Hall' },
       { name: 'ARMS B061', type: 'Lab' },
@@ -49,7 +49,7 @@ export const buildings: Building[] = [
     name: 'Wilmeth Active Learning Center (WALC)',
     slug: 'walc',
     history:
-      'The Wilmeth Active Learning Center, opened in 2017, integrates library services with active learning classrooms. It is one of the most popular study spots on campus, featuring a variety of seating options and group study rooms.',
+      "The Wilmeth Active Learning Center, opened in 2017, integrates library services with active learning classrooms. It is one of the most popular study spots on campus, featuring a variety of seating options, reading rooms and group study rooms. The many classrooms are designed to serve as additional study spaces when not in session.",
     hours: 'Open 24/7',
     imageSeed: 'walc',
     type: 'academic',
@@ -61,10 +61,36 @@ export const buildings: Building[] = [
       '/buildings/floor-plans/WALC/WALC_4.jpg'
     ],
     resources: [
-      { name: 'WALC 1055', type: 'Lecture Hall' },
+      { name: 'Au Bon Pain Cafe', type: 'Dining' },
+      { name: 'ITaP Printers', type: 'Printer' },
       { name: 'Data Visualization Lab', type: 'Lab' },
-      { name: '3rd Floor Printers', type: 'Printer' },
-      { name: 'Au Bon Pain', type: 'Dining' },
+      { name: 'WALC B058 — 102 seats', type: 'Lecture Hall' },
+      { name: 'WALC B066 — 84 seats', type: 'Lecture Hall' },
+      { name: 'WALC B074 — 102 seats', type: 'Lecture Hall' },
+      { name: 'WALC B091 — 72 seats', type: 'Lecture Hall' },
+      { name: 'WALC B093 — 72 seats', type: 'Lecture Hall' },
+      { name: 'WALC 1018 — 180 seats', type: 'Lecture Hall' },
+      { name: 'WALC 1055 — 329 seats', type: 'Lecture Hall' },
+      { name: 'WALC 1087 — 108 seats', type: 'Lecture Hall' },
+      { name: 'WALC 1121 — 72 seats', type: 'Lecture Hall' },
+      { name: 'WALC 1132 — 108 seats', type: 'Lecture Hall' },
+      { name: 'WALC 2007 — 90 seats', type: 'Lecture Hall' },
+      { name: 'WALC 2051 — 72 seats', type: 'Lecture Hall' },
+      { name: 'WALC 2087 — 126 seats', type: 'Lecture Hall' },
+      { name: 'WALC 2088 — 66 seats', type: 'Lecture Hall' },
+      { name: 'WALC 2121 — 40 seats', type: 'Lecture Hall' },
+      { name: 'WALC 2124 — 54 seats', type: 'Lecture Hall' },
+      { name: 'WALC 2127 — 45 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3084 — 40 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3087 — 126 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3090 — 60 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3121 — 40 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3122 — 54 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3127 — 45 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3132 — 40 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3138 — 50 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3148 — 40 seats', type: 'Lecture Hall' },
+      { name: 'WALC 3154 — 50 seats', type: 'Lecture Hall' },
     ],
     studyAreas: [
       { id: 'walc-reading-room', name: '2nd Floor Reading Room' },
@@ -81,7 +107,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Sun: 6:00 AM - 12:00 AM',
     imageSeed: 'pmc',
     type: 'other',
-    coords: [40.4248, -86.9103],
+    coords: [40.42473, -86.91065],
     resources: [
       { name: 'Atlas Family Marketplace', type: 'Dining' },
       { name: 'Boilermaker Billiards', type: 'Restroom' },
@@ -102,7 +128,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Fri: 7:00 AM - 11:00 PM',
     imageSeed: 'stewart-center',
     type: 'academic',
-    coords: [40.4243, -86.9122],
+    coords: [40.42505, -86.91296],
     resources: [
       { name: 'STEW 183', type: 'Lecture Hall' },
       { name: 'ITaP Lab', type: 'Lab' },
@@ -167,3 +193,5 @@ export const buildings: Building[] = [
     ],
   },
 ];
+
+    
