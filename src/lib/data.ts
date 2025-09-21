@@ -220,7 +220,7 @@ export const buildings: Building[] = [
     name: 'Wilmeth Active Learning Center (WALC)',
     slug: 'walc',
     history:
-      'The Wilmeth Active Learning Center, opened in 2017, integrates library services with active learning classrooms. It is one of the most popular study spots on campus, featuring a variety of seating options, reading rooms and group study rooms. With 450 seats available, the many classrooms are also designed to serve as additional study spaces when not in session.',
+      'The Wilmeth Active Learning Center, opened in 2017, integrates library services with active learning classrooms. It is one of the most popular study spots on campus, featuring a variety of seating options, reading rooms and group study rooms with 450 seats available. The many classrooms are also designed to serve as additional study spaces when not in session.',
     hours: 'Open 24/7',
     imageSeed: 'walc',
     type: 'academic',
