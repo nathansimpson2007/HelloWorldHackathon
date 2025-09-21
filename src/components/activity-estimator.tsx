@@ -29,7 +29,7 @@ export function ActivityEstimator() {
   );
 
   return (
-    <div className="grid md:grid-cols-2 gap-8 items-start">
+    <div className="space-y-8">
       <Card>
         <CardHeader>
           <CardTitle className="font-headline">View Activity</CardTitle>
