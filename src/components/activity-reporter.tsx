@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -39,8 +40,19 @@ export function ActivityReporter() {
       return;
     }
     setIsSubmitting(true);
+
+    const submissionTimeout = setTimeout(() => {
+      setIsSubmitting(false);
+      toast({
+        variant: 'destructive',
+        title: 'Submission Timed Out',
+        description: 'The request took too long. Please try again.',
+      });
+    }, 5000);
+
     try {
       await submitBusynessReport(locationId, rating);
+      clearTimeout(submissionTimeout);
       toast({
         title: 'Report Submitted',
         description: 'Thank you for helping keep the campus updated!',
@@ -48,13 +60,16 @@ export function ActivityReporter() {
       setLocationId('');
       setRating(3);
     } catch (error) {
+      clearTimeout(submissionTimeout);
       toast({
         variant: 'destructive',
         title: 'Submission Failed',
         description: 'Could not submit your report. Please try again.',
       });
     } finally {
-      setIsSubmitting(false);
+      if (isSubmitting) {
+        setIsSubmitting(false);
+      }
     }
   };
 
