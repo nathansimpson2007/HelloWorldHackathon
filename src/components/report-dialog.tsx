@@ -99,8 +99,8 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
                 <SelectItem value="Crowded Area">Crowded Area</SelectItem>
                 <SelectItem value="Campus Event">Campus Event</SelectItem>
                 <SelectItem value="Safety Concern">Safety Concern</SelectItem>
-                <SelectItem value="Long Line">Long Line</SelectItem>
-                <SelectItem value="Study Space">Study Space</SelectItem>
+                <SelectItem value="Emergency">Emergency</SelectItem>
+                <SelectItem value="Police Presence">Police Presence</SelectItem>
                 <SelectItem value="Other">Other</SelectItem>
               </SelectContent>
             </Select>
@@ -138,5 +138,3 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
     </Dialog>
   );
 }
-
-    
