@@ -60,7 +60,7 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
                       (b) => b.name.toLowerCase() === currentValue.toLowerCase()
                     );
                     if (selectedBuilding) {
-                      setValue(selectedBuilding.name);
+                      setValue(currentValue);
                       onSelectBuilding(selectedBuilding);
                       setOpen(false);
                     }
@@ -82,3 +82,5 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
     </Popover>
   );
 }
+
+    

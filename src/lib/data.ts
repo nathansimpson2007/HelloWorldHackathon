@@ -369,3 +369,5 @@ export const buildings: Building[] = [
     studyAreas: [],
   }
 ];
+
+    
