@@ -4,13 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Heart,
-  Waypoints,
-  Map,
-  BarChart,
-  Users,
-} from 'lucide-react';
+import { Waypoints, Map, BarChart, Users } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -25,7 +19,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="grid gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         <Link href="/map">
           <Card className="h-full hover:border-primary transition-colors transform hover:-translate-y-1">
             <CardHeader className="p-6">
@@ -38,7 +32,8 @@ export default function Home() {
                     Interactive Map
                   </CardTitle>
                   <CardDescription>
-                    View real-time location activity, campus alerts, and find your way around.
+                    View real-time location activity, campus alerts, and find
+                    your way around.
                   </CardDescription>
                 </div>
               </div>
@@ -57,7 +52,8 @@ export default function Home() {
                     Explore Locations
                   </CardTitle>
                   <CardDescription>
-                    Find detailed information, hours, and resources for every building on campus.
+                    Find detailed information, hours, and resources for every
+                    building on campus.
                   </CardDescription>
                 </div>
               </div>
@@ -76,14 +72,15 @@ export default function Home() {
                     Location Activity
                   </CardTitle>
                   <CardDescription>
-                    Report and view real-time activity levels to find the perfect study spot or avoid crowds.
+                    Report and view real-time activity levels to find the
+                    perfect study spot or avoid crowds.
                   </CardDescription>
                 </div>
               </div>
             </CardHeader>
           </Card>
         </Link>
-         <Link href="/mission">
+        <Link href="/mission">
           <Card className="h-full hover:border-primary transition-colors transform hover:-translate-y-1">
             <CardHeader className="p-6">
               <div className="flex items-start gap-4">
@@ -95,7 +92,8 @@ export default function Home() {
                     Our Mission
                   </CardTitle>
                   <CardDescription>
-                    Learn more about the purpose of Campus Now and the team behind it.
+                    Learn more about the purpose of Campus Now and the team
+                    behind it.
                   </CardDescription>
                 </div>
               </div>
