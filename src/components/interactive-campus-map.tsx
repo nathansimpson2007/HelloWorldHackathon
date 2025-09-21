@@ -29,6 +29,7 @@ const getAlertIcon = (category: string) => {
   switch (category) {
     case 'Free Food':
       icon = <Utensils />;
+      wrapperClassName = "";
       break;
     case 'Crowded Area':
       icon = <Users />;
@@ -42,6 +43,7 @@ const getAlertIcon = (category: string) => {
       break;
     case 'Emergency':
       icon = <ShieldAlert className="text-destructive" />;
+      wrapperClassName = "";
       break;
     case 'Police Presence':
       icon = <Shield />;
