@@ -50,12 +50,12 @@ export default function MapPage() {
   return (
     <div
       className={cn(
-        'flex flex-col gap-6 h-full',
+        'h-full flex flex-col',
         isFullscreen &&
           'fixed inset-0 bg-background z-50 p-4 flex'
       )}
     >
-      <div className={cn(isFullscreen && 'hidden', 'flex flex-col items-center w-full')}>
+      <div className={cn(isFullscreen && 'hidden', 'flex flex-col items-center w-full mb-4')}>
         <h1 className="text-3xl font-bold font-headline tracking-tight">
           Interactive Campus Map
         </h1>
@@ -63,58 +63,60 @@ export default function MapPage() {
           Search for a location or click on the map to report an alert.
         </p>
       </div>
-
-      <div className={cn('flex items-center justify-center gap-4', isFullscreen && 'absolute top-4 right-4 z-[1000]')}>
-        <div className={cn('w-full max-w-sm', isFullscreen && 'hidden')}>
-          <BuildingSearch onSelectBuilding={setSelectedBuilding} />
-        </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="bg-background/80 hover:bg-background/100">
-              <ListFilter className="mr-2 h-4 w-4" />
-              Filter
+      
+      <div className="relative flex-1 flex flex-col items-center">
+        <div className={cn('flex items-center justify-center gap-4 w-full max-w-5xl mb-4', isFullscreen && 'absolute top-4 right-4 z-[1000]')}>
+            <div className={cn('w-full max-w-sm', isFullscreen && 'hidden')}>
+            <BuildingSearch onSelectBuilding={setSelectedBuilding} />
+            </div>
+            <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="bg-background/80 hover:bg-background/100">
+                <ListFilter className="mr-2 h-4 w-4" />
+                Filter
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>Location Types</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {buildingTypes.map((type) => (
+                <DropdownMenuCheckboxItem
+                    key={type}
+                    checked={filters[type]}
+                    onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
+                    onSelect={(e) => e.preventDefault()}
+                    className="capitalize"
+                >
+                    {type}
+                </DropdownMenuCheckboxItem>
+                ))}
+            </DropdownMenuContent>
+            </DropdownMenu>
+            <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setIsFullscreen(!isFullscreen)}
+            className="bg-background/80 hover:bg-background/100"
+            >
+            {isFullscreen ? (
+                <Shrink className="h-4 w-4" />
+            ) : (
+                <Expand className="h-4 w-4" />
+            )}
+            <span className="sr-only">
+                {isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            </span>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Location Types</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {buildingTypes.map((type) => (
-              <DropdownMenuCheckboxItem
-                key={type}
-                checked={filters[type]}
-                onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
-                onSelect={(e) => e.preventDefault()}
-                className="capitalize"
-              >
-                {type}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setIsFullscreen(!isFullscreen)}
-          className="bg-background/80 hover:bg-background/100"
-        >
-          {isFullscreen ? (
-            <Shrink className="h-4 w-4" />
-          ) : (
-            <Expand className="h-4 w-4" />
-          )}
-          <span className="sr-only">
-            {isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-          </span>
-        </Button>
-      </div>
+        </div>
 
-      <div className="relative flex-1 -mt-4">
-        <div className="h-full w-full border rounded-lg overflow-hidden">
-          <InteractiveCampusMap
-            selectedBuilding={selectedBuilding}
-            isFullscreen={isFullscreen}
-            filters={activeFilters}
-          />
+        <div className="relative flex-1 w-full max-w-5xl h-full">
+            <div className="h-full w-full border rounded-lg overflow-hidden">
+            <InteractiveCampusMap
+                selectedBuilding={selectedBuilding}
+                isFullscreen={isFullscreen}
+                filters={activeFilters}
+            />
+            </div>
         </div>
       </div>
     </div>
