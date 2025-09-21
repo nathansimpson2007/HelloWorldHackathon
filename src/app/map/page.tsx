@@ -15,11 +15,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { buildings } from '@/lib/data';
-import {
-  Panel,
-  PanelGroup,
-  PanelResizeHandle,
-} from 'react-resizable-panels';
 import type { Map } from 'leaflet';
 
 const buildingTypes = [...new Set(buildings.map((b) => b.type))].sort();
@@ -51,61 +46,48 @@ export default function MapPage() {
     []
   );
 
-  const handleResize = () => {
-    // Invalidate map size to fix rendering issues after resize
-    mapRef.current?.invalidateSize();
-  };
-
   return (
     <div className="h-full flex flex-col">
-      <div className="flex flex-col items-center w-full mb-4">
-        <h1 className="text-3xl font-bold font-headline tracking-tight">
-          Interactive Campus Map
-        </h1>
-        <p className="text-muted-foreground">
+      <div className="flex flex-wrap items-center gap-4 p-4 bg-background/80 backdrop-blur-sm border-b z-10">
+        <div className="flex-1 min-w-[250px]">
+          <BuildingSearch onSelectBuilding={setSelectedBuilding} />
+        </div>
+        <div className="flex-none">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                <ListFilter className="mr-2 h-4 w-4" />
+                Filter
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Location Types</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {buildingTypes.map((type) => (
+                <DropdownMenuCheckboxItem
+                  key={type}
+                  checked={filters[type]}
+                  onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
+                  onSelect={(e) => e.preventDefault()}
+                  className="capitalize"
+                >
+                  {type}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <p className="w-full text-sm text-muted-foreground">
           Search for a location or click on the map to report an alert.
         </p>
       </div>
 
-      <div className="flex-1 border rounded-lg overflow-hidden">
-        <PanelGroup direction="horizontal">
-          <Panel defaultSize={20} minSize={15} className="p-4 flex flex-col gap-4 min-w-[300px]">
-            <BuildingSearch onSelectBuilding={setSelectedBuilding} />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="bg-background/80 hover:bg-background/100">
-                  <ListFilter className="mr-2 h-4 w-4" />
-                  Filter
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Location Types</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {buildingTypes.map((type) => (
-                  <DropdownMenuCheckboxItem
-                    key={type}
-                    checked={filters[type]}
-                    onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
-                    onSelect={(e) => e.preventDefault()}
-                    className="capitalize"
-                  >
-                    {type}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </Panel>
-          <PanelResizeHandle className="w-2 bg-border hover:bg-primary transition-colors" onDragging={handleResize} />
-          <Panel defaultSize={80} minSize={30}>
-            <div className="h-full w-full">
-              <InteractiveCampusMap
-                setMapRef={(map) => (mapRef.current = map)}
-                selectedBuilding={selectedBuilding}
-                filters={activeFilters}
-              />
-            </div>
-          </Panel>
-        </PanelGroup>
+      <div className="flex-1">
+        <InteractiveCampusMap
+          setMapRef={(map) => (mapRef.current = map)}
+          selectedBuilding={selectedBuilding}
+          filters={activeFilters}
+        />
       </div>
     </div>
   );
