@@ -58,6 +58,10 @@ export type Alert = {
   timestamp: { seconds: number; nanoseconds: number };
 };
 
+type ActivityData = {
+  averageRating: number;
+};
+
 // Define the boundaries for the Purdue campus
 const campusBounds = new LatLngBounds(
   [40.417, -86.935], // Southwest corner
@@ -76,6 +80,8 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
   const [clickedCoords, setClickedCoords] = useState<LatLng | null>(null);
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const alertMarkersRef = useRef<L.LayerGroup>(L.layerGroup());
+  const [activityLevels, setActivityLevels] = useState<Record<string, ActivityData>>({});
+
 
   useEffect(() => {
     // Initialize the map
@@ -89,13 +95,6 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(mapInstance.current);
 
-      // Add building markers
-      buildings.forEach(building => {
-        L.marker(building.coords)
-          .addTo(mapInstance.current!)
-          .bindPopup(`<b>${building.name}</b><br><a href="/locations/${building.slug}">View Details</a>`);
-      });
-
       // Add click handler to map
       mapInstance.current.on('click', (e) => {
         // Only allow reporting within campus bounds
@@ -108,10 +107,20 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
       // Add the marker layer group to the map
       alertMarkersRef.current.addTo(mapInstance.current);
     }
+    
+    // Subscribe to building activity
+    const activityQuery = query(collection(db, 'locations_activity'));
+    const unsubscribeActivity = onSnapshot(activityQuery, (snapshot) => {
+        const newActivityLevels: Record<string, ActivityData> = {};
+        snapshot.forEach((doc) => {
+            newActivityLevels[doc.id] = doc.data() as ActivityData;
+        });
+        setActivityLevels(newActivityLevels);
+    });
 
     // Subscribe to alerts from Firestore
-    const q = query(collection(db, 'alerts'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const alertsQuery = query(collection(db, 'alerts'));
+    const unsubscribeAlerts = onSnapshot(alertsQuery, (querySnapshot) => {
       const alertsData: Alert[] = [];
       querySnapshot.forEach((doc) => {
         alertsData.push({ id: doc.id, ...doc.data() } as Alert);
@@ -120,13 +129,43 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
     });
 
     return () => {
-      unsubscribe();
+      unsubscribeActivity();
+      unsubscribeAlerts();
       if (mapInstance.current) {
         mapInstance.current.remove();
         mapInstance.current = null;
       }
     };
   }, []);
+  
+  useEffect(() => {
+      if (mapInstance.current) {
+        // Clear existing building markers before adding new ones
+        mapInstance.current.eachLayer((layer) => {
+            // A bit of a hack to identify building markers. Assumes they are the only ones with popups and not alert markers.
+            if (layer instanceof L.Marker && layer.getPopup() && !layer.getIcon().options.html) {
+                mapInstance.current?.removeLayer(layer);
+            }
+        });
+
+        buildings.forEach(building => {
+            const activity = activityLevels[building.id.toString()];
+            const activityRating = activity ? `${activity.averageRating.toFixed(1)}/5` : 'No data';
+            const activityText = activity ? (activity.averageRating <=2 ? "Not Busy" : activity.averageRating <= 4 ? "Moderately Busy" : "Very Busy") : "Loading activity...";
+
+            const popupContent = `
+              <b>${building.name}</b>
+              <br>
+              <p>Activity: ${activityText} (${activityRating})</p>
+              <a href="/locations/${building.slug}">View Details</a>
+            `;
+            
+            L.marker(building.coords)
+              .addTo(mapInstance.current!)
+              .bindPopup(popupContent);
+        });
+      }
+  }, [activityLevels]);
 
   useEffect(() => {
     // Update alert markers on the map
