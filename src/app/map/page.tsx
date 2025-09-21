@@ -64,7 +64,7 @@ export default function MapPage() {
         </p>
       </div>
       
-      <div className="relative flex-1 flex flex-col items-center">
+      <div className="relative flex-1 flex flex-col">
         <div className={cn('flex items-center justify-center gap-4 w-full mb-4')}>
             <div className={cn('w-full max-w-sm', isFullscreen && 'hidden')}>
               <BuildingSearch onSelectBuilding={setSelectedBuilding} />
