@@ -67,9 +67,7 @@ export function ActivityReporter() {
         description: 'Could not submit your report. Please try again.',
       });
     } finally {
-      if (isSubmitting) {
-        setIsSubmitting(false);
-      }
+      setIsSubmitting(false);
     }
   };
 
