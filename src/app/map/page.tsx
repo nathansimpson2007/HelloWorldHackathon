@@ -55,7 +55,7 @@ export default function MapPage() {
           'fixed inset-0 bg-background z-50 p-4 flex flex-col'
       )}
     >
-      <div className={cn(isFullscreen ? 'flex-shrink-0' : 'flex flex-col items-center w-full', 'mb-4')}>
+      <div className={cn('flex flex-col items-center w-full', 'mb-4')}>
         <h1 className={cn('text-3xl font-bold font-headline tracking-tight', isFullscreen && 'text-xl')}>
           Interactive Campus Map
         </h1>
