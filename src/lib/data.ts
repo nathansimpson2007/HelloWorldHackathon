@@ -196,6 +196,13 @@ export const buildings: Building[] = [
     coords: [40.4275263927613, -86.91698471484223],
     resources: [],
     studyAreas: [],
+    menu: [
+      { station: 'Offerings', name: 'Turkey Sandwich' },
+      { station: 'Offerings', name: 'Italian Sub' },
+      { station: 'Offerings', name: 'Grilled Cheese' },
+      { station: 'Offerings', name: 'Everything Bagel' },
+      { station: 'Offerings', name: 'Salad' },
+    ]
   },
   {
     id: 11,
@@ -477,6 +484,7 @@ export const buildings: Building[] = [
     
 
     
+
 
 
 
