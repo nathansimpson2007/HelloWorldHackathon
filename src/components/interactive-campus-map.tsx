@@ -142,13 +142,19 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
   }, [alerts]);
 
   useEffect(() => {
+    if (mapInstance.current && selectedBuilding) {
+      mapInstance.current.flyTo(selectedBuilding.coords, 18);
+    }
+  }, [selectedBuilding]);
+
+  useEffect(() => {
     if (mapInstance.current) {
       // Delay helps ensure the container has resized before invalidating
       setTimeout(() => {
         mapInstance.current?.invalidateSize();
       }, 100);
     }
-  }, [selectedBuilding, isFullscreen]);
+  }, [isFullscreen]);
 
 
   return (
@@ -164,5 +170,3 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
 };
 
 export default InteractiveCampusMap;
-
-    

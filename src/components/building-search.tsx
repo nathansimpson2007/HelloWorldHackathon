@@ -51,7 +51,7 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
           <div className="flex items-center">
             <Search className="mr-2 h-4 w-4 shrink-0" />
             {value
-              ? buildings.find((b) => b.name === value)?.name
+              ? buildings.find((b) => b.name.toLowerCase() === value.toLowerCase())?.name
               : 'Search for a location...'}
           </div>
         </Button>
@@ -71,12 +71,14 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
                 <CommandItem
                   key={building.id}
                   value={building.name}
-                  onSelect={handleSelect}
+                  onSelect={(currentValue) => {
+                    handleSelect(currentValue)
+                  }}
                 >
                   <Check
                     className={cn(
                       'mr-2 h-4 w-4',
-                      value === building.name ? 'opacity-100' : 'opacity-0'
+                      value.toLowerCase() === building.name.toLowerCase() ? 'opacity-100' : 'opacity-0'
                     )}
                   />
                   {building.name}
