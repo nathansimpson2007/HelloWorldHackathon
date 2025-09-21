@@ -311,7 +311,7 @@ export const buildings: Building[] = [
     floorPlanImages: [
       '/buildings/floor-plans/STEW/stewbasement.jpg',
       '/buildings/floor-plans/STEW/stewground.jpg',
-      '/buildings/floor-plans/STEW/stewfirst.jpeg',
+      '/buildings/floor-plans/STEW/stewfirst.jpg',
       '/buildings/floor-plans/STEW/stewsecond.jpg',
       '/buildings/floor-plans/STEW/stewthird.jpg'
     ],
@@ -387,4 +387,5 @@ export const buildings: Building[] = [
     
 
     
+
 
