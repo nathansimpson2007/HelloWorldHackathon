@@ -24,6 +24,8 @@ L.Icon.Default.mergeOptions({
 // Custom Icons for Alerts
 const getAlertIcon = (category: string) => {
   let icon;
+  let wrapperClassName = "bg-background p-2 rounded-full shadow-lg border";
+  
   switch (category) {
     case 'Free Food':
       icon = <Utensils />;
@@ -33,6 +35,7 @@ const getAlertIcon = (category: string) => {
       break;
     case 'Campus Event':
       icon = <PartyPopper />;
+      wrapperClassName = ""; // Remove background for campus events
       break;
     case 'Safety Concern':
       icon = <ShieldAlert />;
@@ -48,7 +51,7 @@ const getAlertIcon = (category: string) => {
   }
   return L.divIcon({
     html: ReactDOMServer.renderToString(
-      <div className="bg-background p-2 rounded-full shadow-lg border">{icon}</div>
+      <div className={wrapperClassName}>{icon}</div>
     ),
     className: '',
     iconSize: [24, 24],
