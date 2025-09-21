@@ -95,7 +95,6 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Study Space">Study Space</SelectItem>
                 <SelectItem value="Free Food">Free Food</SelectItem>
                 <SelectItem value="Crowded Area">Crowded Area</SelectItem>
                 <SelectItem value="Campus Event">Campus Event</SelectItem>

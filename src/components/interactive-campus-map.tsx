@@ -8,7 +8,7 @@ import { buildings, type Building } from '@/lib/data';
 import { ReportDialog } from './report-dialog';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Utensils, Users, GraduationCap, PartyPopper, AlertCircle, MapPin } from 'lucide-react';
+import { Utensils, Users, PartyPopper, AlertCircle, MapPin } from 'lucide-react';
 import ReactDOMServer from 'react-dom/server';
 
 // Leaflet's default icons are not easily available in Next.js.
@@ -30,9 +30,6 @@ const getAlertIcon = (category: string) => {
       break;
     case 'Crowded Area':
       icon = <Users />;
-      break;
-    case 'Study Space':
-      icon = <GraduationCap />;
       break;
     case 'Campus Event':
       icon = <PartyPopper />;
