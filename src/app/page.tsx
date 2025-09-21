@@ -5,10 +5,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
-  BookOpen,
-  Map,
+  Heart,
   Waypoints,
+  Map,
   BarChart,
+  Users,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -24,20 +25,20 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2">
         <Link href="/map">
-          <Card className="h-full hover:border-primary transition-colors">
-            <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="bg-secondary p-3 rounded-lg">
-                  <Waypoints className="h-6 w-6 text-secondary-foreground" />
+          <Card className="h-full hover:border-primary transition-colors transform hover:-translate-y-1">
+            <CardHeader className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-secondary p-4 rounded-lg">
+                  <Waypoints className="h-8 w-8 text-secondary-foreground" />
                 </div>
-                <div>
-                  <CardTitle className="font-headline">
+                <div className="flex-1">
+                  <CardTitle className="font-headline text-xl mb-1">
                     Interactive Map
                   </CardTitle>
                   <CardDescription>
-                    View locations and live campus alerts.
+                    View real-time location activity, campus alerts, and find your way around.
                   </CardDescription>
                 </div>
               </div>
@@ -45,18 +46,18 @@ export default function Home() {
           </Card>
         </Link>
         <Link href="/locations">
-          <Card className="h-full hover:border-primary transition-colors">
-            <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="bg-secondary p-3 rounded-lg">
-                  <Map className="h-6 w-6 text-secondary-foreground" />
+          <Card className="h-full hover:border-primary transition-colors transform hover:-translate-y-1">
+            <CardHeader className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-secondary p-4 rounded-lg">
+                  <Map className="h-8 w-8 text-secondary-foreground" />
                 </div>
-                <div>
-                  <CardTitle className="font-headline">
+                <div className="flex-1">
+                  <CardTitle className="font-headline text-xl mb-1">
                     Explore Locations
                   </CardTitle>
                   <CardDescription>
-                    Find maps, hours, and resources.
+                    Find detailed information, hours, and resources for every building on campus.
                   </CardDescription>
                 </div>
               </div>
@@ -64,18 +65,37 @@ export default function Home() {
           </Card>
         </Link>
         <Link href="/activity-tool">
-          <Card className="h-full hover:border-primary transition-colors">
-            <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="bg-secondary p-3 rounded-lg">
-                  <BarChart className="h-6 w-6 text-secondary-foreground" />
+          <Card className="h-full hover:border-primary transition-colors transform hover:-translate-y-1">
+            <CardHeader className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-secondary p-4 rounded-lg">
+                  <BarChart className="h-8 w-8 text-secondary-foreground" />
                 </div>
-                <div>
-                  <CardTitle className="font-headline">
+                <div className="flex-1">
+                  <CardTitle className="font-headline text-xl mb-1">
                     Location Activity
                   </CardTitle>
                   <CardDescription>
-                    Report and view real-time activity levels.
+                    Report and view real-time activity levels to find the perfect study spot or avoid crowds.
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
+        </Link>
+         <Link href="/mission">
+          <Card className="h-full hover:border-primary transition-colors transform hover:-translate-y-1">
+            <CardHeader className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-secondary p-4 rounded-lg">
+                  <Users className="h-8 w-8 text-secondary-foreground" />
+                </div>
+                <div className="flex-1">
+                  <CardTitle className="font-headline text-xl mb-1">
+                    Our Mission
+                  </CardTitle>
+                  <CardDescription>
+                    Learn more about the purpose of Campus Compass and the team behind it.
                   </CardDescription>
                 </div>
               </div>

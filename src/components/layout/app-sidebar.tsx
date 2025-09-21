@@ -24,6 +24,7 @@ import {
   Banknote,
   BarChart,
   Car,
+  Users,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -39,11 +40,12 @@ const menuItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/map', label: 'Interactive Map', icon: Waypoints },
   { href: '/activity-tool', label: 'Location Activity', icon: BarChart },
+  { href: '/mission', label: 'Our Mission', icon: Users },
 ];
 
 const buildingMenuItems = [
   { href: '/locations', label: 'All Locations', icon: Building2 },
-  { href: '/academic', label: 'Academic', icon: GraduationCap },
+  { href: ' /academic', label: 'Academic', icon: GraduationCap },
   { href: '/residential', label: 'Residential', icon: Building },
   { href: '/dining', label: 'Dining', icon: Utensils },
   { href: '/recreational', label: 'Recreational', icon: Dumbbell },
