@@ -50,6 +50,7 @@ const getAlertIcon = (category: string) => {
       break;
     default:
       icon = <AlertCircle />;
+      wrapperClassName = ""; // Remove background for other categories
   }
   return L.divIcon({
     html: ReactDOMServer.renderToString(
