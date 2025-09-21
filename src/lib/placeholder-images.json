@@ -144,6 +144,18 @@
       "description": "Tarkington Residential Hall",
       "imageUrl": "/buildings/cover-images/tarkington.jpg",
       "imageHint": "dormitory building"
+    },
+    {
+      "id": "ross-ade-stadium",
+      "description": "Ross-Ade Stadium",
+      "imageUrl": "/buildings/cover-images/ross-ade-stadium.jpg",
+      "imageHint": "football stadium"
+    },
+    {
+      "id": "lilly-hall",
+      "description": "Lilly Hall of Life Sciences",
+      "imageUrl": "/buildings/cover-images/lilly.jpg",
+      "imageHint": "university building"
     }
   ]
 }

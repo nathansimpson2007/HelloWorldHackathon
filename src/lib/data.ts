@@ -438,6 +438,35 @@ export const buildings: Building[] = [
     studyAreas: [
       { id: 'tarkington-hall-lounge', name: 'Main Lounge' }
     ],
+  },
+  {
+    id: 23,
+    name: 'Ross-Ade Stadium',
+    slug: 'ross-ade-stadium',
+    history: 'The home of the Purdue Boilermakers football team. The stadium has a capacity of over 57,000 and is a centerpiece of Purdue athletics.',
+    hours: 'Varies by event',
+    imageSeed: 'ross-ade-stadium',
+    type: 'recreational',
+    coords: [40.43474686711016, -86.91843850396278],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 24,
+    name: 'Lilly Hall of Life Sciences',
+    slug: 'lilly-hall',
+    history: 'Houses many of the biological science departments, with numerous laboratories, lecture halls, and research facilities.',
+    hours: 'Mon-Fri: 7:00 AM - 9:00 PM',
+    imageSeed: 'lilly-hall',
+    type: 'academic',
+    coords: [40.4237495844732, -86.91755659286645],
+    resources: [
+      { name: 'LILY G126', type: 'Lecture Hall' },
+      { name: 'LILY 1105', type: 'Lecture Hall' },
+    ],
+    studyAreas: [
+      { id: 'lilly-hall-lounge', name: 'Main Lounge' }
+    ],
   }
 ];
 
@@ -445,6 +474,7 @@ export const buildings: Building[] = [
     
 
     
+
 
 
 
