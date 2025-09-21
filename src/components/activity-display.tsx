@@ -77,6 +77,7 @@ export function ActivityDisplay({
 
   const activityPercentage = (averageActivity / 5) * 100;
   const roundedAverage = Math.round(averageActivity * 10) / 10;
+  const reportsWithMessage = reports.filter((r) => r.message);
 
   return (
     <Card>
@@ -112,8 +113,8 @@ export function ActivityDisplay({
         <div>
           <h4 className="font-semibold mb-2">Recent Reports:</h4>
           <div className="space-y-3 text-sm text-muted-foreground">
-            {reports.length > 0 ? (
-              reports.map((r, index) => (
+            {reportsWithMessage.length > 0 ? (
+              reportsWithMessage.map((r, index) => (
                 <div key={index} className="border-l-2 pl-3">
                   <p className="font-medium">Level {r.activityLevel}/5</p>
                   {r.message && (
@@ -122,7 +123,7 @@ export function ActivityDisplay({
                 </div>
               ))
             ) : (
-              <p>No reports submitted yet for this building. Be the first!</p>
+              <p>No recent reports with messages for this building.</p>
             )}
           </div>
         </div>
