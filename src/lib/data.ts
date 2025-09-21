@@ -128,7 +128,7 @@ export const buildings: Building[] = [
   },
   {
     id: 7,
-    name: 'Windsor Hall',
+    name: 'Windsor Residential Hall',
     slug: 'windsor-hall',
     history: 'A group of five residential halls for women, known for its beautiful architecture and close-knit community. Located near the heart of campus, it provides convenient access to academic buildings and dining options.',
     hours: 'Open 24/7 for residents',
