@@ -74,6 +74,9 @@ export async function submitBusynessReport(
       
       const newAverageRating = newRatingSum / newRatingCount;
 
+      // The reports are now in a subcollection, create the reference inside the transaction
+      const newReportRef = doc(collection(db, `locations_activity/${buildingId}/reports`));
+
       transaction.set(
         locationActivityRef,
         {
@@ -85,7 +88,6 @@ export async function submitBusynessReport(
         { merge: true }
       );
       
-      const newReportRef = doc(collection(db, `locations_activity/${buildingId}/reports`));
       transaction.set(newReportRef, {
         activityLevel,
         timestamp: serverTimestamp(),
@@ -93,6 +95,7 @@ export async function submitBusynessReport(
     });
   } catch (error) {
     console.error('Error submitting busyness report: ', error);
+    // This generic error is what the user sees. The console.error will have the specific reason (e.g., permission denied).
     throw new Error('Could not save busyness report to the database.');
   }
 }
