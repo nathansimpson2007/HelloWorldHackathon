@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { submitBusynessReport } from '@/app/actions';
-import { buildings } from '@/lib/data';
+import { buildings, Building } from '@/lib/data';
 import { Button } from './ui/button';
 import {
   Card,
@@ -16,13 +16,7 @@ import { Label } from './ui/label';
 import { Slider } from './ui/slider';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from './ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select';
+import { LocationSearch } from './location-search';
 
 const MESSAGE_CHAR_LIMIT = 100;
 
@@ -37,14 +31,22 @@ export function ActivityReporter({ initialLocationId }: ActivityReporterProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  const initialBuilding = buildings.find(b => b.id.toString() === initialLocationId);
+  const [selectedBuildingName, setSelectedBuildingName] = useState(initialBuilding?.name || '');
+
   useEffect(() => {
     if (initialLocationId) {
       setLocationId(initialLocationId);
+      const building = buildings.find(b => b.id.toString() === initialLocationId);
+      if (building) {
+        setSelectedBuildingName(building.name);
+      }
     }
   }, [initialLocationId]);
 
-  const handleBuildingSelect = (buildingId: string) => {
-    setLocationId(buildingId);
+  const handleBuildingSelect = (building: Building) => {
+    setLocationId(building.id.toString());
+    setSelectedBuildingName(building.name);
   };
 
   const handleSubmit = async () => {
@@ -67,6 +69,7 @@ export function ActivityReporter({ initialLocationId }: ActivityReporterProps) {
       // Do not clear locationId if it was passed as a prop
       if (!initialLocationId) {
         setLocationId('');
+        setSelectedBuildingName('');
       }
       setRating(3);
       setMessage('');
@@ -94,25 +97,10 @@ export function ActivityReporter({ initialLocationId }: ActivityReporterProps) {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="location">Location</Label>
-          <Select
-            onValueChange={handleBuildingSelect}
-            defaultValue={locationId}
-            value={locationId}
-          >
-            <SelectTrigger id="location">
-              <SelectValue placeholder="Select a location" />
-            </SelectTrigger>
-            <SelectContent>
-              {buildings.map((building) => (
-                <SelectItem
-                  key={building.id}
-                  value={building.id.toString()}
-                >
-                  {building.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <LocationSearch 
+            onSelectBuilding={handleBuildingSelect} 
+            initialValue={selectedBuildingName}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="rating">Activity Level: {rating}/5</Label>

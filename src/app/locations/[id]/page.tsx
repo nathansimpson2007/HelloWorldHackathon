@@ -49,7 +49,6 @@ export default async function BuildingDetailPage({
   const buildingImage = PlaceHolderImages.find(
     (img) => img.id === building.imageSeed
   );
-  const mapImage = PlaceHolderImages.find((img) => img.id === 'indoor-map-1');
 
   const allResources = [
     ...building.resources,
@@ -74,6 +73,7 @@ export default async function BuildingDetailPage({
     return acc;
   }, {} as Record<string, typeof building.menu>);
 
+  const hasFloorPlans = building.floorPlanImages && building.floorPlanImages.length > 0;
 
   return (
     <div className="flex flex-col gap-8">
@@ -120,7 +120,7 @@ export default async function BuildingDetailPage({
         <TabsList>
           <TabsTrigger value="info">Info</TabsTrigger>
           {building.type === 'dining' && <TabsTrigger value="menu">Menu</TabsTrigger>}
-          <TabsTrigger value="map">Indoor Map</TabsTrigger>
+          {hasFloorPlans && <TabsTrigger value="map">Indoor Map</TabsTrigger>}
           <TabsTrigger value="resources">Resources</TabsTrigger>
         </TabsList>
         <TabsContent value="info">
@@ -167,52 +167,41 @@ export default async function BuildingDetailPage({
             </Card>
           </TabsContent>
         )}
-        <TabsContent value="map">
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-headline">Indoor Map</CardTitle>
-              <CardDescription>Floor Plan</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {building.floorPlanImages && building.floorPlanImages.length > 0 ? (
-                <Carousel className="w-full max-w-xl mx-auto">
-                  <CarouselContent>
-                    {building.floorPlanImages.map((image, index) => (
-                      <CarouselItem key={index}>
-                        <div className="p-1">
-                          <Card>
-                            <CardContent className="flex aspect-video items-center justify-center p-0">
-                               <Image
-                                src={image}
-                                alt={`Floor plan ${index + 1}`}
-                                width={800}
-                                height={600}
-                                className="rounded-md object-contain w-full h-full border"
-                              />
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              ) : mapImage ? (
-                <Image
-                  src={mapImage.imageUrl}
-                  alt={mapImage.description}
-                  data-ai-hint={mapImage.imageHint}
-                  width={800}
-                  height={600}
-                  className="rounded-md object-cover w-full border"
-                />
-              ) : (
-                <p>No indoor map available.</p>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
+        {hasFloorPlans && (
+          <TabsContent value="map">
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline">Indoor Map</CardTitle>
+                <CardDescription>Floor Plan</CardDescription>
+              </CardHeader>
+              <CardContent>
+                  <Carousel className="w-full max-w-xl mx-auto">
+                    <CarouselContent>
+                      {building.floorPlanImages!.map((image, index) => (
+                        <CarouselItem key={index}>
+                          <div className="p-1">
+                            <Card>
+                              <CardContent className="flex aspect-video items-center justify-center p-0">
+                                <Image
+                                  src={image}
+                                  alt={`Floor plan ${index + 1}`}
+                                  width={800}
+                                  height={600}
+                                  className="rounded-md object-contain w-full h-full border"
+                                />
+                              </CardContent>
+                            </Card>
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                  </Carousel>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
         <TabsContent value="resources">
           <Card>
             <CardHeader>
