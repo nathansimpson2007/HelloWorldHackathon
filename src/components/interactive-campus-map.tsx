@@ -33,13 +33,15 @@ const getAlertIcon = (category: string) => {
       break;
     case 'Crowded Area':
       icon = <Users />;
+      wrapperClassName = "";
       break;
     case 'Campus Event':
       icon = <PartyPopper />;
-      wrapperClassName = ""; // Remove background for campus events
+      wrapperClassName = "";
       break;
     case 'Safety Concern':
       icon = <ShieldAlert />;
+      wrapperClassName = "";
       break;
     case 'Emergency':
       icon = <ShieldAlert className="text-destructive" />;
@@ -47,10 +49,11 @@ const getAlertIcon = (category: string) => {
       break;
     case 'Police Presence':
       icon = <Shield />;
+      wrapperClassName = "";
       break;
     default:
       icon = <AlertCircle />;
-      wrapperClassName = ""; // Remove background for other categories
+      wrapperClassName = "";
   }
   return L.divIcon({
     html: ReactDOMServer.renderToString(
