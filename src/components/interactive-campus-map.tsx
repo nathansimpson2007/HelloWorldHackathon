@@ -49,12 +49,21 @@ const getAlertIcon = (category: string) => {
 
 
 // Function to get color for building markers based on activity
-const getActivityColor = (rating: number) => {
-  if (rating <= 1) return '#00FF00'; // Green
-  if (rating <= 2) return '#ADFF2F'; // Green-Yellow
-  if (rating <= 3) return '#FFFF00'; // Yellow
-  if (rating <= 4) return '#FFA500'; // Orange
-  return '#FF0000'; // Red
+const getActivityColor = (rating: number): string => {
+  // Clamp the rating to be within the 1-5 range
+  const clampedRating = Math.max(1, Math.min(5, rating));
+
+  // Normalize the rating from [1, 5] to [0, 1]
+  const normalizedRating = (clampedRating - 1) / 4;
+
+  // We are interpolating the HUE from Green (120) to Red (0)
+  // A lower rating (closer to 1) will be greener.
+  // A higher rating (closer to 5) will be redder.
+  const hue = (1 - normalizedRating) * 120;
+  const saturation = 90; // Keep saturation high for vibrant colors
+  const lightness = 40; // Use a darker lightness for deeper colors
+
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 };
 
 const getBuildingIcon = (rating: number | undefined) => {
