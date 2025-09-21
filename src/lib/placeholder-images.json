@@ -132,6 +132,18 @@
       "description": "Northwestern Avenue Parking Garage (PGNW)",
       "imageUrl": "/buildings/cover-images/northwestern-avenue-parking.jpg",
       "imageHint": "parking garage"
+    },
+    {
+      "id": "mccutcheon-hall",
+      "description": "McCutcheon Residential Hall",
+      "imageUrl": "/buildings/cover-images/mccutcheon.jpg",
+      "imageHint": "dormitory building"
+    },
+    {
+      "id": "tarkington-hall",
+      "description": "Tarkington Residential Hall",
+      "imageUrl": "/buildings/cover-images/tarkington.jpg",
+      "imageHint": "dormitory building"
     }
   ]
 }

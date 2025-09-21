@@ -404,6 +404,40 @@ export const buildings: Building[] = [
     coords: [40.430039361553504, -86.91087374259277],
     resources: [],
     studyAreas: [],
+  },
+  {
+    id: 21,
+    name: 'McCutcheon Residential Hall',
+    slug: 'mccutcheon-hall',
+    history: 'A residential hall offering housing for students, located on the west side of campus.',
+    hours: 'Open 24/7 for residents',
+    imageSeed: 'mccutcheon-hall',
+    type: 'residential',
+    coords: [40.424912859359985, -86.9281670249431],
+    resources: [
+      { name: 'Student Lounges', type: 'Study Area' },
+      { name: 'Laundry Rooms', type: 'Utility' },
+    ],
+    studyAreas: [
+      { id: 'mccutcheon-hall-lounge', name: 'Main Lounge' }
+    ],
+  },
+  {
+    id: 22,
+    name: 'Tarkington Residential Hall',
+    slug: 'tarkington-hall',
+    history: 'A residential hall providing housing for students, located near the academic core of campus.',
+    hours: 'Open 24/7 for residents',
+    imageSeed: 'tarkington-hall',
+    type: 'residential',
+    coords: [40.43135488671968, -86.92085574999064],
+    resources: [
+      { name: 'Student Lounges', type: 'Study Area' },
+      { name: 'Laundry Rooms', type: 'Utility' },
+    ],
+    studyAreas: [
+      { id: 'tarkington-hall-lounge', name: 'Main Lounge' }
+    ],
   }
 ];
 
@@ -411,6 +445,7 @@ export const buildings: Building[] = [
     
 
     
+
 
 
 
