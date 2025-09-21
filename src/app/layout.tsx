@@ -1,3 +1,6 @@
+
+'use client';
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -5,18 +8,16 @@ import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { AppHeader } from '@/components/layout/app-header';
-
-export const metadata: Metadata = {
-  title: 'CampusNow',
-  description:
-    'Navigate Purdue’s campus easier and smarter with real-time, community-driven data.',
-};
+import { usePathname } from 'next/navigation';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isMapPage = pathname === '/map';
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -46,7 +47,7 @@ export default function RootLayout({
             <AppSidebar />
             <main className="flex flex-1 flex-col">
               <AppHeader />
-              <div className="flex-1 overflow-y-auto p-4 md:p-8">
+              <div className={cn("flex-1 overflow-y-auto", !isMapPage && "p-4 md:p-8")}>
                 {children}
               </div>
             </main>

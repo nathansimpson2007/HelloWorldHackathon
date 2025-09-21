@@ -118,9 +118,10 @@ const campusBounds = new LatLngBounds(
 interface InteractiveCampusMapProps {
   selectedBuilding: Building | null;
   isFullscreen?: boolean;
+  filters: string[];
 }
 
-const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCampusMapProps) => {
+const InteractiveCampusMap = ({ selectedBuilding, isFullscreen, filters }: InteractiveCampusMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
   const buildingMarkersRef = useRef<L.LayerGroup>(L.layerGroup());
@@ -191,7 +192,9 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
       if (mapInstance.current) {
         buildingMarkersRef.current.clearLayers();
 
-        buildings.forEach(building => {
+        const filteredBuildings = buildings.filter(b => filters.includes(b.type));
+
+        filteredBuildings.forEach(building => {
             const activity = activityLevels[building.id.toString()];
             const rating = activity ? activity.averageRating : undefined;
             const activityText = activity 
@@ -211,7 +214,7 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
               .bindPopup(popupContent);
         });
       }
-  }, [activityLevels]);
+  }, [activityLevels, filters]);
 
   useEffect(() => {
     // Update alert markers on the map
