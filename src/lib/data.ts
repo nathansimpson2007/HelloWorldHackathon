@@ -459,7 +459,7 @@ export const buildings: Building[] = [
     hours: 'Mon-Fri: 7:00 AM - 9:00 PM',
     imageSeed: 'lilly-hall',
     type: 'academic',
-    coords: [40.4237495844732, -86.91755659286645],
+    coords: [40.42363116012346, -86.91798571168954],
     resources: [
       { name: 'LILY G126', type: 'Lecture Hall' },
       { name: 'LILY 1105', type: 'Lecture Hall' },
@@ -474,6 +474,7 @@ export const buildings: Building[] = [
     
 
     
+
 
 
 
