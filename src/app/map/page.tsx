@@ -5,7 +5,7 @@ import { useMemo, useState, useRef, useEffect } from 'react';
 import type { Building } from '@/lib/data';
 import { BuildingSearch } from '@/components/building-search';
 import { Button } from '@/components/ui/button';
-import { ListFilter, Expand, Minimize } from 'lucide-react';
+import { ListFilter } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -27,7 +27,6 @@ export default function MapPage() {
   const [filters, setFilters] = useState<CheckedState>(
     buildingTypes.reduce((acc, type) => ({ ...acc, [type]: true }), {})
   );
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const mapRef = useRef<Map>(null);
 
   const handleFilterChange = (type: string, checked: boolean) => {
@@ -47,21 +46,15 @@ export default function MapPage() {
   
   useEffect(() => {
     if (mapRef.current) {
-      // Add a delay to allow for animations to complete before invalidating size
       setTimeout(() => {
         mapRef.current?.invalidateSize();
       }, 100);
     }
-  }, [isFullscreen]);
+  }, []);
 
 
   return (
-    <div
-      className={cn(
-        'h-full flex flex-col',
-        isFullscreen && 'fixed inset-0 z-50 bg-background'
-      )}
-    >
+    <div className="h-full flex flex-col ml-4">
       <div className="flex flex-wrap items-center gap-4 p-4 bg-background/80 backdrop-blur-sm border-b z-10">
         <div className="flex-1 min-w-[250px]">
           <BuildingSearch onSelectBuilding={setSelectedBuilding} />
@@ -90,13 +83,6 @@ export default function MapPage() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIsFullscreen((prev) => !prev)}
-          >
-            {isFullscreen ? <Minimize className="h-4 w-4" /> : <Expand className="h-4 w-4" />}
-          </Button>
         </div>
         <p className="w-full text-sm text-muted-foreground">
           Search for a location or click on the map to report an alert.
@@ -113,3 +99,4 @@ export default function MapPage() {
     </div>
   );
 }
+
