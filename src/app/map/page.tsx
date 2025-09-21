@@ -83,6 +83,7 @@ export default function MapPage() {
                 key={type}
                 checked={filters[type]}
                 onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
+                onSelect={(e) => e.preventDefault()}
                 className="capitalize"
               >
                 {type}
