@@ -23,10 +23,14 @@ import {
 } from './ui/select';
 import { Slider } from './ui/slider';
 import { useToast } from '@/hooks/use-toast';
+import { Textarea } from './ui/textarea';
+
+const MESSAGE_CHAR_LIMIT = 100;
 
 export function ActivityReporter() {
   const [locationId, setLocationId] = useState('');
   const [rating, setRating] = useState(3);
+  const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -51,7 +55,7 @@ export function ActivityReporter() {
     }, 5000);
 
     try {
-      await submitBusynessReport(locationId, rating);
+      await submitBusynessReport(locationId, rating, message);
       clearTimeout(submissionTimeout);
       toast({
         title: 'Report Submitted',
@@ -59,6 +63,7 @@ export function ActivityReporter() {
       });
       setLocationId('');
       setRating(3);
+      setMessage('');
     } catch (error) {
       clearTimeout(submissionTimeout);
       toast({
@@ -114,6 +119,20 @@ export function ActivityReporter() {
             />
             <span className="text-xs text-muted-foreground">Very Busy</span>
           </div>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="message">Optional Message</Label>
+          <Textarea
+            id="message"
+            placeholder="e.g., 'All the tables on the 2nd floor are taken.'"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            maxLength={MESSAGE_CHAR_LIMIT}
+            disabled={isSubmitting}
+          />
+          <p className="text-xs text-muted-foreground text-right">
+            {message.length} / {MESSAGE_CHAR_LIMIT}
+          </p>
         </div>
       </CardContent>
       <CardFooter>

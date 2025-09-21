@@ -41,22 +41,25 @@ export async function addAlert(data: unknown) {
 const busynessReportSchema = z.object({
   locationId: z.string().min(1),
   rating: z.number().min(1).max(5),
+  message: z.string().max(100).optional(),
 });
 
 export async function submitBusynessReport(
   locationId: string,
-  rating: number
+  rating: number,
+  message?: string
 ) {
   const validatedFields = busynessReportSchema.safeParse({
     locationId,
     rating,
+    message,
   });
 
   if (!validatedFields.success) {
     throw new Error('Invalid busyness report data');
   }
 
-  const { locationId: buildingId, rating: activityLevel } = validatedFields.data;
+  const { locationId: buildingId, rating: activityLevel, message: reportMessage } = validatedFields.data;
   const locationActivityRef = doc(db, 'locations_activity', buildingId);
 
   try {
@@ -88,10 +91,16 @@ export async function submitBusynessReport(
         { merge: true }
       );
       
-      transaction.set(newReportRef, {
+      const reportData: { activityLevel: number; timestamp: any; message?: string } = {
         activityLevel,
         timestamp: serverTimestamp(),
-      });
+      };
+
+      if (reportMessage) {
+        reportData.message = reportMessage;
+      }
+
+      transaction.set(newReportRef, reportData);
     });
   } catch (error) {
     console.error('Error submitting busyness report: ', error);

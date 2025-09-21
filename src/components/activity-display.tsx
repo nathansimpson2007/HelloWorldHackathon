@@ -22,6 +22,7 @@ import {
 interface Report {
   activityLevel: number;
   timestamp: any;
+  message?: string;
 }
 
 interface ActivityDisplayProps {
@@ -110,12 +111,15 @@ export function ActivityDisplay({
 
         <div>
           <h4 className="font-semibold mb-2">Recent Reports:</h4>
-          <div className="space-y-2 text-sm text-muted-foreground">
+          <div className="space-y-3 text-sm text-muted-foreground">
             {reports.length > 0 ? (
               reports.map((r, index) => (
-                <p key={index} className="border-l-2 pl-3">
-                  Level {r.activityLevel}/5
-                </p>
+                <div key={index} className="border-l-2 pl-3">
+                  <p className="font-medium">Level {r.activityLevel}/5</p>
+                  {r.message && (
+                    <p className="text-xs italic">"{r.message}"</p>
+                  )}
+                </div>
               ))
             ) : (
               <p>No reports submitted yet for this building. Be the first!</p>
