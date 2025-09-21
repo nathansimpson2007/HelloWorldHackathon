@@ -69,7 +69,7 @@ export default function MapPage() {
 
       <div className="flex-1 border rounded-lg overflow-hidden">
         <PanelGroup direction="horizontal">
-          <Panel defaultSize={30} minSize={20} className="p-4 flex flex-col gap-4 min-w-[300px]">
+          <Panel defaultSize={20} minSize={15} className="p-4 flex flex-col gap-4 min-w-[300px]">
             <BuildingSearch onSelectBuilding={setSelectedBuilding} />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -96,7 +96,7 @@ export default function MapPage() {
             </DropdownMenu>
           </Panel>
           <PanelResizeHandle className="w-2 bg-border hover:bg-primary transition-colors" onDragging={handleResize} />
-          <Panel defaultSize={70} minSize={30}>
+          <Panel defaultSize={80} minSize={30}>
             <div className="h-full w-full">
               <InteractiveCampusMap
                 setMapRef={(map) => (mapRef.current = map)}
