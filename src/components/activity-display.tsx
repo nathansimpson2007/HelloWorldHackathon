@@ -114,7 +114,7 @@ export function ActivityDisplay({
           <h4 className="font-semibold mb-2">Recent Reports:</h4>
           <div className="space-y-3 text-sm text-muted-foreground">
             {reportsWithMessage.length > 0 ? (
-              reportsWithMessage.map((r, index) => (
+              reportsWithMessage.slice(0, 3).map((r, index) => (
                 <div key={index} className="border-l-2 pl-3">
                   <p className="font-medium">Level {r.activityLevel}/5</p>
                   {r.message && (
