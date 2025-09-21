@@ -8,7 +8,7 @@ import { buildings, type Building } from '@/lib/data';
 import { ReportDialog } from './report-dialog';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Utensils, Users, GraduationCap, PartyPopper, AlertCircle } from 'lucide-react';
+import { Utensils, Users, GraduationCap, PartyPopper, AlertCircle, MapPin } from 'lucide-react';
 import ReactDOMServer from 'react-dom/server';
 
 // Leaflet's default icons are not easily available in Next.js.
@@ -22,7 +22,7 @@ L.Icon.Default.mergeOptions({
 });
 
 // Custom Icons for Alerts
-const getIcon = (category: string) => {
+const getAlertIcon = (category: string) => {
   let icon;
   switch (category) {
     case 'Free Food':
@@ -50,6 +50,33 @@ const getIcon = (category: string) => {
   });
 };
 
+
+// Function to get color for building markers based on activity
+const getActivityColor = (rating: number) => {
+  if (rating <= 1) return '#00FF00'; // Green
+  if (rating <= 2) return '#ADFF2F'; // Green-Yellow
+  if (rating <= 3) return '#FFFF00'; // Yellow
+  if (rating <= 4) return '#FFA500'; // Orange
+  return '#FF0000'; // Red
+};
+
+const getBuildingIcon = (rating: number | undefined) => {
+  const color = rating !== undefined ? getActivityColor(rating) : '#808080'; // Grey for no data
+  const iconHtml = ReactDOMServer.renderToString(
+    <div className="relative">
+      <MapPin style={{ color: color, stroke: 'black', strokeWidth: '0.5' }} size={32} />
+    </div>
+  );
+  return L.divIcon({
+    html: iconHtml,
+    className: '',
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32]
+  });
+};
+
+
 export type Alert = {
   id: string;
   category: string;
@@ -76,6 +103,7 @@ interface InteractiveCampusMapProps {
 const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCampusMapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
+  const buildingMarkersRef = useRef<L.LayerGroup>(L.layerGroup());
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [clickedCoords, setClickedCoords] = useState<LatLng | null>(null);
   const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -104,7 +132,8 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
         }
       });
       
-      // Add the marker layer group to the map
+      // Add the marker layer groups to the map
+      buildingMarkersRef.current.addTo(mapInstance.current);
       alertMarkersRef.current.addTo(mapInstance.current);
     }
     
@@ -140,28 +169,25 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
   
   useEffect(() => {
       if (mapInstance.current) {
-        // Clear existing building markers before adding new ones
-        mapInstance.current.eachLayer((layer) => {
-            // A bit of a hack to identify building markers. Assumes they are the only ones with popups and not alert markers.
-            if (layer instanceof L.Marker && layer.getPopup() && !layer.getIcon().options.html) {
-                mapInstance.current?.removeLayer(layer);
-            }
-        });
+        buildingMarkersRef.current.clearLayers();
 
         buildings.forEach(building => {
             const activity = activityLevels[building.id.toString()];
-            const activityRating = activity ? `${activity.averageRating.toFixed(1)}/5` : 'No data';
-            const activityText = activity ? (activity.averageRating <=2 ? "Not Busy" : activity.averageRating <= 4 ? "Moderately Busy" : "Very Busy") : "Loading activity...";
+            const rating = activity ? activity.averageRating : undefined;
+            const activityText = activity 
+              ? `<b>Activity:</b> ${activity.averageRating.toFixed(1)}/5 (${activity.averageRating <=2 ? "Not Busy" : activity.averageRating <= 4 ? "Moderately Busy" : "Very Busy"})`
+              : "<b>Activity:</b> No data";
 
             const popupContent = `
               <b>${building.name}</b>
               <br>
-              <p>Activity: ${activityText} (${activityRating})</p>
+              ${activityText}
+              <br>
               <a href="/locations/${building.slug}">View Details</a>
             `;
             
-            L.marker(building.coords)
-              .addTo(mapInstance.current!)
+            L.marker(building.coords, { icon: getBuildingIcon(rating) })
+              .addTo(buildingMarkersRef.current)
               .bindPopup(popupContent);
         });
       }
@@ -173,7 +199,7 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen }: InteractiveCam
       alertMarkersRef.current.clearLayers();
       alerts.forEach(alert => {
         const alertLatLng = new L.LatLng(alert.location.latitude, alert.location.longitude);
-        const marker = L.marker(alertLatLng, { icon: getIcon(alert.category) })
+        const marker = L.marker(alertLatLng, { icon: getAlertIcon(alert.category) })
           .bindPopup(`<b>${alert.category}</b><br>${alert.details}<br><small>${new Date(alert.timestamp.seconds * 1000).toLocaleString()}</small>`);
         alertMarkersRef.current.addLayer(marker);
       });
