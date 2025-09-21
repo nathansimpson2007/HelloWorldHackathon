@@ -8,9 +8,15 @@ import {
   CardTitle,
   CardDescription,
 } from './ui/card';
-import { buildings, Building } from '@/lib/data';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import { buildings } from '@/lib/data';
 import { ActivityDisplay } from './activity-display';
-import { LocationSearch } from './location-search';
 
 interface ActivityEstimatorProps {
   initialLocationId?: string;
@@ -27,8 +33,8 @@ function ActivityEstimatorContent({ initialLocationId }: ActivityEstimatorProps)
     }
   }, [initialLocationId]);
 
-  const handleBuildingSelect = (building: Building | null) => {
-    setSelectedBuildingId(building?.id.toString());
+  const handleBuildingSelect = (buildingId: string) => {
+    setSelectedBuildingId(buildingId);
   };
 
   const selectedBuilding = buildings.find(
@@ -45,10 +51,25 @@ function ActivityEstimatorContent({ initialLocationId }: ActivityEstimatorProps)
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <LocationSearch
-            onSelectBuilding={handleBuildingSelect}
-            initialBuildingId={selectedBuildingId}
-          />
+          <Select
+            onValueChange={handleBuildingSelect}
+            defaultValue={selectedBuildingId}
+            value={selectedBuildingId}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a location" />
+            </SelectTrigger>
+            <SelectContent>
+              {buildings.map((building) => (
+                <SelectItem
+                  key={building.id}
+                  value={building.id.toString()}
+                >
+                  {building.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </CardContent>
       </Card>
 

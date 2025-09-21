@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { submitBusynessReport } from '@/app/actions';
-import { Building, buildings } from '@/lib/data';
+import { buildings } from '@/lib/data';
 import { Button } from './ui/button';
 import {
   Card,
@@ -16,7 +16,13 @@ import { Label } from './ui/label';
 import { Slider } from './ui/slider';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from './ui/textarea';
-import { LocationSearch } from './location-search';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 
 const MESSAGE_CHAR_LIMIT = 100;
 
@@ -37,8 +43,8 @@ export function ActivityReporter({ initialLocationId }: ActivityReporterProps) {
     }
   }, [initialLocationId]);
 
-  const handleBuildingSelect = (building: Building | null) => {
-    setLocationId(building ? building.id.toString() : '');
+  const handleBuildingSelect = (buildingId: string) => {
+    setLocationId(buildingId);
   };
 
   const handleSubmit = async () => {
@@ -88,10 +94,25 @@ export function ActivityReporter({ initialLocationId }: ActivityReporterProps) {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="location">Location</Label>
-          <LocationSearch
-            onSelectBuilding={handleBuildingSelect}
-            initialBuildingId={locationId}
-          />
+          <Select
+            onValueChange={handleBuildingSelect}
+            defaultValue={locationId}
+            value={locationId}
+          >
+            <SelectTrigger id="location">
+              <SelectValue placeholder="Select a location" />
+            </SelectTrigger>
+            <SelectContent>
+              {buildings.map((building) => (
+                <SelectItem
+                  key={building.id}
+                  value={building.id.toString()}
+                >
+                  {building.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-2">
           <Label htmlFor="rating">Activity Level: {rating}/5</Label>
