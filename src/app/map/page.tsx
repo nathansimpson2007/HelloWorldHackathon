@@ -1,7 +1,7 @@
 
 'use client';
 import dynamic from 'next/dynamic';
-import { useMemo, useState, useRef, RefObject } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import type { Building } from '@/lib/data';
 import { BuildingSearch } from '@/components/building-search';
 import { Button } from '@/components/ui/button';
