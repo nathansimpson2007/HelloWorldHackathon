@@ -220,7 +220,7 @@ export const buildings: Building[] = [
     name: 'Wilmeth Active Learning Center (WALC)',
     slug: 'walc',
     history:
-      "The Wilmeth Active Learning Center, opened in 2017, integrates library services with active learning classrooms. It is one of the most popular study spots on campus, featuring a variety of seating options, reading rooms and group study rooms. The many classrooms are designed to serve as additional study spaces when not in session.",
+      'The Wilmeth Active Learning Center, opened in 2017, integrates library services with active learning classrooms. It is one of the most popular study spots on campus, featuring a variety of seating options, reading rooms and group study rooms. With 450 seats available, the many classrooms are also designed to serve as additional study spaces when not in session.',
     hours: 'Open 24/7',
     imageSeed: 'walc',
     type: 'academic',
@@ -279,6 +279,11 @@ export const buildings: Building[] = [
     imageSeed: 'pmc',
     type: 'recreational',
     coords: [40.4247221974453, -86.91066275491045],
+    floorPlanImages: [
+      '/buildings/floor-plans/PMU/PMU_G.jpg',
+      '/buildings/floor-plans/PMU/PMU_1.jpg',
+      '/buildings/floor-plans/PMU/PMU_2.jpg',
+    ],
     resources: [
       { name: 'Atlas Family Marketplace', type: 'Dining' },
       { name: 'Boilermaker Billiards', type: 'Recreation' },
@@ -297,11 +302,16 @@ export const buildings: Building[] = [
     name: 'Stewart Center',
     slug: 'stewart-center',
     history:
-      'Stewart Center is a primary hub for student services and academic support. It contains a library, computer labs, large lecture halls, and the Purdue box office.',
+      'Stewart Center is a primary hub for student services and academic support. It contains the HSSE library with 750 seats, computer labs, large lecture halls, and the Purdue box office.',
     hours: 'Mon-Fri: 7:00 AM - 11:00 PM',
     imageSeed: 'stewart-center',
     type: 'academic',
     coords: [40.425055070016015, -86.91293860304113],
+    floorPlanImages: [
+      '/buildings/floor-plans/STEW/STEW_G.jpg',
+      '/buildings/floor-plans/STEW/STEW_1.jpg',
+      '/buildings/floor-plans/STEW/STEW_2.jpg',
+    ],
     resources: [
       { name: 'STEW 183', type: 'Lecture Hall' },
       { name: 'ITaP Lab', type: 'Lab' },
@@ -370,4 +380,5 @@ export const buildings: Building[] = [
   }
 ];
 
+    
     
