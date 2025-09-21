@@ -25,7 +25,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6">
         <Link href="/map">
           <Card className="h-full hover:border-primary transition-colors transform hover:-translate-y-1">
             <CardHeader className="p-6">

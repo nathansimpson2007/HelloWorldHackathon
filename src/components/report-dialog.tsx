@@ -98,6 +98,9 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
                 <SelectItem value="Free Food">Free Food</SelectItem>
                 <SelectItem value="Crowded Area">Crowded Area</SelectItem>
                 <SelectItem value="Campus Event">Campus Event</SelectItem>
+                <SelectItem value="Safety Concern">Safety Concern</SelectItem>
+                <SelectItem value="Long Line">Long Line</SelectItem>
+                <SelectItem value="Study Space">Study Space</SelectItem>
                 <SelectItem value="Other">Other</SelectItem>
               </SelectContent>
             </Select>
@@ -107,7 +110,7 @@ export function ReportDialog({ open, onOpenChange, coords }: ReportDialogProps) 
               <Label htmlFor="other-category">Custom Category</Label>
               <Input
                 id="other-category"
-                placeholder="e.g., 'Long Line'"
+                placeholder="e.g., 'Minor Spill'"
                 value={otherCategory}
                 onChange={(e) => setOtherCategory(e.target.value)}
               />

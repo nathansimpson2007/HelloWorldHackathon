@@ -35,7 +35,7 @@ export default function MissionPage() {
               and visitors experience the Purdue University campus. Our mission is
               to provide a centralized, all-in-one platform for campus
               navigation and information, eliminating the need to juggle multiple
-              apps for maps, bus schedules, dining menus, and event calendars.
+              apps for maps, dining menus, and event calendars.
             </p>
             <p>
               We leverage real-time, community-driven data to empower users with
@@ -57,9 +57,10 @@ export default function MissionPage() {
           <CardContent className="space-y-4 text-muted-foreground">
             <p>
               We are a passionate team of innovators, developers, and designers
-              who believe in the power of technology to improve everyday life.
-              As members of the Purdue community ourselves, we experienced firsthand
-              the challenges of navigating a large and dynamic campus.
+              — Jake, Daniel, Nathan, and Saahil — who believe in the power of
+              technology to improve everyday life. As members of the Purdue
+              community ourselves, we experienced firsthand the challenges of
+              navigating a large and dynamic campus.
             </p>
             <p>
               This personal experience fueled our ambition to create a single,
