@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import * as React from 'react';
 import {
   Card,
   CardContent,
@@ -8,21 +8,28 @@ import {
   CardTitle,
   CardDescription,
 } from './ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select';
-import { buildings } from '@/lib/data';
+import { buildings, Building } from '@/lib/data';
 import { ActivityDisplay } from './activity-display';
-import { Label } from './ui/label';
+import { LocationSearch } from './location-search';
 
-export function ActivityEstimator() {
-  const [selectedBuildingId, setSelectedBuildingId] = useState<string | null>(
-    null
-  );
+interface ActivityEstimatorProps {
+  initialLocationId?: string;
+}
+
+function ActivityEstimatorContent({ initialLocationId }: ActivityEstimatorProps) {
+  const [selectedBuildingId, setSelectedBuildingId] = React.useState<
+    string | undefined
+  >(initialLocationId);
+
+  React.useEffect(() => {
+    if (initialLocationId) {
+      setSelectedBuildingId(initialLocationId);
+    }
+  }, [initialLocationId]);
+
+  const handleBuildingSelect = (building: Building | null) => {
+    setSelectedBuildingId(building?.id.toString());
+  };
 
   const selectedBuilding = buildings.find(
     (b) => b.id.toString() === selectedBuildingId
@@ -38,26 +45,10 @@ export function ActivityEstimator() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="building">Location</Label>
-              <Select onValueChange={setSelectedBuildingId} name="buildingId">
-                <SelectTrigger id="building">
-                  <SelectValue placeholder="Select a location" />
-                </SelectTrigger>
-                <SelectContent>
-                  {buildings.map((building) => (
-                    <SelectItem
-                      key={building.id}
-                      value={building.id.toString()}
-                    >
-                      {building.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+          <LocationSearch
+            onSelectBuilding={handleBuildingSelect}
+            initialBuildingId={selectedBuildingId}
+          />
         </CardContent>
       </Card>
 
@@ -80,5 +71,13 @@ export function ActivityEstimator() {
         </Card>
       )}
     </div>
+  );
+}
+
+export function ActivityEstimator({ initialLocationId }: ActivityEstimatorProps) {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <ActivityEstimatorContent initialLocationId={initialLocationId} />
+    </React.Suspense>
   );
 }

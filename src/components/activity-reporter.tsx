@@ -1,9 +1,8 @@
-
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { submitBusynessReport } from '@/app/actions';
-import { buildings } from '@/lib/data';
+import { Building, buildings } from '@/lib/data';
 import { Button } from './ui/button';
 import {
   Card,
@@ -14,25 +13,33 @@ import {
   CardTitle,
 } from './ui/card';
 import { Label } from './ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select';
 import { Slider } from './ui/slider';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from './ui/textarea';
+import { LocationSearch } from './location-search';
 
 const MESSAGE_CHAR_LIMIT = 100;
 
-export function ActivityReporter() {
-  const [locationId, setLocationId] = useState('');
+interface ActivityReporterProps {
+  initialLocationId?: string;
+}
+
+export function ActivityReporter({ initialLocationId }: ActivityReporterProps) {
+  const [locationId, setLocationId] = useState(initialLocationId || '');
   const [rating, setRating] = useState(3);
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (initialLocationId) {
+      setLocationId(initialLocationId);
+    }
+  }, [initialLocationId]);
+
+  const handleBuildingSelect = (building: Building | null) => {
+    setLocationId(building ? building.id.toString() : '');
+  };
 
   const handleSubmit = async () => {
     if (!locationId) {
@@ -45,31 +52,25 @@ export function ActivityReporter() {
     }
     setIsSubmitting(true);
 
-    const submissionTimeout = setTimeout(() => {
-      setIsSubmitting(false);
-      toast({
-        variant: 'destructive',
-        title: 'Submission Timed Out',
-        description: 'The request took too long. Please try again.',
-      });
-    }, 5000);
-
     try {
       await submitBusynessReport(locationId, rating, message);
-      clearTimeout(submissionTimeout);
       toast({
         title: 'Report Submitted',
         description: 'Thank you for helping keep the campus updated!',
       });
-      setLocationId('');
+      // Do not clear locationId if it was passed as a prop
+      if (!initialLocationId) {
+        setLocationId('');
+      }
       setRating(3);
       setMessage('');
     } catch (error) {
-      clearTimeout(submissionTimeout);
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unknown error occurred.';
       toast({
         variant: 'destructive',
         title: 'Submission Failed',
-        description: 'Could not submit your report. Please try again.',
+        description: errorMessage,
       });
     } finally {
       setIsSubmitting(false);
@@ -87,22 +88,10 @@ export function ActivityReporter() {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="location">Location</Label>
-          <Select
-            value={locationId}
-            onValueChange={setLocationId}
-            name="locationId"
-          >
-            <SelectTrigger id="location">
-              <SelectValue placeholder="Select a location" />
-            </SelectTrigger>
-            <SelectContent>
-              {buildings.map((building) => (
-                <SelectItem key={building.id} value={building.id.toString()}>
-                  {building.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <LocationSearch
+            onSelectBuilding={handleBuildingSelect}
+            initialBuildingId={locationId}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="rating">Activity Level: {rating}/5</Label>

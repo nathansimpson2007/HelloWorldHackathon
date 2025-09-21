@@ -24,7 +24,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { buildings } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Clock, Navigation } from 'lucide-react';
+import { BarChart, Clock, Navigation } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import {
@@ -97,12 +97,20 @@ export default async function BuildingDetailPage({
           <p className="text-lg text-muted-foreground mt-2">
             A central hub for students and faculty.
           </p>
-          <Link href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="mt-6">
-              <Navigation className="mr-2" />
-              Get Directions
-            </Button>
-          </Link>
+          <div className="flex flex-wrap gap-2 mt-6">
+            <Link href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
+              <Button size="lg">
+                <Navigation className="mr-2" />
+                Get Directions
+              </Button>
+            </Link>
+            <Link href={`/activity-tool?locationId=${building.id}`}>
+              <Button size="lg" variant="outline">
+                <BarChart className="mr-2" />
+                Report Activity
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
 
