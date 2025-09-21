@@ -1,12 +1,11 @@
 
 'use client';
 import dynamic from 'next/dynamic';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, RefObject } from 'react';
 import type { Building } from '@/lib/data';
 import { BuildingSearch } from '@/components/building-search';
 import { Button } from '@/components/ui/button';
-import { Expand, ListFilter, Shrink } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ListFilter } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -16,10 +15,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { buildings } from '@/lib/data';
+import {
+  Panel,
+  PanelGroup,
+  PanelResizeHandle,
+} from 'react-resizable-panels';
+import type { Map } from 'leaflet';
 
-const buildingTypes = [
-  ...new Set(buildings.map((b) => b.type)),
-].sort();
+const buildingTypes = [...new Set(buildings.map((b) => b.type))].sort();
 
 type CheckedState = Record<string, boolean>;
 
@@ -27,10 +30,11 @@ export default function MapPage() {
   const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(
     null
   );
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [filters, setFilters] = useState<CheckedState>(
     buildingTypes.reduce((acc, type) => ({ ...acc, [type]: true }), {})
   );
+
+  const mapRef = useRef<Map>(null);
 
   const handleFilterChange = (type: string, checked: boolean) => {
     setFilters((prev) => ({ ...prev, [type]: checked }));
@@ -47,78 +51,61 @@ export default function MapPage() {
     []
   );
 
+  const handleResize = () => {
+    // Invalidate map size to fix rendering issues after resize
+    mapRef.current?.invalidateSize();
+  };
+
   return (
-    <div
-      className={cn(
-        'h-full flex flex-col',
-        isFullscreen &&
-          'fixed inset-0 bg-background z-50 p-4 flex flex-col'
-      )}
-    >
-      <div className={cn('flex flex-col items-center w-full', 'mb-4')}>
-        <h1 className={cn('text-3xl font-bold font-headline tracking-tight', isFullscreen && 'text-xl')}>
+    <div className="h-full flex flex-col">
+      <div className="flex flex-col items-center w-full mb-4">
+        <h1 className="text-3xl font-bold font-headline tracking-tight">
           Interactive Campus Map
         </h1>
-        <p className={cn('text-muted-foreground', isFullscreen && 'hidden')}>
+        <p className="text-muted-foreground">
           Search for a location or click on the map to report an alert.
         </p>
       </div>
-      
-      <div className="relative flex-1 flex flex-col w-full">
-        <div className={cn('flex items-center justify-center gap-4 w-full mb-4')}>
-            <div className={cn('w-full max-w-sm', isFullscreen && 'hidden')}>
-              <BuildingSearch onSelectBuilding={setSelectedBuilding} />
-            </div>
+
+      <div className="flex-1 border rounded-lg overflow-hidden">
+        <PanelGroup direction="horizontal">
+          <Panel defaultSize={30} minSize={20} className="p-4 flex flex-col gap-4 min-w-[300px]">
+            <BuildingSearch onSelectBuilding={setSelectedBuilding} />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="bg-background/80 hover:bg-background/100">
+                <Button variant="outline" className="bg-background/80 hover:bg-background/100">
                   <ListFilter className="mr-2 h-4 w-4" />
                   Filter
-                  </Button>
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>Location Types</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  {buildingTypes.map((type) => (
+                <DropdownMenuLabel>Location Types</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {buildingTypes.map((type) => (
                   <DropdownMenuCheckboxItem
-                      key={type}
-                      checked={filters[type]}
-                      onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
-                      onSelect={(e) => e.preventDefault()}
-                      className="capitalize"
+                    key={type}
+                    checked={filters[type]}
+                    onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
+                    onSelect={(e) => e.preventDefault()}
+                    className="capitalize"
                   >
-                      {type}
+                    {type}
                   </DropdownMenuCheckboxItem>
-                  ))}
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIsFullscreen(!isFullscreen)}
-            className="bg-background/80 hover:bg-background/100"
-            >
-            {isFullscreen ? (
-                <Shrink className="h-4 w-4" />
-            ) : (
-                <Expand className="h-4 w-4" />
-            )}
-            <span className="sr-only">
-                {isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-            </span>
-            </Button>
-        </div>
-
-        <div className="relative w-full flex-1">
-            <div className="h-full w-full border rounded-lg overflow-hidden min-h-[70vh]">
+          </Panel>
+          <PanelResizeHandle className="w-2 bg-border hover:bg-primary transition-colors" onDragging={handleResize} />
+          <Panel defaultSize={70} minSize={30}>
+            <div className="h-full w-full">
               <InteractiveCampusMap
-                  key={isFullscreen ? 'fullscreen' : 'default'}
-                  selectedBuilding={selectedBuilding}
-                  isFullscreen={isFullscreen}
-                  filters={activeFilters}
+                setMapRef={(map) => (mapRef.current = map)}
+                selectedBuilding={selectedBuilding}
+                filters={activeFilters}
               />
             </div>
-        </div>
+          </Panel>
+        </PanelGroup>
       </div>
     </div>
   );

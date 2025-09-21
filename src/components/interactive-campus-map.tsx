@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
-import L, { LatLng, LatLngBounds } from 'leaflet';
+import L, { LatLng, LatLngBounds, Map } from 'leaflet';
 import { buildings, type Building } from '@/lib/data';
 import { ReportDialog } from './report-dialog';
 import { collection, onSnapshot, query } from 'firebase/firestore';
@@ -117,12 +117,12 @@ const campusBounds = new LatLngBounds(
 
 interface InteractiveCampusMapProps {
   selectedBuilding: Building | null;
-  isFullscreen?: boolean;
   filters: string[];
+  setMapRef: (map: Map) => void;
 }
 
-const InteractiveCampusMap = ({ selectedBuilding, isFullscreen, filters }: InteractiveCampusMapProps) => {
-  const mapRef = useRef<HTMLDivElement>(null);
+const InteractiveCampusMap = ({ selectedBuilding, filters, setMapRef }: InteractiveCampusMapProps) => {
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
   const buildingMarkersRef = useRef<L.LayerGroup>(L.layerGroup());
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -134,11 +134,13 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen, filters }: Inter
 
   useEffect(() => {
     // Initialize the map
-    if (mapRef.current && !mapInstance.current) {
-      mapInstance.current = L.map(mapRef.current, {
+    if (mapContainerRef.current && !mapInstance.current) {
+      mapInstance.current = L.map(mapContainerRef.current, {
         minZoom: 14, // Prevent zooming out too far
         maxBounds: campusBounds, // Restrict panning to campus
       }).setView([40.427, -86.915], 16);
+      
+      setMapRef(mapInstance.current);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -186,7 +188,7 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen, filters }: Inter
         mapInstance.current = null;
       }
     };
-  }, []);
+  }, [setMapRef]);
   
   useEffect(() => {
       if (mapInstance.current) {
@@ -235,19 +237,10 @@ const InteractiveCampusMap = ({ selectedBuilding, isFullscreen, filters }: Inter
     }
   }, [selectedBuilding]);
 
-  useEffect(() => {
-    if (mapInstance.current) {
-      // Delay helps ensure the container has resized before invalidating
-      setTimeout(() => {
-        mapInstance.current?.invalidateSize();
-      }, 100);
-    }
-  }, [isFullscreen]);
-
 
   return (
     <>
-      <div ref={mapRef} style={{ height: '100%', width: '100%', zIndex: 0 }} />
+      <div ref={mapContainerRef} style={{ height: '100%', width: '100%', zIndex: 0 }} />
       <ReportDialog
         open={isDialogOpen}
         onOpenChange={setDialogOpen}
