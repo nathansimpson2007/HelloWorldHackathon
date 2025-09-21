@@ -21,7 +21,7 @@ export type Building = {
   history: string;
   hours: string;
   imageSeed: string;
-  type: 'academic' | 'residential' | 'recreational' | 'dining' | 'other' | 'commercial' | 'administrative' | 'health' | 'landmarks';
+  type: 'academic' | 'residential' | 'recreational' | 'dining' | 'other' | 'commercial' | 'administrative' | 'health' | 'landmarks' | 'parking';
   coords: [number, number];
   resources: Resource[];
   studyAreas: StudyArea[];
@@ -353,6 +353,18 @@ export const buildings: Building[] = [
     imageSeed: 'purdue-bell-tower',
     type: 'landmarks',
     coords: [40.42728623668679, -86.91406851181529],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 18,
+    name: 'University Street Parking Garage (PGU)',
+    slug: 'university-street-parking-garage',
+    history: 'A multi-level parking garage providing parking for students, faculty, staff, and visitors.',
+    hours: '24/7',
+    imageSeed: 'university-street-parking-garage',
+    type: 'parking',
+    coords: [40.42659257853021, -86.91728429809281],
     resources: [],
     studyAreas: [],
   }

@@ -114,6 +114,12 @@
       "description": "Purdue Bell Tower",
       "imageUrl": "/buildings/cover-images/purdue-bell-tower.jpg",
       "imageHint": "bell tower"
+    },
+    {
+      "id": "university-street-parking-garage",
+      "description": "University Street Parking Garage",
+      "imageUrl": "/buildings/cover-images/university-street-parking.jpg",
+      "imageHint": "parking garage"
     }
   ]
 }

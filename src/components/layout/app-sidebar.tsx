@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -22,6 +23,7 @@ import {
   HeartPulse,
   Banknote,
   BarChart,
+  Car,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -49,6 +51,7 @@ const buildingMenuItems = [
   { href: '/administrative', label: 'Administrative', icon: Landmark },
   { href: '/health', label: 'Health', icon: HeartPulse },
   { href: '/landmarks', label: 'Landmarks', icon: Banknote },
+  { href: '/parking', label: 'Parking', icon: Car },
 ];
 
 export function AppSidebar() {
