@@ -28,17 +28,6 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
-  const handleSelect = (currentValue: string) => {
-    const building = buildings.find(
-      (b) => b.name.toLowerCase() === currentValue.toLowerCase()
-    );
-    if (building) {
-      setValue(building.name);
-      onSelectBuilding(building);
-      setOpen(false);
-    }
-  };
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -72,7 +61,14 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
                   key={building.id}
                   value={building.name}
                   onSelect={(currentValue) => {
-                    handleSelect(currentValue)
+                    const selectedBuilding = buildings.find(
+                      (b) => b.name.toLowerCase() === currentValue.toLowerCase()
+                    );
+                    if (selectedBuilding) {
+                      setValue(selectedBuilding.name);
+                      onSelectBuilding(selectedBuilding);
+                      setOpen(false);
+                    }
                   }}
                 >
                   <Check
