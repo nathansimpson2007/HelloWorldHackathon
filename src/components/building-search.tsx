@@ -46,12 +46,7 @@ export function BuildingSearch({ onSelectBuilding }: BuildingSearchProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-        <Command
-          filter={(value, search) => {
-            if (value.toLowerCase().includes(search.toLowerCase())) return 1;
-            return 0;
-          }}
-        >
+        <Command>
           <CommandInput placeholder="Search location..." />
           <CommandList>
             <CommandEmpty>No location found.</CommandEmpty>
