@@ -8,7 +8,7 @@ import { buildings, type Building } from '@/lib/data';
 import { ReportDialog } from './report-dialog';
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Utensils, Users, PartyPopper, AlertCircle, MapPin, ShieldAlert, Shield } from 'lucide-react';
+import { Utensils, Users, PartyPopper, AlertCircle, MapPin, ShieldAlert, Shield, Pizza, Siren, TriangleAlert } from 'lucide-react';
 import ReactDOMServer from 'react-dom/server';
 
 // Leaflet's default icons are not easily available in Next.js.
@@ -24,36 +24,29 @@ L.Icon.Default.mergeOptions({
 // Custom Icons for Alerts
 const getAlertIcon = (category: string) => {
   let icon;
-  let wrapperClassName = "bg-background p-2 rounded-full shadow-lg border";
+  let wrapperClassName = "";
   
   switch (category) {
     case 'Free Food':
-      icon = <Utensils />;
-      wrapperClassName = "";
+      icon = <Pizza />;
       break;
     case 'Crowded Area':
       icon = <Users />;
-      wrapperClassName = "";
       break;
     case 'Campus Event':
       icon = <PartyPopper />;
-      wrapperClassName = "";
       break;
     case 'Safety Concern':
-      icon = <ShieldAlert />;
-      wrapperClassName = "";
+      icon = <Siren />;
       break;
     case 'Emergency':
-      icon = <ShieldAlert className="text-destructive" />;
-      wrapperClassName = "";
+      icon = <TriangleAlert className="text-destructive" />;
       break;
     case 'Police Presence':
       icon = <Shield />;
-      wrapperClassName = "";
       break;
     default:
       icon = <AlertCircle />;
-      wrapperClassName = "";
   }
   return L.divIcon({
     html: ReactDOMServer.renderToString(
