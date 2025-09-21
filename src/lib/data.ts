@@ -309,8 +309,8 @@ export const buildings: Building[] = [
     type: 'academic',
     coords: [40.425055070016015, -86.91293860304113],
     floorPlanImages: [
-      '/buildings/floor-plans/STEW/stewground.jpg',
       '/buildings/floor-plans/STEW/stewbasement.jpg',
+      '/buildings/floor-plans/STEW/stewground.jpg',
       '/buildings/floor-plans/STEW/stewfirst.jpeg',
       '/buildings/floor-plans/STEW/stewsecond.jpg',
       '/buildings/floor-plans/STEW/stewthird.jpg'
@@ -387,3 +387,4 @@ export const buildings: Building[] = [
     
 
     
+
