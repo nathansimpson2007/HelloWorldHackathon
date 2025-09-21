@@ -64,7 +64,7 @@ const getBuildingIcon = (rating: number | undefined) => {
   const color = rating !== undefined ? getActivityColor(rating) : '#808080'; // Grey for no data
   const iconHtml = ReactDOMServer.renderToString(
     <div className="relative">
-      <MapPin style={{ color: color, stroke: 'black', strokeWidth: '0.5' }} size={32} />
+      <MapPin fill={color} color="black" strokeWidth="0.5" size={32} />
     </div>
   );
   return L.divIcon({
