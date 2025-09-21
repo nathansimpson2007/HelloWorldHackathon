@@ -18,7 +18,7 @@ export function AppHeader() {
         <SidebarTrigger />
       </div>
       <div className="flex-1">
-        <h1 className="text-xl font-semibold font-headline">Campus Compass</h1>
+        <h1 className="text-xl font-semibold font-headline">Campus Now</h1>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

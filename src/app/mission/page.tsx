@@ -15,7 +15,7 @@ export default function MissionPage() {
           Our Mission
         </h1>
         <p className="text-muted-foreground">
-          Learn more about Campus Compass and the team behind it.
+          Learn more about Campus Now and the team behind it.
         </p>
       </div>
 
@@ -31,7 +31,7 @@ export default function MissionPage() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground">
             <p>
-              Campus Compass is designed to revolutionize how students, faculty,
+              Campus Now is designed to revolutionize how students, faculty,
               and visitors experience the Purdue University campus. Our mission is
               to provide a centralized, all-in-one platform for campus
               navigation and information, eliminating the need to juggle multiple
@@ -40,7 +40,7 @@ export default function MissionPage() {
             <p>
               We leverage real-time, community-driven data to empower users with
               up-to-the-minute information. From finding the least crowded study
-              spot to getting live alerts about free food, Campus Compass aims
+              spot to getting live alerts about free food, Campus Now aims
               to make campus life smarter, easier, and more connected.
             </p>
           </CardContent>
