@@ -64,7 +64,7 @@ export default function MapPage() {
         </p>
       </div>
       
-      <div className="relative flex-1 flex flex-col">
+      <div className="relative flex-1 flex flex-col w-full">
         <div className={cn('flex items-center justify-center gap-4 w-full mb-4')}>
             <div className={cn('w-full max-w-sm', isFullscreen && 'hidden')}>
               <BuildingSearch onSelectBuilding={setSelectedBuilding} />
@@ -112,6 +112,7 @@ export default function MapPage() {
         <div className="relative w-full flex-1">
             <div className="h-full w-full border rounded-lg overflow-hidden min-h-[70vh]">
               <InteractiveCampusMap
+                  key={isFullscreen ? 'fullscreen' : 'default'}
                   selectedBuilding={selectedBuilding}
                   isFullscreen={isFullscreen}
                   filters={activeFilters}
