@@ -56,11 +56,7 @@ export default function MissionPage() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground">
             <p>
-              We are a passionate team of innovators, developers, and designers
-              — Jake, Daniel, Nathan, and Saahil — who believe in the power of
-              technology to improve everyday life. As members of the Purdue
-              community ourselves, we experienced firsthand the challenges of
-              navigating a large and dynamic campus.
+              We are a passionate team of innovators, developers, and designers: Jake, Daniel, Nathan, and Saahil. We believe in the power of technology to improve everyday life. As members of the Purdue community ourselves, we experienced firsthand the challenges of navigating a large and dynamic campus.
             </p>
             <p>
               This personal experience fueled our ambition to create a single,

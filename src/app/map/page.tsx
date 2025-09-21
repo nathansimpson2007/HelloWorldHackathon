@@ -52,45 +52,45 @@ export default function MapPage() {
       className={cn(
         'h-full flex flex-col',
         isFullscreen &&
-          'fixed inset-0 bg-background z-50 p-4 flex'
+          'fixed inset-0 bg-background z-50 p-4 flex flex-col'
       )}
     >
-      <div className={cn(isFullscreen && 'hidden', 'flex flex-col items-center w-full mb-4')}>
-        <h1 className="text-3xl font-bold font-headline tracking-tight">
+      <div className={cn(isFullscreen ? 'flex-shrink-0' : 'flex flex-col items-center w-full', 'mb-4')}>
+        <h1 className={cn('text-3xl font-bold font-headline tracking-tight', isFullscreen && 'text-xl')}>
           Interactive Campus Map
         </h1>
-        <p className="text-muted-foreground">
+        <p className={cn('text-muted-foreground', isFullscreen && 'hidden')}>
           Search for a location or click on the map to report an alert.
         </p>
       </div>
       
       <div className="relative flex-1 flex flex-col items-center">
-        <div className={cn('flex items-center justify-center gap-4 w-full max-w-5xl mb-4', isFullscreen && 'absolute top-4 right-4 z-[1000]')}>
+        <div className={cn('flex items-center justify-center gap-4 w-full mb-4')}>
             <div className={cn('w-full max-w-sm', isFullscreen && 'hidden')}>
-            <BuildingSearch onSelectBuilding={setSelectedBuilding} />
+              <BuildingSearch onSelectBuilding={setSelectedBuilding} />
             </div>
             <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="bg-background/80 hover:bg-background/100">
-                <ListFilter className="mr-2 h-4 w-4" />
-                Filter
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Location Types</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {buildingTypes.map((type) => (
-                <DropdownMenuCheckboxItem
-                    key={type}
-                    checked={filters[type]}
-                    onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
-                    onSelect={(e) => e.preventDefault()}
-                    className="capitalize"
-                >
-                    {type}
-                </DropdownMenuCheckboxItem>
-                ))}
-            </DropdownMenuContent>
+              <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="bg-background/80 hover:bg-background/100">
+                  <ListFilter className="mr-2 h-4 w-4" />
+                  Filter
+                  </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>Location Types</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {buildingTypes.map((type) => (
+                  <DropdownMenuCheckboxItem
+                      key={type}
+                      checked={filters[type]}
+                      onCheckedChange={(checked) => handleFilterChange(type, !!checked)}
+                      onSelect={(e) => e.preventDefault()}
+                      className="capitalize"
+                  >
+                      {type}
+                  </DropdownMenuCheckboxItem>
+                  ))}
+              </DropdownMenuContent>
             </DropdownMenu>
             <Button
             variant="outline"
@@ -109,13 +109,13 @@ export default function MapPage() {
             </Button>
         </div>
 
-        <div className="relative flex-1 w-full max-w-5xl h-full">
+        <div className="relative w-full flex-1">
             <div className="h-full w-full border rounded-lg overflow-hidden">
-            <InteractiveCampusMap
-                selectedBuilding={selectedBuilding}
-                isFullscreen={isFullscreen}
-                filters={activeFilters}
-            />
+              <InteractiveCampusMap
+                  selectedBuilding={selectedBuilding}
+                  isFullscreen={isFullscreen}
+                  filters={activeFilters}
+              />
             </div>
         </div>
       </div>
