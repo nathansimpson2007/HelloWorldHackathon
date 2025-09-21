@@ -430,7 +430,7 @@ export const buildings: Building[] = [
     hours: 'Open 24/7 for residents',
     imageSeed: 'tarkington-hall',
     type: 'residential',
-    coords: [40.43135488671968, -86.92085574999064],
+    coords: [40.430798812180726, -86.92071455521646],
     resources: [
       { name: 'Student Lounges', type: 'Study Area' },
       { name: 'Laundry Rooms', type: 'Utility' },
@@ -448,7 +448,10 @@ export const buildings: Building[] = [
     imageSeed: 'ross-ade-stadium',
     type: 'recreational',
     coords: [40.43474686711016, -86.91843850396278],
-    resources: [],
+    resources: [
+      { name: 'Stadium', type: 'Recreation' },
+      { name: 'Field', type: 'Recreation' },
+    ],
     studyAreas: [],
   },
   {
@@ -474,6 +477,7 @@ export const buildings: Building[] = [
     
 
     
+
 
 
 
