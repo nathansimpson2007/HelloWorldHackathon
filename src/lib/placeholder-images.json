@@ -120,6 +120,18 @@
       "description": "University Street Parking Garage",
       "imageUrl": "/buildings/cover-images/university-street-parking.jpg",
       "imageHint": "parking garage"
+    },
+    {
+      "id": "grant-street-parking-garage",
+      "description": "Grant Street Parking Garage (PGG)",
+      "imageUrl": "/buildings/cover-images/grant-street-parking.jpg",
+      "imageHint": "parking garage"
+    },
+    {
+      "id": "northwestern-avenue-parking-garage",
+      "description": "Northwestern Avenue Parking Garage (PGNW)",
+      "imageUrl": "/buildings/cover-images/northwestern-avenue-parking.jpg",
+      "imageHint": "parking garage"
     }
   ]
 }

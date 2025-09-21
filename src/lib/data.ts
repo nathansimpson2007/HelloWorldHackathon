@@ -380,6 +380,30 @@ export const buildings: Building[] = [
     coords: [40.42659257853021, -86.91728429809281],
     resources: [],
     studyAreas: [],
+  },
+  {
+    id: 19,
+    name: 'Grant Street Parking Garage (PGG)',
+    slug: 'grant-street-parking-garage',
+    history: 'A multi-level parking garage providing convenient parking for students, faculty, staff, and visitors near the Purdue Memorial Union.',
+    hours: '24/7',
+    imageSeed: 'grant-street-parking-garage',
+    type: 'parking',
+    coords: [40.42541202040285, -86.9097760481414],
+    resources: [],
+    studyAreas: [],
+  },
+  {
+    id: 20,
+    name: 'Northwestern Avenue Parking Garage (PGNW)',
+    slug: 'northwestern-avenue-parking-garage',
+    history: 'Located on the north side of campus, this garage offers parking for residents, commuters, and visitors.',
+    hours: '24/7',
+    imageSeed: 'northwestern-avenue-parking-garage',
+    type: 'parking',
+    coords: [40.430039361553504, -86.91087374259277],
+    resources: [],
+    studyAreas: [],
   }
 ];
 
@@ -387,5 +411,6 @@ export const buildings: Building[] = [
     
 
     
+
 
 
