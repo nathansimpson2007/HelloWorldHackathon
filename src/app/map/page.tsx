@@ -22,6 +22,11 @@ const buildingTypes = [...new Set(buildings.map((b) => b.type))].sort();
 
 type CheckedState = Record<string, boolean>;
 
+const InteractiveCampusMap = dynamic(() => import('@/components/interactive-campus-map'), {
+  loading: () => <p>A map is loading...</p>,
+  ssr: false,
+});
+
 export default function MapPage() {
   const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
   const [filters, setFilters] = useState<CheckedState>(
@@ -34,15 +39,6 @@ export default function MapPage() {
   };
 
   const activeFilters = Object.keys(filters).filter((key) => filters[key]);
-
-  const InteractiveCampusMap = useMemo(
-    () =>
-      dynamic(() => import('@/components/interactive-campus-map'), {
-        loading: () => <p>A map is loading...</p>,
-        ssr: false,
-      }),
-    []
-  );
   
   useEffect(() => {
     if (mapRef.current) {
@@ -99,4 +95,3 @@ export default function MapPage() {
     </div>
   );
 }
-
