@@ -106,10 +106,11 @@ export default async function BuildingDetailPage({
         </div>
       </div>
 
+      <ActivityDisplay buildingId={building.id.toString()} buildingName={building.name} />
+
       <Tabs defaultValue="info">
         <TabsList>
           <TabsTrigger value="info">Info</TabsTrigger>
-          <TabsTrigger value="activity">Activity</TabsTrigger>
           {building.type === 'dining' && <TabsTrigger value="menu">Menu</TabsTrigger>}
           <TabsTrigger value="map">Indoor Map</TabsTrigger>
           <TabsTrigger value="resources">Resources</TabsTrigger>
@@ -133,9 +134,6 @@ export default async function BuildingDetailPage({
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
-        <TabsContent value="activity">
-            <ActivityDisplay buildingId={building.id.toString()} buildingName={building.name} />
         </TabsContent>
          {building.type === 'dining' && menuByStation && (
           <TabsContent value="menu">
