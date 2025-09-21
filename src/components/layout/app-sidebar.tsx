@@ -76,7 +76,7 @@ export function AppSidebar() {
                 'group-data-[collapsible=icon]:hidden'
               )}
             >
-              Campus Now
+              CampusNow
             </span>
           </div>
         </SidebarHeader>

@@ -12,7 +12,7 @@ export default function Home() {
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-3xl font-bold font-headline tracking-tight">
-          Welcome to Campus Now
+          Welcome to CampusNow
         </h1>
         <p className="text-muted-foreground">
           Your guide to navigating Purdue University.
@@ -92,7 +92,7 @@ export default function Home() {
                     Our Mission
                   </CardTitle>
                   <CardDescription>
-                    Learn more about the purpose of Campus Now and the team
+                    Learn more about the purpose of CampusNow and the team
                     behind it.
                   </CardDescription>
                 </div>

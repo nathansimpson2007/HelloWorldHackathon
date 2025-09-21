@@ -7,7 +7,7 @@ import { AppSidebar } from '@/components/layout/app-sidebar';
 import { AppHeader } from '@/components/layout/app-header';
 
 export const metadata: Metadata = {
-  title: 'Campus Now',
+  title: 'CampusNow',
   description:
     'Navigate Purdue’s campus easier and smarter with real-time, community-driven data.',
 };
