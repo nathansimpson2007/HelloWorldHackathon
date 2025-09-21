@@ -280,9 +280,10 @@ export const buildings: Building[] = [
     type: 'recreational',
     coords: [40.4247221974453, -86.91066275491045],
     floorPlanImages: [
-      '/buildings/floor-plans/PMU/PMU_G.jpg',
-      '/buildings/floor-plans/PMU/PMU_1.jpg',
-      '/buildings/floor-plans/PMU/PMU_2.jpg',
+      '/buildings/floor-plans/PMU/pmu1st.jpg',
+      '/buildings/floor-plans/PMU/pmu2nd.jpg',
+      '/buildings/floor-plans/PMU/pmu3rd.jpg',
+      '/buildings/floor-plans/PMU/pmu4th.jpg'
     ],
     resources: [
       { name: 'Atlas Family Marketplace', type: 'Dining' },
@@ -308,9 +309,11 @@ export const buildings: Building[] = [
     type: 'academic',
     coords: [40.425055070016015, -86.91293860304113],
     floorPlanImages: [
-      '/buildings/floor-plans/STEW/STEW_G.jpg',
-      '/buildings/floor-plans/STEW/STEW_1.jpg',
-      '/buildings/floor-plans/STEW/STEW_2.jpg',
+      '/buildings/floor-plans/STEW/stewground.jpg',
+      '/buildings/floor-plans/STEW/stewbasement.jpg',
+      '/buildings/floor-plans/STEW/stewfirst.jpeg',
+      '/buildings/floor-plans/STEW/stewsecond.jpg',
+      '/buildings/floor-plans/STEW/stewthird.jpg'
     ],
     resources: [
       { name: 'STEW 183', type: 'Lecture Hall' },
@@ -381,4 +384,6 @@ export const buildings: Building[] = [
 ];
 
     
+    
+
     
