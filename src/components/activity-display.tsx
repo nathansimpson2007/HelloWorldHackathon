@@ -13,19 +13,27 @@ import { db } from '@/lib/firebase';
 import {
   collection,
   query,
-  where,
   onSnapshot,
   orderBy,
   limit,
+  doc,
 } from 'firebase/firestore';
 
-interface ActivityDisplayProps {
-    buildingId: string;
-    buildingName: string;
+interface Report {
+  activityLevel: number;
+  timestamp: any;
 }
 
-export function ActivityDisplay({ buildingId, buildingName }: ActivityDisplayProps) {
-  const [reports, setReports] = useState<any[]>([]);
+interface ActivityDisplayProps {
+  buildingId: string;
+  buildingName: string;
+}
+
+export function ActivityDisplay({
+  buildingId,
+  buildingName,
+}: ActivityDisplayProps) {
+  const [reports, setReports] = useState<Report[]>([]);
   const [averageActivity, setAverageActivity] = useState(0);
 
   useEffect(() => {
@@ -35,80 +43,86 @@ export function ActivityDisplay({ buildingId, buildingName }: ActivityDisplayPro
       return;
     }
 
-    const q = query(
-      collection(db, 'activityReports'),
-      where('buildingId', '==', buildingId),
-      orderBy('timestamp', 'desc'),
-      limit(10)
-    );
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const fetchedReports = querySnapshot.docs.map((doc) => doc.data());
-      setReports(fetchedReports);
-
-      if (fetchedReports.length > 0) {
-        const totalActivity = fetchedReports.reduce(
-          (acc, cur) => acc + cur.activityLevel,
-          0
-        );
-        setAverageActivity(Math.round(totalActivity / fetchedReports.length));
+    // Listener for the average rating on the main location activity document
+    const locationActivityDocRef = doc(db, 'locations_activity', buildingId);
+    const unsubscribeLocation = onSnapshot(locationActivityDocRef, (doc) => {
+      if (doc.exists()) {
+        setAverageActivity(doc.data().averageRating || 0);
       } else {
         setAverageActivity(0);
       }
     });
 
-    return () => unsubscribe();
+    // Listener for recent individual reports in the subcollection
+    const reportsQuery = query(
+      collection(db, `locations_activity/${buildingId}/reports`),
+      orderBy('timestamp', 'desc'),
+      limit(10)
+    );
+
+    const unsubscribeReports = onSnapshot(reportsQuery, (querySnapshot) => {
+      const fetchedReports = querySnapshot.docs.map(
+        (doc) => doc.data() as Report
+      );
+      setReports(fetchedReports);
+    });
+
+    // Cleanup both listeners on component unmount
+    return () => {
+      unsubscribeLocation();
+      unsubscribeReports();
+    };
   }, [buildingId]);
 
   const activityPercentage = (averageActivity / 5) * 100;
+  const roundedAverage = Math.round(averageActivity * 10) / 10;
 
   return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-headline">
-            Activity Estimate: {buildingName}
-          </CardTitle>
-          <CardDescription>
-            {buildingName === 'N/A'
-              ? 'Select a building to see its activity level.'
-              : 'Based on the latest community reports.'}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <div className="flex justify-between mb-1 text-sm">
-              <span className="font-medium text-muted-foreground">
-                Level: {averageActivity}/5
-              </span>
-              <span className="font-medium text-muted-foreground">
-                {averageActivity === 0
-                  ? 'No Data'
-                  : averageActivity <= 2
-                  ? 'Not Busy'
-                  : averageActivity <= 4
-                  ? 'Moderately Busy'
-                  : 'Very Busy'}
-              </span>
-            </div>
-            <Progress value={activityPercentage} />
+    <Card>
+      <CardHeader>
+        <CardTitle className="font-headline">
+          Activity Estimate: {buildingName}
+        </CardTitle>
+        <CardDescription>
+          {buildingName === 'N/A'
+            ? 'Select a building to see its activity level.'
+            : 'Based on the latest community reports.'}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div>
+          <div className="flex justify-between mb-1 text-sm">
+            <span className="font-medium text-muted-foreground">
+              Level: {roundedAverage}/5
+            </span>
+            <span className="font-medium text-muted-foreground">
+              {averageActivity === 0
+                ? 'No Data'
+                : averageActivity <= 2
+                ? 'Not Busy'
+                : averageActivity <= 4
+                ? 'Moderately Busy'
+                : 'Very Busy'}
+            </span>
           </div>
+          <Progress value={activityPercentage} />
+        </div>
 
-          <div>
-            <h4 className="font-semibold mb-2">Recent Reports:</h4>
-            <div className="space-y-2 text-sm text-muted-foreground">
-              {reports.length > 0 ? (
-                reports.map((r, index) => (
-                  <p key={index} className="border-l-2 pl-3">
-                    Level {r.activityLevel}/5
-                    {r.details && `: "${r.details}"`}
-                  </p>
-                ))
-              ) : (
-                <p>No reports submitted yet for this building. Be the first!</p>
-              )}
-            </div>
+        <div>
+          <h4 className="font-semibold mb-2">Recent Reports:</h4>
+          <div className="space-y-2 text-sm text-muted-foreground">
+            {reports.length > 0 ? (
+              reports.map((r, index) => (
+                <p key={index} className="border-l-2 pl-3">
+                  Level {r.activityLevel}/5
+                </p>
+              ))
+            ) : (
+              <p>No reports submitted yet for this building. Be the first!</p>
+            )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

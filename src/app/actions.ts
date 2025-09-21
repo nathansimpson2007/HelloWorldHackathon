@@ -2,7 +2,13 @@
 
 import { z } from 'zod';
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  runTransaction,
+} from 'firebase/firestore';
 
 // Action to add an alert to Firestore
 const alertSchema = z.object({
@@ -50,14 +56,43 @@ export async function submitBusynessReport(
     throw new Error('Invalid busyness report data');
   }
 
+  const { locationId: buildingId, rating: activityLevel } = validatedFields.data;
+  const locationActivityRef = doc(db, 'locations_activity', buildingId);
+
   try {
-    await addDoc(collection(db, 'activityReports'), {
-      buildingId: validatedFields.data.locationId,
-      activityLevel: validatedFields.data.rating,
-      timestamp: serverTimestamp(),
+    await runTransaction(db, async (transaction) => {
+      const locationDoc = await transaction.get(locationActivityRef);
+
+      let newRatingCount = 1;
+      let newRatingSum = activityLevel;
+
+      if (locationDoc.exists()) {
+        const data = locationDoc.data();
+        newRatingCount = (data.ratingCount || 0) + 1;
+        newRatingSum = (data.ratingSum || 0) + activityLevel;
+      }
+      
+      const newAverageRating = newRatingSum / newRatingCount;
+
+      transaction.set(
+        locationActivityRef,
+        {
+          ratingCount: newRatingCount,
+          ratingSum: newRatingSum,
+          averageRating: newAverageRating,
+          lastReportTimestamp: serverTimestamp(),
+        },
+        { merge: true }
+      );
+      
+      const newReportRef = doc(collection(db, `locations_activity/${buildingId}/reports`));
+      transaction.set(newReportRef, {
+        activityLevel,
+        timestamp: serverTimestamp(),
+      });
     });
   } catch (error) {
-    console.error('Error adding document: ', error);
+    console.error('Error submitting busyness report: ', error);
     throw new Error('Could not save busyness report to the database.');
   }
 }
